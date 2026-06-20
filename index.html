@@ -137,7 +137,6 @@
     font-weight:800;color:var(--alert);font-size:14px;
     border-radius:var(--radius);
   }
-  .prod.out::after{content:var(--out-label,'Out of stock')}
   .prod-img-wrap{position:relative;overflow:hidden}
 
   /* Cart */
@@ -280,16 +279,13 @@
     .cart.open{transform:translateY(0)}
     .cart-head{cursor:pointer}
     .stat-grid{grid-template-columns:repeat(2,1fr)}
-    .kpi-grid{grid-template-columns:repeat(3,1fr)}
-    .owner-cols{grid-template-columns:1fr}
-    .bbrow{grid-template-columns:140px 1fr 70px}
     .dash-cols{grid-template-columns:1fr}
   }
   @media(max-width:760px){
     .sidebar{display:none}
     .mobnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--navy);z-index:50;
       padding:7px 6px;justify-content:space-around;box-shadow:0 -4px 20px rgba(0,0,0,.15)}
-    .mobnav button{display:flex;flex-direction:column;align-items:center;gap:2px;color:#AEB7D8;font-size:8.5px;font-weight:600;padding:5px 3px;border-radius:10px;position:relative;min-width:0;flex:1}
+    .mobnav button{display:flex;flex-direction:column;align-items:center;gap:2px;color:#AEB7D8;font-size:9.5px;font-weight:600;padding:5px 5px;border-radius:10px;position:relative;min-width:0;flex:1}
     .mobnav button.active{color:#fff}
     .mobnav button.active .ic{opacity:1}
     .mobnav .ic{opacity:.7}
@@ -299,104 +295,6 @@
     .topbar .page-title{font-size:19px}
     .grid{grid-template-columns:repeat(auto-fill,minmax(108px,1fr))}
   }
-
-  /* ═══════════ OWNER DASHBOARD ═══════════ */
-  .ow-wrap{display:flex;flex-direction:column;gap:20px}
-
-  /* Period tabs */
-  .period-tabs{display:inline-flex;gap:3px;background:var(--surface-2);border-radius:10px;padding:3px;border:1px solid var(--line)}
-  .period-tab{padding:6px 16px;border-radius:8px;font-weight:600;font-size:11.5px;letter-spacing:.3px;text-transform:uppercase;transition:.12s;color:var(--muted);cursor:pointer;border:none;background:none;font-family:var(--font-ui)}
-  .period-tab.active{background:var(--navy);color:#fff;box-shadow:0 2px 8px rgba(10,17,48,.2)}
-  .period-tab:hover:not(.active){color:var(--ink)}
-
-  /* KPI strip */
-  .kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-  .kpi-cell{padding:18px 20px;position:relative;border-right:1px solid var(--line)}
-  .kpi-cell:last-child{border-right:none}
-  .kpi-cell.accent{background:var(--navy)}
-  .kpi-cell.warn-cell .kv{color:var(--alert)}
-  .kpi-cell.good-cell .kv{color:#1A6B45}
-  .kl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .kpi-cell.accent .kl{color:#7A8EC8}
-  .kv{font-family:var(--font-display);font-size:26px;font-weight:700;line-height:1;letter-spacing:-.5px;font-feature-settings:'tnum' 1;color:var(--ink)}
-  .kpi-cell.accent .kv{color:#fff}
-  .ks{font-size:11px;color:var(--muted);margin-top:6px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .kpi-cell.accent .ks{color:#7A8EC8}
-  .kpi-delta{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 6px;border-radius:20px;margin-top:8px}
-  .kpi-delta.up{background:#E2F0E8;color:#1A6B45}
-  .kpi-delta.down{background:var(--alert-soft);color:var(--alert)}
-
-  /* Branch revenue bars */
-  .rev-grid{display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:start}
-  .brow{display:flex;align-items:center;gap:0;padding:10px 22px;border-bottom:1px solid var(--line);cursor:pointer;transition:.12s}
-  .brow:last-child{border-bottom:none}
-  .brow:hover{background:var(--surface-2)}
-  .brow-rank{width:28px;flex-shrink:0}
-  .rank-pip{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:10px;font-weight:800}
-  .r1{background:#FFD700;color:#5a3d00}
-  .r2{background:#E8E8E8;color:#444}
-  .r3{background:#E8C49A;color:#6B3A00}
-  .rn{background:var(--surface-2);color:var(--muted);font-size:9px}
-  .brow-name{width:148px;flex-shrink:0;padding-right:12px}
-  .brow-name .bn{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .brow-name .ba{font-size:10.5px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .brow-bar{flex:1;padding-right:14px}
-  .bbar-bg{height:32px;background:var(--surface-2);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
-  .bbar-fg{height:100%;border-radius:8px;display:flex;align-items:center;padding:0 12px;min-width:8px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
-  .bbar-fg .bl{font-size:11.5px;font-weight:700;color:#fff;font-feature-settings:'tnum' 1;white-space:nowrap}
-  .bbar-fg .bl.dk{color:var(--ink)}
-  .brow-rev{width:90px;flex-shrink:0;text-align:right}
-  .brow-rev .rv{font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:-.3px;font-feature-settings:'tnum' 1}
-  .brow-rev .rd{font-size:10.5px;font-weight:600;margin-top:2px}
-  .rd.top{color:#1A6B45}
-  .rd.neg{color:var(--muted)}
-
-  /* Right panel cards */
-  .rpanel{display:flex;flex-direction:column;gap:14px}
-  .mini-kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .mini-kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
-  .mk-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:7px}
-  .mk-val{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.3px;font-feature-settings:'tnum' 1}
-
-  /* Sparkline-style heatmap strip */
-  .heat-strip{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:0 2px}
-  .heat-cell{border-radius:6px;padding:8px 6px;text-align:center;cursor:pointer;transition:.12s}
-  .heat-cell:hover{filter:brightness(.93)}
-  .hc-name{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .hc-rev{font-family:var(--font-display);font-size:12px;font-weight:700;margin-top:3px;font-feature-settings:'tnum' 1}
-  .hc-txn{font-size:9px;font-weight:600;margin-top:1px;opacity:.8}
-
-  /* Collection health */
-  .collect-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
-  .collect-row:last-child{border:none}
-  .cr-name{font-size:12.5px;font-weight:600;width:130px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .cr-bar{flex:1;height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden;border:1px solid var(--line)}
-  .cr-fill{height:100%;border-radius:4px;transition:width .6s}
-  .cr-pct{font-size:11.5px;font-weight:700;width:38px;text-align:right;flex-shrink:0}
-  .cr-credit{font-size:11px;color:var(--alert);width:68px;text-align:right;flex-shrink:0;font-feature-settings:'tnum' 1}
-
-  /* Digital split */
-  .dsplit-bar{height:16px;border-radius:8px;overflow:hidden;display:flex;margin:10px 0 6px;border:1px solid var(--line)}
-  .dsplit-leg{display:flex;gap:14px;font-size:12px;font-weight:600}
-  .dsplit-dot{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:middle}
-
-  /* Branch detail modal */
-  .bdetail-kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
-  .bdk{background:var(--surface-2);border-radius:10px;padding:12px 14px}
-  .bdk-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:5px}
-  .bdk-val{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.3px}
-  .bdetail-collect{height:10px;border-radius:5px;background:var(--surface);border:1px solid var(--line);overflow:hidden;margin:6px 0 3px}
-  .bdetail-fill{height:100%;border-radius:5px;transition:width .5s}
-  .bdetail-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-  .bds-pill{border-radius:10px;padding:10px 12px;text-align:center}
-  .bds-pill .bdp-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-  .bds-pill .bdp-val{font-family:var(--font-display);font-size:20px;font-weight:700}
-  .bds-pill .bdp-sub{font-size:10.5px;color:var(--muted);margin-top:3px}
-
-  @media(max-width:1100px){.rev-grid{grid-template-columns:1fr}.rpanel{display:grid;grid-template-columns:1fr 1fr;gap:14px}}
-  @media(max-width:980px){.kpi-strip{grid-template-columns:repeat(3,1fr)}.kpi-cell{border-bottom:1px solid var(--line)}.rpanel{grid-template-columns:1fr}}
-  @media(max-width:760px){.kpi-strip{grid-template-columns:repeat(2,1fr)}.brow-name{width:100px}.brow-rev{width:70px}}
-
 </style>
 </head>
 <body>
@@ -412,7 +310,7 @@
     </div>
     <nav class="nav" id="nav"></nav>
     <div class="side-foot">
-${T('side_foot')}<b>Go Ai PH</b><br>${T('side_foot2')}
+      Demo build by <b>Go Ai PH</b><br>Para sa community-driven na negosyo.
     </div>
   </aside>
 
@@ -424,14 +322,6 @@ ${T('side_foot')}<b>Go Ai PH</b><br>${T('side_foot2')}
         <div class="page-title" id="pageTitle">Benta (POS)</div>
         <div class="page-sub" id="pageSub">Mabilis na pag-benta at resibo</div>
       </div>
-      <button id="langToggle" onclick="setLang(lang==='tl'?'en':'tl')" style="
-        display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:30px;
-        border:1.5px solid var(--line-2);background:var(--surface-2);font-weight:600;
-        font-size:11px;letter-spacing:.4px;text-transform:uppercase;cursor:pointer;
-        color:var(--ink);transition:.13s;flex-shrink:0">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span>English</span>
-      </button>
       <div class="demo-pill"><span class="dot"></span> LIVE DEMO</div>
     </header>
     <div class="view" id="view"></div>
@@ -459,7 +349,6 @@ const IC = {
   chart:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v16h16"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></svg>',
   search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>',
   receipt:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2v20l3-2 3 2 3-2 3 2 3-2V2l-3 2-3-2-3 2-3-2-3 2Z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>',
-  owner:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
 };
 
 /* ============ SAMPLE DATA (generic PH tindahan items) ============ */
@@ -513,55 +402,6 @@ let transactions = [
   {id:1007, ts:tseed(12,44),items:[{name:'Pancit Canton',qty:4,price:18,photo:'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=60&h=60&fit=crop&auto=format&q=70'},{name:'Tubig 1L',qty:2,price:20,photo:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=60&h=60&fit=crop&auto=format&q=70'}], total:112, method:'maya'},
 ];
 
-
-/* ============ BRANCH DATA (8 branches) ============ */
-const BRANCHES = [
-  {id:1, name:'GK — Angeles Main',    area:'Angeles City',   color:'#0A1130'},
-  {id:2, name:'GK — Nepo Center',     area:'Angeles City',   color:'#3B5BBF'},
-  {id:3, name:'GK — Olongapo Main',   area:'Olongapo City',  color:'#1A6B45'},
-  {id:4, name:'GK — Gordon Heights',  area:'Olongapo City',  color:'#7B3CC4'},
-  {id:5, name:'GK — Castillejos',     area:'Zambales',       color:'#C47B1A'},
-  {id:6, name:'GK — San Antonio',     area:'Zambales',       color:'#C0392B'},
-  {id:7, name:'GK — Subic',          area:'Zambales',       color:'#0E7E8A'},
-  {id:8, name:'GK — Clark',          area:'Pampanga',       color:'#6B3A1A'},
-];
-
-// Seeded financials per branch per period
-// today / week / month  →  {revenue, txn, credit, digitalPct, topProduct}
-const BRANCH_STATS = {
-  today: [
-    {b:1, rev:8420,  txn:74,  credit:3200, dig:0.58, top:'Bigas (per kilo)'},
-    {b:2, rev:6180,  txn:55,  credit:1800, dig:0.72, top:'Kape 3-in-1'},
-    {b:3, rev:11240, txn:98,  credit:4100, dig:0.44, top:'Pancit Canton'},
-    {b:4, rev:5390,  txn:47,  credit:2700, dig:0.61, top:'Sardinas 155g'},
-    {b:5, rev:4210,  txn:38,  credit:1200, dig:0.35, top:'Bigas (per kilo)'},
-    {b:6, rev:3860,  txn:34,  credit:980,  dig:0.48, top:'Tubig 1L'},
-    {b:7, rev:7730,  txn:66,  credit:2400, dig:0.67, top:'Softdrink 1.5L'},
-    {b:8, rev:9560,  txn:84,  credit:3600, dig:0.76, top:'Corned Beef 150g'},
-  ],
-  week: [
-    {b:1, rev:54200, txn:488, credit:9800, dig:0.56, top:'Bigas (per kilo)'},
-    {b:2, rev:42100, txn:374, credit:7200, dig:0.71, top:'Kape 3-in-1'},
-    {b:3, rev:78400, txn:692, credit:14200,dig:0.43, top:'Pancit Canton'},
-    {b:4, rev:37800, txn:331, credit:9100, dig:0.60, top:'Sardinas 155g'},
-    {b:5, rev:28600, txn:254, credit:5400, dig:0.34, top:'Bigas (per kilo)'},
-    {b:6, rev:26200, txn:228, credit:4200, dig:0.47, top:'Tubig 1L'},
-    {b:7, rev:51800, txn:455, credit:8800, dig:0.65, top:'Softdrink 1.5L'},
-    {b:8, rev:64400, txn:568, credit:12200,dig:0.74, top:'Corned Beef 150g'},
-  ],
-  month: [
-    {b:1, rev:218400, txn:1940, credit:28600, dig:0.55, top:'Bigas (per kilo)'},
-    {b:2, rev:166200, txn:1480, credit:19800, dig:0.70, top:'Kape 3-in-1'},
-    {b:3, rev:312800, txn:2780, credit:42400, dig:0.42, top:'Pancit Canton'},
-    {b:4, rev:148200, txn:1320, credit:26800, dig:0.59, top:'Sardinas 155g'},
-    {b:5, rev:112400, txn:1002, credit:16200, dig:0.33, top:'Bigas (per kilo)'},
-    {b:6, rev:104800, txn:932,  credit:14600, dig:0.46, top:'Tubig 1L'},
-    {b:7, rev:204200, txn:1820, credit:25400, dig:0.64, top:'Softdrink 1.5L'},
-    {b:8, rev:258600, txn:2310, credit:36800, dig:0.73, top:'Corned Beef 150g'},
-  ],
-};
-let ownerPeriod = 'today'; // 'today' | 'week' | 'month'
-
 /* ============ STATE ============ */
 let view = 'pos';
 let cart = {};            // {productId: qty}
@@ -573,295 +413,26 @@ let utangCustomerId = null; // for utang sales
 const PESO = n => '₱' + n.toLocaleString('en-PH',{minimumFractionDigits:0,maximumFractionDigits:2});
 const $ = id => document.getElementById(id);
 
-
-/* ============ TRANSLATIONS ============ */
-let lang = 'tl'; // 'tl' = Tagalog, 'en' = English
-const LANGS = {
-  tl: {
-    /* Nav */
-    nav_pos:'Benta', nav_pos_sub:'Mabilis na pag-benta at resibo', nav_pos_title:'Benta (POS)',
-    nav_inv:'Stock', nav_inv_sub:'Imbentaryo at low-stock alerts', nav_inv_title:'Imbentaryo',
-    nav_utang:'Listahan', nav_utang_sub:'Utang at bayad ng mga suki', nav_utang_title:'Listahan ng Utang',
-    nav_dash:'Ulat', nav_dash_sub:'Benta, best-sellers at performance', nav_dash_title:'Ulat at Dashboard',
-    nav_txn:'Kasaysayan', nav_txn_sub:'Lahat ng transaksyon ngayon', nav_txn_title:'Kasaysayan ng Benta',
-    /* POS */
-    search_ph:'Hanapin ang produkto...',
-    cat_all:'Lahat',
-    cart_title:'Order', cart_empty:'Wala pang laman.', cart_empty_sub:'I-tap ang produkto para idagdag.',
-    item_count_s:'item', item_count_p:'items',
-    qty_label:'Bilang ng item', total_label:'Kabuuan',
-    pay_cash:'Cash', pay_gcash:'GCash', pay_maya:'Maya', pay_utang:'Utang',
-    checkout_btn:'Tapusin ang Benta', checkout_utang_btn:'Ilista sa Utang',
-    no_product:'Walang nahanap na produkto.',
-    out_of_stock:'Ubos na',
-    /* Toast messages */
-    toast_added:' na-add', toast_no_stock:'Wala nang stock para dito',
-    toast_max_stock:'Abot na sa available stock',
-    toast_enter_qty:'Maglagay ng bilang',
-    toast_enter_name_price:'Kailangan ng pangalan at presyo',
-    toast_enter_name:'Kailangan ng pangalan',
-    toast_enter_amount:'Maglagay ng halaga',
-    /* Receipt / Checkout */
-    receipt_title_sale:'Tapos na ang Benta!',
-    receipt_title_utang:'Nailista na sa Utang',
-    receipt_sub_sale:'Salamat sa pagbili',
-    receipt_sub_utang:'Idinagdag kay ',
-    receipt_method:'Paraan ng bayad',
-    receipt_total:'Kabuuan',
-    receipt_done:'Tapos na',
-    receipt_cash_label:'Bayad ng customer (Cash)',
-    receipt_change:'Sukli',
-    /* Utang pick */
-    utang_pick_title:'Ilista sa Utang',
-    utang_pick_sub:'Piliin kung sino ang uutang • ',
-    utang_pick_label:'Suki / Customer',
-    utang_pick_note:'Auto-update ang balance sa Listahan at mababawas sa stock.',
-    utang_pick_cancel:'Kanselahin', utang_pick_confirm:'Ilista',
-    utang_method_label:'Utang (Listahan)',
-    /* Inventory */
-    inv_title:'Imbentaryo', inv_btn_add:'+ Bagong Produkto',
-    inv_col_product:'Produkto', inv_col_cat:'Kategorya', inv_col_price:'Presyo',
-    inv_col_stock:'Stock', inv_col_status:'Status', inv_col_sold:'Nabenta', inv_col_action:'',
-    inv_auto_note:'produkto • auto-bawas tuwing may benta',
-    inv_status_ok:'OK', inv_status_low:'Paubos', inv_status_out:'Ubos na',
-    inv_btn_restock:'+ Stock',
-    inv_low_alert_pre:'', inv_low_alert_mid:' produkto ang paubos na.', inv_low_alert_post:'Kailangan nang mag-order ulit.',
-    /* Restock modal */
-    restock_title:'Dagdag Stock', restock_label:'Ilang dadagdagin?', restock_ph:'Halimbawa: 50',
-    restock_current:'meron na: ',
-    restock_cancel:'Kanselahin', restock_save:'I-save',
-    toast_restocked:' na-dagdag sa ',
-    /* Add product modal */
-    addprod_title:'Bagong Produkto', addprod_sub:'Idagdag sa imbentaryo',
-    addprod_name_label:'Pangalan', addprod_name_ph:'Hal: Mantika 1L',
-    addprod_cat_label:'Kategorya',
-    addprod_price_label:'Presyo (₱)', addprod_stock_label:'Simulang Stock',
-    addprod_cancel:'Kanselahin', addprod_save:'Idagdag',
-    toast_prod_added:' naidagdag na',
-    /* Utang / Listahan */
-    utang_total_lbl:'Kabuuang utang', utang_total_sub:'na hindi pa bayad',
-    utang_with_balance_lbl:'May utang', utang_with_balance_sub:'na suki',
-    utang_all_lbl:'Listado na suki', utang_all_sub:'sa sistema',
-    utang_section_title:'Listahan ng Utang',
-    utang_section_note:'Wala nang notebook — naka-record na lahat',
-    utang_btn_add_customer:'+ Bagong Suki',
-    utang_col_customer:'Suki', utang_col_balance:'Utang ngayon', utang_col_status:'Status', utang_col_action:'Aksyon',
-    utang_status_has:'May utang', utang_status_clear:'Bayad na',
-    utang_records:' record',
-    utang_btn_view:'Tingnan', utang_btn_pay:'Bayad',
-    /* Ledger modal */
-    ledger_current_balance:'Utang ngayon: ',
-    ledger_type_charge:'Utang', ledger_type_pay:'Bayad',
-    ledger_btn_pay:'Magbayad', ledger_btn_close:'Isara',
-    /* Pay utang modal */
-    pay_utang_title:'Bayad sa Utang',
-    pay_utang_label:'Magkano ang babayaran?',
-    pay_utang_ph:'Hanggang ',
-    pay_utang_all_btn:'Bayaran lahat (',
-    pay_utang_cancel:'Kanselahin', pay_utang_save:'I-record ang bayad',
-    toast_payment_recorded:' bayad — na-record',
-    /* Add customer modal */
-    add_cust_title:'Bagong Suki', add_cust_sub:'Magdagdag sa listahan',
-    add_cust_label:'Pangalan ng suki', add_cust_ph:'Hal: Aling Maria',
-    add_cust_cancel:'Kanselahin', add_cust_save:'Idagdag',
-    toast_cust_added:' naidagdag sa listahan',
-    /* Dashboard */
-    dash_stat1_lbl:'💰 Benta ngayon', dash_stat1_sub:'transaksyon',
-    dash_stat2_lbl:'🧾 Average bawat benta', dash_stat2_sub:'per transaksyon',
-    dash_stat3_lbl:'📒 Nakalistang utang', dash_stat3_sub:'hindi pa bayad',
-    dash_stat4_lbl:'⚠️ Paubos na stock', dash_stat4_sub:'produkto',
-    dash_bestsellers:'Pinakamabentang Produkto',
-    dash_payment_methods:'Paraan ng Bayad',
-    dash_reorder:'Kailangang i-order',
-    dash_stock_ok:'✓ Sapat pa ang lahat ng stock.',
-    dash_view_all:'Tingnan ang lahat ng transaksyon →',
-    dash_date_prefix:'Ulat — ',
-    dash_hint:'Auto-update sa bawat benta. Subukan: gumawa ng benta, bumalik dito.',
-    /* Transactions */
-    txn_back:'← Bumalik sa Ulat',
-    txn_title:'Lahat ng Transaksyon',
-    txn_count_suffix:' benta ngayon • ',
-    txn_total_suffix:'total',
-    txn_empty:'Wala pang benta ngayon. Magsimula sa Benta tab.',
-    txn_footer_label:'transaksyon ngayon',
-    /* Sidebar footer */
-    side_foot:'Demo build ng ',
-    side_foot2:'Para sa community-driven na negosyo.',
-    /* Misc */
-    lang_toggle_label:'English',
-    demo_pill:'LIVE DEMO',
-    /* Owner Dashboard */
-    nav_owner:'Owner', nav_owner_sub:'Revenue at KPI ng lahat ng branches', nav_owner_title:'Owner Dashboard — Lahat ng Branches',
-    owner_period_today:'Ngayon', owner_period_week:'Linggong ito', owner_period_month:'Buwang ito',
-    owner_kpi_total_rev:'Kabuuang Kita', owner_kpi_branches:'Aktibong Branches', owner_kpi_total_txn:'Kabuuang Transaksyon',
-    owner_kpi_total_credit:'Uncollected Credit', owner_kpi_best:'Pinakamataas na Branch', owner_kpi_avg_branch:'Average / Branch',
-    owner_branch_col_branch:'Branch', owner_branch_col_rev:'Revenue', owner_branch_col_txn:'Transaksyon',
-    owner_branch_col_avg:'Avg/Sale', owner_branch_col_credit:'Credit', owner_branch_col_rate:'Collect Rate', owner_branch_col_top:'',
-    owner_digital_split:'Digital vs Cash', owner_top_products:'Top Products (Network-wide)',
-    owner_branch_detail:'Branch Detail', owner_close:'Isara',
-    owner_vs_best:'kumpara sa pinakamataas', owner_rank:'Rank',
-    owner_credit_note:'Outstanding na hindi pa bayad',
-    owner_no_data:'Walang datos para sa panahong ito.',
-  },
-  en: {
-    /* Nav */
-    nav_pos:'Sales', nav_pos_sub:'Fast checkout and receipts', nav_pos_title:'Sales (POS)',
-    nav_inv:'Inventory', nav_inv_sub:'Stock levels and low-stock alerts', nav_inv_title:'Inventory',
-    nav_utang:'Credit', nav_utang_sub:'Customer credit and payments', nav_utang_title:'Credit Ledger',
-    nav_dash:'Reports', nav_dash_sub:'Sales, best-sellers and performance', nav_dash_title:'Reports & Dashboard',
-    nav_txn:'History', nav_txn_sub:'All transactions today', nav_txn_title:'Sales History',
-    /* POS */
-    search_ph:'Search products...',
-    cat_all:'All',
-    cart_title:'Order', cart_empty:'Cart is empty.', cart_empty_sub:'Tap a product to add it.',
-    item_count_s:'item', item_count_p:'items',
-    qty_label:'Items', total_label:'Total',
-    pay_cash:'Cash', pay_gcash:'GCash', pay_maya:'Maya', pay_utang:'Credit',
-    checkout_btn:'Complete Sale', checkout_utang_btn:'Add to Credit',
-    no_product:'No products found.',
-    out_of_stock:'Out of stock',
-    /* Toast messages */
-    toast_added:' added', toast_no_stock:'No more stock available',
-    toast_max_stock:'Maximum available stock reached',
-    toast_enter_qty:'Please enter a quantity',
-    toast_enter_name_price:'Name and price are required',
-    toast_enter_name:'Name is required',
-    toast_enter_amount:'Please enter an amount',
-    /* Receipt / Checkout */
-    receipt_title_sale:'Sale Complete!',
-    receipt_title_utang:'Added to Credit!',
-    receipt_sub_sale:'Thank you for your purchase',
-    receipt_sub_utang:'Added to ',
-    receipt_method:'Payment method',
-    receipt_total:'Total',
-    receipt_done:'Done',
-    receipt_cash_label:'Cash received',
-    receipt_change:'Change',
-    /* Utang pick */
-    utang_pick_title:'Add to Credit',
-    utang_pick_sub:'Select customer • ',
-    utang_pick_label:'Customer',
-    utang_pick_note:'Balance and stock update automatically.',
-    utang_pick_cancel:'Cancel', utang_pick_confirm:'Add to Credit',
-    utang_method_label:'Credit',
-    /* Inventory */
-    inv_title:'Inventory', inv_btn_add:'+ Add Product',
-    inv_col_product:'Product', inv_col_cat:'Category', inv_col_price:'Price',
-    inv_col_stock:'Stock', inv_col_status:'Status', inv_col_sold:'Sold', inv_col_action:'',
-    inv_auto_note:'products • auto-deducted on every sale',
-    inv_status_ok:'OK', inv_status_low:'Low stock', inv_status_out:'Out of stock',
-    inv_btn_restock:'+ Restock',
-    inv_low_alert_pre:'', inv_low_alert_mid:' products are running low.', inv_low_alert_post:'These need to be reordered.',
-    /* Restock modal */
-    restock_title:'Add Stock', restock_label:'How many to add?', restock_ph:'e.g. 50',
-    restock_current:'current stock: ',
-    restock_cancel:'Cancel', restock_save:'Save',
-    toast_restocked:' added to ',
-    /* Add product modal */
-    addprod_title:'New Product', addprod_sub:'Add to inventory',
-    addprod_name_label:'Name', addprod_name_ph:'e.g. Cooking Oil 1L',
-    addprod_cat_label:'Category',
-    addprod_price_label:'Price (₱)', addprod_stock_label:'Starting Stock',
-    addprod_cancel:'Cancel', addprod_save:'Add Product',
-    toast_prod_added:' added to inventory',
-    /* Utang / Listahan */
-    utang_total_lbl:'Total outstanding', utang_total_sub:'unpaid balance',
-    utang_with_balance_lbl:'Customers with credit', utang_with_balance_sub:'accounts',
-    utang_all_lbl:'Registered customers', utang_all_sub:'in system',
-    utang_section_title:'Credit Ledger',
-    utang_section_note:'No more notebooks — all records are here',
-    utang_btn_add_customer:'+ New Customer',
-    utang_col_customer:'Customer', utang_col_balance:'Balance', utang_col_status:'Status', utang_col_action:'Action',
-    utang_status_has:'Has balance', utang_status_clear:'Settled',
-    utang_records:' records',
-    utang_btn_view:'View', utang_btn_pay:'Pay',
-    /* Ledger modal */
-    ledger_current_balance:'Current balance: ',
-    ledger_type_charge:'Credit', ledger_type_pay:'Payment',
-    ledger_btn_pay:'Record Payment', ledger_btn_close:'Close',
-    /* Pay utang modal */
-    pay_utang_title:'Record Payment',
-    pay_utang_label:'How much is being paid?',
-    pay_utang_ph:'Up to ',
-    pay_utang_all_btn:'Pay full amount (',
-    pay_utang_cancel:'Cancel', pay_utang_save:'Save Payment',
-    toast_payment_recorded:' payment recorded',
-    /* Add customer modal */
-    add_cust_title:'New Customer', add_cust_sub:'Add to ledger',
-    add_cust_label:'Customer name', add_cust_ph:'e.g. Maria Santos',
-    add_cust_cancel:'Cancel', add_cust_save:'Add',
-    toast_cust_added:' added to ledger',
-    /* Dashboard */
-    dash_stat1_lbl:'💰 Sales today', dash_stat1_sub:'transactions',
-    dash_stat2_lbl:'🧾 Average per sale', dash_stat2_sub:'per transaction',
-    dash_stat3_lbl:'📒 Outstanding credit', dash_stat3_sub:'unpaid',
-    dash_stat4_lbl:'⚠️ Low stock items', dash_stat4_sub:'products',
-    dash_bestsellers:'Best-selling Products',
-    dash_payment_methods:'Payment Methods',
-    dash_reorder:'Needs Reorder',
-    dash_stock_ok:'✓ All products have sufficient stock.',
-    dash_view_all:'View all transactions →',
-    dash_date_prefix:'Report — ',
-    dash_hint:'All numbers update automatically on every sale. Try it: make a sale, come back here.',
-    /* Transactions */
-    txn_back:'← Back to Reports',
-    txn_title:'All Transactions',
-    txn_count_suffix:' sales today • ',
-    txn_total_suffix:'total',
-    txn_empty:'No sales yet today. Start from the Sales tab.',
-    txn_footer_label:'transactions today',
-    /* Sidebar footer */
-    side_foot:'Demo by ',
-    side_foot2:'Built for community-driven businesses.',
-    /* Misc */
-    lang_toggle_label:'Filipino',
-    demo_pill:'LIVE DEMO',
-    /* Owner Dashboard */
-    nav_owner:'Owner', nav_owner_sub:'Revenue and KPIs across all branches', nav_owner_title:'Owner Dashboard — All Branches',
-    owner_period_today:'Today', owner_period_week:'This Week', owner_period_month:'This Month',
-    owner_kpi_total_rev:'Total Revenue', owner_kpi_branches:'Active Branches', owner_kpi_total_txn:'Total Transactions',
-    owner_kpi_total_credit:'Uncollected Credit', owner_kpi_best:'Top Branch', owner_kpi_avg_branch:'Avg / Branch',
-    owner_branch_col_branch:'Branch', owner_branch_col_rev:'Revenue', owner_branch_col_txn:'Transactions',
-    owner_branch_col_avg:'Avg/Sale', owner_branch_col_credit:'Credit', owner_branch_col_rate:'Collection Rate', owner_branch_col_top:'',
-    owner_digital_split:'Digital vs Cash', owner_top_products:'Top Products (Network-wide)',
-    owner_branch_detail:'Branch Detail', owner_close:'Close',
-    owner_vs_best:'vs top branch', owner_rank:'Rank',
-    owner_credit_note:'Outstanding unpaid balance',
-    owner_no_data:'No data available for this period.',
-  }
-};
-function T(k){ return (LANGS[lang]||LANGS.tl)[k]||k; }
-function setLang(l){ lang=l; const btn=$('langToggle'); if(btn){ btn.querySelector('span').textContent=LANGS[l]===LANGS.tl?'English':'Filipino'; } render(); renderNav(); $('pageTitle').textContent=pageTitle(PAGES.find(x=>x.id===view)); $('pageSub').textContent=pageSub(PAGES.find(x=>x.id===view)); }
-function renderTopbar(){
-  $('pageTitle').textContent = PAGES.find(x=>x.id===view)?.['title_'+lang] || $('pageTitle').textContent;
-  const toggle = $('langToggle');
-  if(toggle){ toggle.textContent = T('lang_toggle_label'); }
-}
-
 /* ============ NAV ============ */
 const PAGES = [
-  {id:'pos',   ic:IC.cart},
-  {id:'inv',   ic:IC.box},
-  {id:'utang', ic:IC.ledger},
-  {id:'dash',  ic:IC.chart},
-  {id:'txn',   ic:IC.receipt},
-  {id:'owner', ic:IC.owner},
+  {id:'pos', label:'Benta', sub:'Mabilis na pag-benta at resibo', title:'Benta (POS)', ic:IC.cart},
+  {id:'inv', label:'Stock', sub:'Imbentaryo at low-stock alerts', title:'Imbentaryo', ic:IC.box},
+  {id:'utang', label:'Listahan', sub:'Utang at bayad ng mga suki', title:'Listahan ng Utang', ic:IC.ledger},
+  {id:'dash', label:'Ulat', sub:'Benta, best-sellers at performance', title:'Ulat at Dashboard', ic:IC.chart},
+  {id:'txn',  label:'Kasaysayan', sub:'Lahat ng transaksyon ngayon', title:'Kasaysayan ng Benta', ic:IC.receipt, moblabel:'Kasaysayan'},
 ];
-function pageLabel(p){ return T('nav_'+p.id); }
-function pageTitle(p){ return T('nav_'+p.id+'_title'); }
-function pageSub(p){   return T('nav_'+p.id+'_sub'); }
 function lowStockCount(){ return products.filter(p=>p.stock<=REORDER).length; }
 function renderNav(){
   $('nav').innerHTML = PAGES.map(p=>{
     const badge = p.id==='inv' && lowStockCount() ? `<span class="badge">${lowStockCount()}</span>`:'';
-    return `<button class="${view===p.id?'active':''}" onclick="go('${p.id}')">${p.ic}<span>${pageLabel(p)}</span>${badge}</button>`;
+    return `<button class="${view===p.id?'active':''}" onclick="go('${p.id}')">${p.ic}<span>${p.label}</span>${badge}</button>`;
   }).join('');
   $('mobnav').innerHTML = PAGES.map(p=>{
     const badge = p.id==='inv' && lowStockCount() ? `<span class="mbadge">${lowStockCount()}</span>`:'';
-    return `<button class="${view===p.id?'active':''}" onclick="go('${p.id}')">${p.ic}${pageLabel(p)}${badge}</button>`;
+    return `<button class="${view===p.id?'active':''}" onclick="go('${p.id}')">${p.ic}${p.label}${badge}</button>`;
   }).join('');
 }
-function go(id){ view=id; const p=PAGES.find(x=>x.id===id); $('pageTitle').textContent=pageTitle(p); $('pageSub').textContent=pageSub(p); renderNav(); render(); window.scrollTo(0,0); }
+function go(id){ view=id; const p=PAGES.find(x=>x.id===id); $('pageTitle').textContent=p.title; $('pageSub').textContent=p.sub; renderNav(); render(); window.scrollTo(0,0); }
 
 /* ============ RENDER ROUTER ============ */
 function render(){
@@ -870,14 +441,13 @@ function render(){
   else if(view==='utang') renderUtang();
   else if(view==='dash') renderDash();
   else if(view==='txn')  renderTxn();
-  else if(view==='owner') renderOwner();
 }
 
 /* ============ POS ============ */
 function renderPOS(){
-  const cats = [T('cat_all'), ...new Set(products.map(p=>p.cat))];
+  const cats = ['Lahat', ...new Set(products.map(p=>p.cat))];
   let filtered = products.filter(p=>{
-    const okCat = activeCat===T('cat_all') || p.cat===activeCat;
+    const okCat = activeCat==='Lahat' || p.cat===activeCat;
     const okQ = !searchQ || p.name.toLowerCase().includes(searchQ.toLowerCase());
     return okCat && okQ;
   });
@@ -886,7 +456,7 @@ function renderPOS(){
     <div class="pos-left">
       <div class="search-row">
         <label class="search">${IC.search}
-          <input id="posSearch" placeholder="${T('search_ph')}" value="${searchQ}" oninput="onSearch(this.value)" />
+          <input id="posSearch" placeholder="Hanapin ang produkto..." value="${searchQ}" oninput="onSearch(this.value)" />
         </label>
       </div>
       <div class="cats">
@@ -908,7 +478,7 @@ function renderPOS(){
               <span class="pprice num">${PESO(p.price)}</span>
             </div>
           </button>`;
-        }).join('') || `<div class="empty-note">${T('no_product')}</div>`}
+        }).join('') || '<div class="empty-note">Walang nahanap na produkto.</div>'}
       </div>
     </div>
     ${renderCart()}
@@ -924,7 +494,7 @@ function renderCart(){
   const isUtang = payMethod==='utang';
   return `<div class="cart" id="cartEl">
     <div class="cart-head" onclick="toggleCart()">
-      ${IC.cart}<h3>${T('cart_title')}</h3><span class="count">${count} ${count!==1?T('item_count_p'):T('item_count_s')}</span>
+      ${IC.cart}<h3>Order</h3><span class="count">${count} item${count!==1?'s':''}</span>
     </div>
     <div class="cart-items">
       ${items.length? items.map(i=>`
@@ -943,19 +513,19 @@ function renderCart(){
           </div>
           <div class="ci-total num">${PESO(i.price*i.qty)}</div>
         </div>`).join('')
-        : `<div class="cart-empty"><div class="big">🛒</div>${T('cart_empty')}<br>${T('cart_empty_sub')}</div>`}
+        : `<div class="cart-empty"><div class="big">🛒</div>Wala pang laman.<br>I-tap ang produkto para idagdag.</div>`}
     </div>
     <div class="cart-foot">
       <div class="totals">
-        <div class="row"><span>${T('qty_label')}</span><span class="num">${count}</span></div>
-        <div class="grand"><span class="lbl">${T('total_label')}</span><span class="amt num">${PESO(total)}</span></div>
+        <div class="row"><span>Bilang ng item</span><span class="num">${count}</span></div>
+        <div class="grand"><span class="lbl">Kabuuan</span><span class="amt num">${PESO(total)}</span></div>
       </div>
       <div class="pay-methods">
-        ${[['cash','💵',T('pay_cash')],['gcash','🟦',T('pay_gcash')],['maya','🟩',T('pay_maya')],['utang','📒',T('pay_utang')]].map(([m,ic,lbl])=>
+        ${[['cash','💵','Cash'],['gcash','🟦','GCash'],['maya','🟩','Maya'],['utang','📒','Utang']].map(([m,ic,lbl])=>
           `<button class="pm ${payMethod===m?'active':''} ${m==='utang'?'utang':''}" onclick="setPay('${m}')"><span class="pm-ic">${ic}</span>${lbl}</button>`).join('')}
       </div>
       <button class="btn btn-go" ${count===0?'disabled':''} onclick="checkout()">
-        ${isUtang?'📒 '+T('checkout_utang_btn'):T('checkout_btn')} ${count?'• '+PESO(total):''}
+        ${isUtang?'📒 Ilista sa Utang':'Tapusin ang Benta'} ${count?'• '+PESO(total):''}
       </button>
     </div>
   </div>`;
@@ -965,15 +535,15 @@ function addToCart(id){
   const p=products.find(x=>x.id===id);
   if(p.stock<=0) return;
   const inCart=cart[id]||0;
-  if(inCart>=p.stock){ toast(T('toast_no_stock')); return; }
+  if(inCart>=p.stock){ toast('Wala nang stock para dito'); return; }
   cart[id]=inCart+1;
   if(view==='pos') renderPOS();
-  toast(p.name+T('toast_added'));
+  toast(p.name+' added');
 }
 function chgQty(id,d){
   const p=products.find(x=>x.id===id);
   let q=(cart[id]||0)+d;
-  if(q>p.stock){ toast(T('toast_max_stock')); return; }
+  if(q>p.stock){ toast('Abot na sa available stock'); return; }
   if(q<=0) delete cart[id]; else cart[id]=q;
   renderPOS();
 }
@@ -997,20 +567,20 @@ function finalizeSale(items,total,method,customerId){
   cart={}; payMethod='cash'; renderNav();
 }
 function showReceipt(items,total,method,customerId){
-  const methodLbl={cash:T('pay_cash'),gcash:T('pay_gcash'),maya:T('pay_maya'),utang:T('utang_method_label')}[method];
+  const methodLbl={cash:'Cash',gcash:'GCash',maya:'Maya',utang:'Utang (Listahan)'}[method];
   let payHtml='';
   if(method==='cash'){
-    payHtml=`<div class="field" style="margin-top:6px"><label>${T('receipt_cash_label')}</label>
+    payHtml=`<div class="field" style="margin-top:6px"><label>Bayad ng customer (Cash)</label>
       <input id="cashIn" type="number" inputmode="numeric" placeholder="Halimbawa: ${Math.ceil(total/50)*50}" oninput="calcChange(${total})" /></div>
-      <div class="receipt"><div class="r-change" id="changeBox" style="display:none"><span>${T('receipt_change')}</span><span class="num" id="changeAmt">₱0</span></div></div>`;
+      <div class="receipt"><div class="r-change" id="changeBox" style="display:none"><span>Sukli</span><span class="num" id="changeAmt">₱0</span></div></div>`;
   }
   const custName = customerId? customers.find(c=>c.id===customerId).name : '';
   openModal(`
     <div class="modal-head" style="text-align:center;padding-top:22px">
       <img src="${LOGO}" alt="" style="width:30px;height:30px;border-radius:50%;margin:0 auto 10px;display:block;opacity:.9" />
       <div class="check-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0A1130" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></div>
-      <h3>${method==='utang'?T('receipt_title_utang'):T('receipt_title_sale')}</h3>
-      <p>${method==='utang'? T('receipt_sub_utang')+custName : T('receipt_sub_sale')}</p>
+      <h3>${method==='utang'?'Nailista na sa Utang':'Tapos na ang Benta!'}</h3>
+      <p>${method==='utang'? 'Idinagdag kay '+custName : 'Salamat sa pagbili'}</p>
     </div>
     <div class="modal-body">
       <div class="receipt">
@@ -1021,11 +591,11 @@ function showReceipt(items,total,method,customerId){
           <span class="num">${PESO(i.price*i.qty)}</span>
         </div>`).join('')}
         <div class="r-div"></div>
-        <div class="r-line b"><span>${T('receipt_method')}</span><span>${methodLbl}</span></div>
-        <div class="r-grand"><span>${T('receipt_total')}</span><span class="num">${PESO(total)}</span></div>
+        <div class="r-line b"><span>Paraan ng bayad</span><span>${methodLbl}</span></div>
+        <div class="r-grand"><span>Kabuuan</span><span class="num">${PESO(total)}</span></div>
       </div>
       ${payHtml}
-      <div class="modal-foot"><button class="btn btn-green" onclick="closeModal()">${T('receipt_done')}</button></div>
+      <div class="modal-foot"><button class="btn btn-green" onclick="closeModal()">Tapos na</button></div>
     </div>`);
 }
 function calcChange(total){
@@ -1035,17 +605,17 @@ function calcChange(total){
 }
 function openUtangPick(items,total){
   openModal(`
-    <div class="modal-head"><h3>${T('utang_pick_title')}</h3><p>${T('utang_pick_sub')}${PESO(total)}</p></div>
+    <div class="modal-head"><h3>Ilista sa Utang</h3><p>Piliin kung sino ang uutang • ${PESO(total)}</p></div>
     <div class="modal-body">
       <div class="field"><label>Suki / Customer</label>
         <select id="utangSel">
           ${customers.map(c=>`<option value="${c.id}">${c.name} — kasalukuyang utang ${PESO(c.balance)}</option>`).join('')}
         </select>
       </div>
-      <p style="font-size:12.5px;color:var(--muted);margin-bottom:4px">${T('utang_pick_note')}</p>
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:4px">Auto-update ang balance sa Listahan at mababawas sa stock.</p>
       <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">${T('utang_pick_cancel')}</button>
-        <button class="btn btn-green" onclick="confirmUtang()">${T('utang_pick_confirm')}</button>
+        <button class="btn btn-ghost" onclick="closeModal()">Kanselahin</button>
+        <button class="btn btn-green" onclick="confirmUtang()">Ilista</button>
       </div>
     </div>`);
   // stash
@@ -1070,15 +640,15 @@ function renderInv(){
     </div></div>`:''}
   <div class="cardbox">
     <div class="cardbox-head">
-      <h3>${T('inv_title')}</h3>
-      <span style="font-size:13px;color:var(--muted)">${products.length} ${T('inv_auto_note')}</span>
-      <button class="mini-btn solid" style="margin-left:auto" onclick="openAddProduct()">${T('inv_btn_add')}</button>
+      <h3>Imbentaryo</h3>
+      <span style="font-size:13px;color:var(--muted)">${products.length} produkto • auto-bawas tuwing may benta</span>
+      <button class="mini-btn solid" style="margin-left:auto" onclick="openAddProduct()">+ Bagong Produkto</button>
     </div>
     <table>
-      <thead><tr><th>${T('inv_col_product')}</th><th>${T('inv_col_cat')}</th><th class="r">${T('inv_col_price')}</th><th class="r">${T('inv_col_stock')}</th><th>${T('inv_col_status')}</th><th class="r">${T('inv_col_sold')}</th><th></th></tr></thead>
+      <thead><tr><th>Produkto</th><th>Kategorya</th><th class="r">Presyo</th><th class="r">Stock</th><th>Status</th><th class="r">Nabenta</th><th></th></tr></thead>
       <tbody>
         ${products.map(p=>{
-          const st = p.stock<=0? `<span class="tag low">${T('inv_status_out')}</span>` : p.stock<=REORDER? `<span class="tag low">${T('inv_status_low')}</span>`:`<span class="tag ok">${T('inv_status_ok')}</span>`;
+          const st = p.stock<=0? `<span class="tag low">Ubos na</span>` : p.stock<=REORDER? `<span class="tag low">Paubos</span>`:`<span class="tag ok">OK</span>`;
           return `<tr>
             <td style="display:flex;align-items:center;gap:10px">
               <img src="${p.photo||''}" alt="${p.name}" style="width:40px;height:40px;border-radius:9px;object-fit:cover;flex-shrink:0;background:var(--surface-2)"
@@ -1088,7 +658,7 @@ function renderInv(){
             <td class="r num"><b>${p.stock}</b></td>
             <td>${st}</td>
             <td class="r num" style="color:var(--muted)">${p.sold}</td>
-            <td class="r"><button class="mini-btn" onclick="openRestock(${p.id})">${T('inv_btn_restock')}</button></td>
+            <td class="r"><button class="mini-btn" onclick="openRestock(${p.id})">+ Stock</button></td>
           </tr>`;
         }).join('')}
       </tbody>
@@ -1098,43 +668,43 @@ function renderInv(){
 function openRestock(id){
   const p=products.find(x=>x.id===id);
   openModal(`
-    <div class="modal-head"><h3>${T('restock_title')}</h3><p>${p.emoji} ${p.name} • ${T('restock_current')}${p.stock}</p></div>
+    <div class="modal-head"><h3>Dagdag Stock</h3><p>${p.emoji} ${p.name} • meron na: ${p.stock}</p></div>
     <div class="modal-body">
-      <div class="field"><label>${T('restock_label')}</label>
-        <input id="restockN" type="number" inputmode="numeric" placeholder="${T('restock_ph')}" autofocus /></div>
+      <div class="field"><label>Ilang dadagdagin?</label>
+        <input id="restockN" type="number" inputmode="numeric" placeholder="Halimbawa: 50" autofocus /></div>
       <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">${T('restock_cancel')}</button>
-        <button class="btn btn-green" onclick="doRestock(${id})">${T('restock_save')}</button>
+        <button class="btn btn-ghost" onclick="closeModal()">Kanselahin</button>
+        <button class="btn btn-green" onclick="doRestock(${id})">I-save</button>
       </div>
     </div>`);
 }
 function doRestock(id){
-  const n=parseInt($('restockN').value||0); if(!n||n<=0){toast(T('toast_enter_qty'));return;}
+  const n=parseInt($('restockN').value||0); if(!n||n<=0){toast('Maglagay ng bilang');return;}
   const p=products.find(x=>x.id===id); p.stock+=n; closeModal(); renderNav(); renderInv();
-  toast('+'+n+T('toast_restocked')+p.name);
+  toast('+'+n+' stock para sa '+p.name);
 }
 function openAddProduct(){
   openModal(`
-    <div class="modal-head"><h3>${T('addprod_title')}</h3><p>${T('addprod_sub')}</p></div>
+    <div class="modal-head"><h3>Bagong Produkto</h3><p>Idagdag sa imbentaryo</p></div>
     <div class="modal-body">
-      <div class="field"><label>${T('addprod_name_label')}</label><input id="npName" placeholder="${T('addprod_name_ph')}" autofocus/></div>
+      <div class="field"><label>Pangalan</label><input id="npName" placeholder="Hal: Mantika 1L" autofocus/></div>
       <div class="field"><label>Kategorya</label>
         <select id="npCat">${[...new Set(products.map(p=>p.cat))].map(c=>`<option>${c}</option>`).join('')}</select></div>
       <div style="display:flex;gap:10px">
-        <div class="field" style="flex:1"><label>${T('addprod_price_label')}</label><input id="npPrice" type="number" placeholder="0"/></div>
-        <div class="field" style="flex:1"><label>${T('addprod_stock_label')}</label><input id="npStock" type="number" placeholder="0"/></div>
+        <div class="field" style="flex:1"><label>Presyo (₱)</label><input id="npPrice" type="number" placeholder="0"/></div>
+        <div class="field" style="flex:1"><label>Simulang Stock</label><input id="npStock" type="number" placeholder="0"/></div>
       </div>
       <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">${T('addprod_cancel')}</button>
-        <button class="btn btn-green" onclick="doAddProduct()">${T('addprod_save')}</button>
+        <button class="btn btn-ghost" onclick="closeModal()">Kanselahin</button>
+        <button class="btn btn-green" onclick="doAddProduct()">Idagdag</button>
       </div>
     </div>`);
 }
 function doAddProduct(){
   const name=$('npName').value.trim(); const price=parseFloat($('npPrice').value||0); const stock=parseInt($('npStock').value||0);
-  if(!name||!price){toast(T('toast_enter_name_price'));return;}
+  if(!name||!price){toast('Kailangan ng pangalan at presyo');return;}
   products.push({id:Date.now(),name,cat:$('npCat').value,emoji:'📦',photo:'',price,stock,sold:0});
-  closeModal(); renderNav(); renderInv(); toast(name+T('toast_prod_added'));
+  closeModal(); renderNav(); renderInv(); toast(name+' naidagdag na');
 }
 
 /* ============ UTANG / LISTAHAN ============ */
@@ -1143,27 +713,27 @@ function renderUtang(){
   const withBalance=customers.filter(c=>c.balance>0).length;
   $('view').innerHTML=`
   <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="stat accent"><div class="s-lbl">${T('utang_total_lbl')}</div><div class="s-val num">${PESO(totalOut)}</div><div class="s-sub">${T('utang_total_sub')}</div></div>
-    <div class="stat"><div class="s-lbl">${T('utang_with_balance_lbl')}</div><div class="s-val num">${withBalance}</div><div class="s-sub">${T('utang_with_balance_sub')}</div></div>
-    <div class="stat"><div class="s-lbl">${T('utang_all_lbl')}</div><div class="s-val num">${customers.length}</div><div class="s-sub">${T('utang_all_sub')}</div></div>
+    <div class="stat accent"><div class="s-lbl">Kabuuang utang</div><div class="s-val num">${PESO(totalOut)}</div><div class="s-sub">na hindi pa bayad</div></div>
+    <div class="stat"><div class="s-lbl">May utang</div><div class="s-val num">${withBalance}</div><div class="s-sub">na suki</div></div>
+    <div class="stat"><div class="s-lbl">Listado na suki</div><div class="s-val num">${customers.length}</div><div class="s-sub">sa sistema</div></div>
   </div>
   <div class="cardbox">
-    <div class="cardbox-head"><h3>${T('utang_section_title')}</h3>
-      <span style="font-size:13px;color:var(--muted)">${T('utang_section_note')}</span>
-      <button class="mini-btn solid" style="margin-left:auto" onclick="openAddCustomer()">${T('utang_btn_add_customer')}</button>
+    <div class="cardbox-head"><h3>Listahan ng Utang</h3>
+      <span style="font-size:13px;color:var(--muted)">Wala nang notebook — naka-record na lahat</span>
+      <button class="mini-btn solid" style="margin-left:auto" onclick="openAddCustomer()">+ Bagong Suki</button>
     </div>
     <table>
-      <thead><tr><th>${T('utang_col_customer')}</th><th class="r">${T('utang_col_balance')}</th><th>${T('utang_col_status')}</th><th class="r">${T('utang_col_action')}</th></tr></thead>
+      <thead><tr><th>Suki</th><th class="r">Utang ngayon</th><th>Status</th><th class="r">Aksyon</th></tr></thead>
       <tbody>
         ${customers.map(c=>{
-          const status=c.balance>0?`<span class="tag warn">${T('utang_status_has')}</span>`:`<span class="tag ok">${T('utang_status_clear')}</span>`;
+          const status=c.balance>0?`<span class="tag warn">May utang</span>`:`<span class="tag ok">Bayad na</span>`;
           return `<tr>
             <td><b>${c.name}</b><div style="font-size:11.5px;color:var(--muted)">${c.ledger.length} record</div></td>
             <td class="r num"><b style="color:${c.balance>0?'var(--alert)':'var(--navy)'}">${PESO(c.balance)}</b></td>
             <td>${status}</td>
             <td class="r">
-              <button class="mini-btn" onclick="openLedger(${c.id})">${T('utang_btn_view')}</button>
-              ${c.balance>0?`<button class="mini-btn solid" onclick="openPayUtang(${c.id})">${T('utang_btn_pay')}</button>`:''}
+              <button class="mini-btn" onclick="openLedger(${c.id})">Tingnan</button>
+              ${c.balance>0?`<button class="mini-btn solid" onclick="openPayUtang(${c.id})">Bayad</button>`:''}
             </td>
           </tr>`;
         }).join('')}
@@ -1174,66 +744,65 @@ function renderUtang(){
 function openLedger(id){
   const c=customers.find(x=>x.id===id);
   openModal(`
-    <div class="modal-head"><h3>${c.name}</h3><p>${T('ledger_current_balance')}<b style="color:${c.balance>0?'var(--alert)':'var(--navy)'}">${PESO(c.balance)}</b></p></div>
+    <div class="modal-head"><h3>${c.name}</h3><p>Utang ngayon: <b style="color:${c.balance>0?'var(--alert)':'var(--navy)'}">${PESO(c.balance)}</b></p></div>
     <div class="ledger-list">
       ${[...c.ledger].reverse().map(l=>`
         <div class="ledger-item">
           <div class="li-ic ${l.type}">${l.type==='charge'?'📥':'✓'}</div>
-          <div><div style="font-weight:600;font-size:13.5px">${l.type==='charge'?T('ledger_type_charge'):T('ledger_type_pay')}</div>
+          <div><div style="font-weight:600;font-size:13.5px">${l.type==='charge'?'Utang':'Bayad'}</div>
           <div style="font-size:12px;color:var(--muted)">${l.date} • ${l.note}</div></div>
           <div class="li-amt ${l.type} num">${l.type==='charge'?'+':'−'}${PESO(l.amt)}</div>
         </div>`).join('')}
     </div>
     <div class="modal-body" style="padding-top:8px">
       <div class="modal-foot">
-        ${c.balance>0?`<button class="btn btn-green" onclick="closeModal();setTimeout(()=>openPayUtang(${c.id}),120)">${T('ledger_btn_pay')}</button>`:`<button class="btn btn-ghost" onclick="closeModal()">${T('ledger_btn_close')}</button>`}
+        ${c.balance>0?`<button class="btn btn-green" onclick="closeModal();setTimeout(()=>openPayUtang(${c.id}),120)">Magbayad</button>`:`<button class="btn btn-ghost" onclick="closeModal()">Isara</button>`}
       </div>
     </div>`);
 }
 function openPayUtang(id){
   const c=customers.find(x=>x.id===id);
   openModal(`
-    <div class="modal-head"><h3>${T('pay_utang_title')}</h3><p>${c.name} • ${T('ledger_current_balance')}${PESO(c.balance)}</p></div>
+    <div class="modal-head"><h3>Bayad sa Utang</h3><p>${c.name} • utang: ${PESO(c.balance)}</p></div>
     <div class="modal-body">
-      <div class="field"><label>${T('pay_utang_label')}</label>
-        <input id="payN" type="number" inputmode="numeric" placeholder="${T('pay_utang_ph')}${c.balance}" autofocus/></div>
-      <button class="mini-btn" onclick="$('payN').value=${c.balance};" style="margin-bottom:12px">${T('pay_utang_all_btn')}${PESO(c.balance)})</button>
+      <div class="field"><label>Magkano ang babayaran?</label>
+        <input id="payN" type="number" inputmode="numeric" placeholder="Hanggang ${c.balance}" autofocus/></div>
+      <button class="mini-btn" onclick="$('payN').value=${c.balance};" style="margin-bottom:12px">Bayaran lahat (${PESO(c.balance)})</button>
       <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">${T('pay_utang_cancel')}</button>
-        <button class="btn btn-green" onclick="doPayUtang(${id})">${T('pay_utang_save')}</button>
+        <button class="btn btn-ghost" onclick="closeModal()">Kanselahin</button>
+        <button class="btn btn-green" onclick="doPayUtang(${id})">I-record ang bayad</button>
       </div>
     </div>`);
 }
 function doPayUtang(id){
   const c=customers.find(x=>x.id===id);
   let n=parseFloat($('payN').value||0);
-  if(!n||n<=0){toast(T('toast_enter_amount'));return;}
+  if(!n||n<=0){toast('Maglagay ng halaga');return;}
   if(n>c.balance) n=c.balance;
-  const today=new Date().toLocaleDateString(lang==='tl'?'fil-PH':'en-PH',{month:'short',day:'numeric'});
-  c.balance-=n; c.ledger.push({date:today,type:'pay',amt:n,note:lang==='tl'?'Bayad':'Payment'});
-  closeModal(); renderUtang(); toast(PESO(n)+T('toast_payment_recorded'));
+  c.balance-=n; c.ledger.push({date:'Ngayon',type:'pay',amt:n,note:'Bayad'});
+  closeModal(); renderUtang(); toast(PESO(n)+' bayad — na-record');
 }
 function openAddCustomer(){
   openModal(`
-    <div class="modal-head"><h3>${T('add_cust_title')}</h3><p>${T('add_cust_sub')}</p></div>
+    <div class="modal-head"><h3>Bagong Suki</h3><p>Magdagdag sa listahan</p></div>
     <div class="modal-body">
-      <div class="field"><label>${T('add_cust_label')}</label><input id="ncName" placeholder="${T('add_cust_ph')}" autofocus/></div>
+      <div class="field"><label>Pangalan ng suki</label><input id="ncName" placeholder="Hal: Aling Maria" autofocus/></div>
       <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">${T('add_cust_cancel')}</button>
-        <button class="btn btn-green" onclick="doAddCustomer()">${T('add_cust_save')}</button>
+        <button class="btn btn-ghost" onclick="closeModal()">Kanselahin</button>
+        <button class="btn btn-green" onclick="doAddCustomer()">Idagdag</button>
       </div>
     </div>`);
 }
 function doAddCustomer(){
-  const name=$('ncName').value.trim(); if(!name){toast(T('toast_enter_name'));return;}
+  const name=$('ncName').value.trim(); if(!name){toast('Kailangan ng pangalan');return;}
   customers.push({id:Date.now(),name,balance:0,ledger:[]});
-  closeModal(); renderUtang(); toast(name+T('toast_cust_added'));
+  closeModal(); renderUtang(); toast(name+' naidagdag sa listahan');
 }
 
 
 /* ============ TRANSACTIONS HISTORY ============ */
 function renderTxn(){
-  const methodLbl={cash:T('pay_cash'),gcash:T('pay_gcash'),maya:T('pay_maya'),utang:T('pay_utang')};
+  const methodLbl={cash:'Cash',gcash:'GCash',maya:'Maya',utang:'Utang'};
   const methodColor={cash:'var(--navy)',gcash:'var(--accent)',maya:'#6E86C8',utang:'var(--alert)'};
   const dayTotal=transactions.reduce((s,t)=>s+t.total,0);
   const txSorted=[...transactions].reverse(); // newest first
@@ -1241,15 +810,15 @@ function renderTxn(){
   $('view').innerHTML=`
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
     <div>
-      <div style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;letter-spacing:-.2px">${T('nav_txn_title')} — ${dayStr}</div>
-      <div style="font-size:12.5px;color:var(--muted);margin-top:2px">${transactions.length}${T('txn_count_suffix')}${PESO(dayTotal)}</div>
+      <div style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;letter-spacing:-.2px">${dayStr}</div>
+      <div style="font-size:12.5px;color:var(--muted);margin-top:2px">${transactions.length} transaksyon • kabuuan ${PESO(dayTotal)}</div>
     </div>
-    <button class="mini-btn" onclick="go('dash')">${T('txn_back')}</button>
+    <button class="mini-btn" onclick="go('dash')">← Bumalik sa Ulat</button>
   </div>
   <div class="cardbox">
     <div class="cardbox-head" style="gap:10px;flex-wrap:wrap">
-      <h3>${T('txn_title')}</h3>
-      <span style="font-size:13px;color:var(--muted);margin-left:auto">${transactions.length}${T('txn_count_suffix')}${PESO(dayTotal)} ${T('txn_total_suffix')}</span>
+      <h3>Lahat ng Transaksyon</h3>
+      <span style="font-size:13px;color:var(--muted);margin-left:auto">${transactions.length} benta ngayon • ${PESO(dayTotal)} total</span>
     </div>
     ${txSorted.length ? txSorted.map((t,i)=>{
       const timeStr = t.ts ? t.ts.toLocaleTimeString('en-PH',{hour:'2-digit',minute:'2-digit',hour12:true}) : '';
@@ -1277,10 +846,10 @@ function renderTxn(){
         </div>
       </div>`;
     }).join('')
-    : `<div class="empty-note" style="padding:40px">${T('txn_empty')}</div>`}
+    : '<div class="empty-note" style="padding:40px">Wala pang benta ngayon. Magsimula sa Benta tab.</div>'}
     ${transactions.length ? `
     <div style="padding:16px 20px;background:var(--surface-2);border-top:2px solid var(--line);display:flex;justify-content:space-between;align-items:center">
-      <div style="font-size:13px;color:var(--muted)">${transactions.length} ${T('txn_footer_label')}</div>
+      <div style="font-size:13px;color:var(--muted)">${transactions.length} transaksyon ngayon</div>
       <div style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;letter-spacing:-.4px;color:var(--navy)" class="num">${PESO(dayTotal)}</div>
     </div>` : ''}
   </div>`;
@@ -1305,20 +874,20 @@ function renderDash(){
   $('view').innerHTML=`
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
     <div>
-      <div style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;letter-spacing:-.2px">${T('dash_date_prefix')}${dayStr}</div>
-      <div style="font-size:12.5px;color:var(--muted);margin-top:2px">${T('dash_hint')}</div>
+      <div style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;letter-spacing:-.2px">Ulat — ${dayStr}</div>
+      <div style="font-size:12.5px;color:var(--muted);margin-top:2px">Auto-update sa bawat benta. Subukan: gumawa ng benta, bumalik dito.</div>
     </div>
-    <button class="mini-btn" onclick="go('txn')" style="white-space:nowrap">${T('dash_view_all')}</button>
+    <button class="mini-btn" onclick="go('txn')" style="white-space:nowrap">Tingnan ang lahat ng transaksyon →</button>
   </div>
   <div class="stat-grid">
-    <div class="stat accent"><div class="s-lbl">${T('dash_stat1_lbl')}</div><div class="s-val num">${PESO(salesTotal)}</div><div class="s-sub">${cnt} ${T('dash_stat1_sub')}</div></div>
-    <div class="stat"><div class="s-lbl">${T('dash_stat2_lbl')}</div><div class="s-val num">${PESO(Math.round(ave))}</div><div class="s-sub">${T('dash_stat2_sub')}</div></div>
-    <div class="stat"><div class="s-lbl">${T('dash_stat3_lbl')}</div><div class="s-val num" style="color:var(--alert)">${PESO(totalUtang)}</div><div class="s-sub">${T('dash_stat3_sub')}</div></div>
-    <div class="stat"><div class="s-lbl">${T('dash_stat4_lbl')}</div><div class="s-val num" style="color:${low.length?'var(--alert)':'var(--navy)'}">${low.length}</div><div class="s-sub">${T('dash_stat4_sub')}</div></div>
+    <div class="stat accent"><div class="s-lbl">💰 Benta ngayon</div><div class="s-val num">${PESO(salesTotal)}</div><div class="s-sub">${cnt} transaksyon</div></div>
+    <div class="stat"><div class="s-lbl">🧾 Average bawat benta</div><div class="s-val num">${PESO(Math.round(ave))}</div><div class="s-sub">per transaksyon</div></div>
+    <div class="stat"><div class="s-lbl">📒 Nakalistang utang</div><div class="s-val num" style="color:var(--alert)">${PESO(totalUtang)}</div><div class="s-sub">hindi pa bayad</div></div>
+    <div class="stat"><div class="s-lbl">⚠️ Paubos na stock</div><div class="s-val num" style="color:${low.length?'var(--alert)':'var(--navy)'}">${low.length}</div><div class="s-sub">produkto</div></div>
   </div>
   <div class="dash-cols">
     <div class="cardbox">
-      <div class="cardbox-head"><h3>${T('dash_bestsellers')}</h3></div>
+      <div class="cardbox-head"><h3>Pinakamabentang Produkto</h3></div>
       <div class="bars">
         ${top.map(p=>`<div class="bar-row" style="align-items:center">
           <img src="${p.photo||''}" alt="" style="width:30px;height:30px;border-radius:7px;object-fit:cover;flex-shrink:0;margin-right:8px;background:var(--surface-2)"
@@ -1330,294 +899,28 @@ function renderDash(){
       </div>
     </div>
     <div class="cardbox">
-      <div class="cardbox-head"><h3>${T('dash_payment_methods')}</h3></div>
+      <div class="cardbox-head"><h3>Paraan ng Bayad</h3></div>
       <div style="padding:18px 20px">
         <div class="split">
           ${Object.entries(byMethod).map(([m,v])=>v>0?`<div style="width:${v/methodTotal*100}%;background:${methodColors[m]}"></div>`:'').join('')}
         </div>
         <div class="legend">
           ${Object.entries(byMethod).map(([m,v])=>`<div class="lg"><span class="sw" style="background:${methodColors[m]}"></span>
-            ${({cash:T('pay_cash'),gcash:T('pay_gcash'),maya:T('pay_maya'),utang:T('pay_utang')})[m]}<b class="num">${PESO(v)}</b></div>`).join('')}
+            ${({cash:'Cash',gcash:'GCash',maya:'Maya',utang:'Utang'})[m]}<b class="num">${PESO(v)}</b></div>`).join('')}
         </div>
       </div>
-      <div class="cardbox-head" style="border-top:1px solid var(--line)"><h3 style="font-size:15px">${T('dash_reorder')}</h3></div>
+      <div class="cardbox-head" style="border-top:1px solid var(--line)"><h3 style="font-size:15px">Kailangang i-order</h3></div>
       <div style="padding:10px 20px 18px">
         ${low.length? low.map(p=>`<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13.5px">
           <span>${p.emoji} ${p.name}</span><b style="color:var(--alert)" class="num">${p.stock} na lang</b></div>`).join('')
-          : `<div style="color:var(--navy);font-size:13.5px">${T('dash_stock_ok')}</div>`}
+          : '<div style="color:var(--navy);font-size:13.5px">✓ Sapat pa ang lahat ng stock.</div>'}
       </div>
     </div>
   </div>
   <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:22px">
-    ${T('dash_hint')}
+    Lahat ng numerong ito ay auto-update tuwing may benta o bayad. Subukan: gumawa ng benta sa <b>Benta</b> tab, balik dito — kusang nagbago.
   </p>`;
 }
-
-
-/* ═══════════ OWNER DASHBOARD ═══════════ */
-function renderOwner(){
-  const data = BRANCH_STATS[ownerPeriod];
-  const sorted = [...data].sort((a,b)=>b.rev-a.rev);
-  const topRev  = sorted[0].rev;
-  const botRev  = sorted[sorted.length-1].rev;
-  const totalRev  = data.reduce((s,d)=>s+d.rev,0);
-  const totalTxn  = data.reduce((s,d)=>s+d.txn,0);
-  const totalCred = data.reduce((s,d)=>s+d.credit,0);
-  const avgBranch = Math.round(totalRev/data.length);
-  const avgTxn    = Math.round(totalRev/totalTxn);
-  const topBr = BRANCHES.find(b=>b.id===sorted[0].b);
-  const totalDig  = data.reduce((s,d)=>s+d.rev*d.dig,0);
-  const digPct    = Math.round(totalDig/totalRev*100);
-  const collectRate = Math.round(totalRev/(totalRev+totalCred)*100);
-  const dayStr = TODAY.toLocaleDateString(lang==='tl'?'fil-PH':'en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-
-  // colour helpers
-  const rateColor = r => r>=85?'#1A6B45':r>=65?'var(--accent)':'var(--alert)';
-  const rankClass = i => ['r1','r2','r3'][i]||'rn';
-
-  $('view').innerHTML = `<div class="ow-wrap">
-
-  <!-- Header row -->
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-    <div>
-      <div style="font-family:var(--font-display);font-size:21px;font-weight:700;letter-spacing:-.2px">${T('nav_owner_title')}</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:3px">${dayStr} &nbsp;·&nbsp; ${BRANCHES.length} branches</div>
-    </div>
-    <div class="period-tabs">
-      <button class="period-tab ${ownerPeriod==='today'?'active':''}" onclick="setPeriod('today')">${T('owner_period_today')}</button>
-      <button class="period-tab ${ownerPeriod==='week'?'active':''}" onclick="setPeriod('week')">${T('owner_period_week')}</button>
-      <button class="period-tab ${ownerPeriod==='month'?'active':''}" onclick="setPeriod('month')">${T('owner_period_month')}</button>
-    </div>
-  </div>
-
-  <!-- KPI strip: 6 cells side by side -->
-  <div class="kpi-strip">
-    <div class="kpi-cell accent">
-      <div class="kl">${T('owner_kpi_total_rev')}</div>
-      <div class="kv num">${PESO(totalRev)}</div>
-      <div class="ks">${BRANCHES.length} branches combined</div>
-    </div>
-    <div class="kpi-cell">
-      <div class="kl">${T('owner_kpi_total_txn')}</div>
-      <div class="kv num">${totalTxn.toLocaleString()}</div>
-      <div class="ks">${PESO(avgTxn)} per transaction</div>
-    </div>
-    <div class="kpi-cell good-cell">
-      <div class="kl">🏆 ${T('owner_kpi_best')}</div>
-      <div class="kv" style="font-size:17px;letter-spacing:0">${topBr.name.replace('GK — ','')}</div>
-      <div class="ks">${PESO(sorted[0].rev)} · ${sorted[0].txn} txn</div>
-    </div>
-    <div class="kpi-cell">
-      <div class="kl">${T('owner_kpi_avg_branch')}</div>
-      <div class="kv num">${PESO(avgBranch)}</div>
-      <div class="ks">${PESO(topRev - avgBranch)} below top</div>
-    </div>
-    <div class="kpi-cell warn-cell">
-      <div class="kl">⚠ ${T('owner_kpi_total_credit')}</div>
-      <div class="kv num">${PESO(totalCred)}</div>
-      <div class="ks">${100-collectRate}% of total uncollected</div>
-    </div>
-    <div class="kpi-cell ${collectRate>=80?'good-cell':'warn-cell'}">
-      <div class="kl">Collection Rate</div>
-      <div class="kv num">${collectRate}%</div>
-      <div class="ks">${PESO(Math.round(totalDig+totalRev*(collectRate/100)-totalDig))} cash recovered</div>
-    </div>
-  </div>
-
-  <!-- Branch heatmap strip (at a glance view) -->
-  <div class="cardbox" style="padding:18px 20px">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px">At-a-Glance — All Branches</div>
-    <div class="heat-strip">
-      ${[...data].sort((a,b)=>b.rev-a.rev).map((d,i)=>{
-        const br = BRANCHES.find(b=>b.id===d.b);
-        const intensity = 0.15 + 0.85*(d.rev/topRev);
-        // Navy base hex blended by intensity
-        const lightness = Math.round(15 + (1-intensity)*55);
-        const bg = `hsl(228,${Math.round(65-intensity*20)}%,${lightness}%)`;
-        const fg = lightness < 45 ? '#fff' : '#1a2060';
-        const collectPct = Math.round(d.rev/(d.rev+d.credit)*100);
-        return `<div class="heat-cell" style="background:${bg}" onclick="openBranchDetail(${d.b})" title="${br.name}">
-          <div class="hc-name" style="color:${fg};opacity:.8">${br.name.replace('GK — ','').split(' ')[0]}</div>
-          <div class="hc-rev" style="color:${fg}">${PESO(d.rev)}</div>
-          <div class="hc-txn" style="color:${fg}">${d.txn} txn</div>
-          <div style="margin-top:5px;height:3px;border-radius:2px;background:rgba(255,255,255,.2);overflow:hidden">
-            <div style="height:100%;width:${collectPct}%;background:${lightness<45?'rgba(255,255,255,.7)':'rgba(26,107,69,.7)'}"></div>
-          </div>
-        </div>`;
-      }).join('')}
-    </div>
-    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10.5px;color:var(--muted);font-weight:500">
-      <span>Darker = higher revenue &nbsp;·&nbsp; bottom bar = collection rate</span>
-      <span>Click any branch for details</span>
-    </div>
-  </div>
-
-  <!-- Main section: branch bars + right panel -->
-  <div class="rev-grid">
-
-    <!-- Branch bar chart -->
-    <div class="cardbox">
-      <div class="cardbox-head" style="padding:14px 22px">
-        <h3>Branch Revenue</h3>
-        <span style="margin-left:auto;font-size:11.5px;color:var(--muted);font-weight:500">${T('owner_period_'+ownerPeriod)} · tap row for detail</span>
-      </div>
-      ${sorted.map((d,i)=>{
-        const br = BRANCHES.find(b=>b.id===d.b);
-        const pct = Math.max(6, Math.round(d.rev/topRev*100));
-        const vsTop = i===0 ? {txt:'★ Top',cls:'top'} : {txt:'−'+Math.round((1-d.rev/topRev)*100)+'%',cls:'neg'};
-        return `<div class="brow" onclick="openBranchDetail(${d.b})">
-          <div class="brow-rank"><div class="rank-pip ${rankClass(i)}">${i+1}</div></div>
-          <div class="brow-name">
-            <div class="bn" style="display:flex;align-items:center;gap:6px">
-              <span style="width:8px;height:8px;border-radius:50%;background:${br.color};flex-shrink:0"></span>
-              ${br.name.replace('GK — ','')}
-            </div>
-            <div class="ba">${br.area}</div>
-          </div>
-          <div class="brow-bar">
-            <div class="bbar-bg">
-              <div class="bbar-fg" style="width:${pct}%;background:${br.color}">
-                ${pct>28?`<span class="bl">${PESO(d.rev)}</span>`:''}
-              </div>
-            </div>
-          </div>
-          <div class="brow-rev">
-            <div class="rv">${PESO(d.rev)}</div>
-            <div class="rd ${vsTop.cls}">${vsTop.txt}</div>
-          </div>
-        </div>`;
-      }).join('')}
-    </div>
-
-    <!-- Right panel -->
-    <div class="rpanel">
-
-      <!-- Collection health per branch -->
-      <div class="cardbox">
-        <div class="cardbox-head" style="padding:14px 18px"><h3>Collection Health</h3></div>
-        <div style="padding:10px 18px 14px">
-          ${sorted.map(d=>{
-            const br = BRANCHES.find(b=>b.id===d.b);
-            const rate = Math.round(d.rev/(d.rev+d.credit)*100);
-            const fc = rateColor(rate);
-            return `<div class="collect-row">
-              <div class="cr-name">
-                <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${br.color};margin-right:5px;vertical-align:middle"></span>
-                ${br.name.replace('GK — ','')}
-              </div>
-              <div class="cr-bar"><div class="cr-fill" style="width:${rate}%;background:${fc}"></div></div>
-              <div class="cr-pct" style="color:${fc}">${rate}%</div>
-              <div class="cr-credit">−${PESO(d.credit)}</div>
-            </div>`;
-          }).join('')}
-        </div>
-      </div>
-
-      <!-- Digital vs Cash split -->
-      <div class="cardbox">
-        <div class="cardbox-head" style="padding:14px 18px"><h3>${T('owner_digital_split')}</h3></div>
-        <div style="padding:14px 18px 16px">
-          <div class="dsplit-bar">
-            <div style="width:${digPct}%;background:var(--accent)"></div>
-            <div style="flex:1;background:var(--navy)"></div>
-          </div>
-          <div class="dsplit-leg">
-            <span><span class="dsplit-dot" style="background:var(--accent)"></span>Digital &nbsp;<b>${digPct}%</b> &nbsp;<span style="color:var(--muted);font-weight:400">${PESO(Math.round(totalDig))}</span></span>
-            <span><b>${100-digPct}%</b> Cash &nbsp;<span style="color:var(--muted);font-weight:400">${PESO(Math.round(totalRev-totalDig))}</span> <span class="dsplit-dot" style="background:var(--navy)"></span></span>
-          </div>
-          <div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
-            ${[...data].sort((a,b)=>b.dig-a.dig).map(d=>{
-              const br=BRANCHES.find(b=>b.id===d.b);
-              const dp=Math.round(d.dig*100);
-              return `<div style="display:flex;align-items:center;gap:8px">
-                <span style="width:7px;height:7px;border-radius:50%;background:${br.color};flex-shrink:0"></span>
-                <span style="font-size:11.5px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${br.name.replace('GK — ','')}</span>
-                <div style="width:70px;height:5px;background:var(--surface-2);border-radius:3px;overflow:hidden;border:1px solid var(--line)">
-                  <div style="height:100%;width:${dp}%;background:var(--accent);border-radius:3px"></div>
-                </div>
-                <span style="font-size:11px;font-weight:700;color:var(--accent);width:28px;text-align:right">${dp}%</span>
-              </div>`;
-            }).join('')}
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /rpanel -->
-  </div><!-- /rev-grid -->
-  </div><!-- /ow-wrap -->`;
-}
-
-function setPeriod(p){ ownerPeriod=p; renderOwner(); }
-
-function openBranchDetail(branchId){
-  const br  = BRANCHES.find(b=>b.id===branchId);
-  const d   = BRANCH_STATS[ownerPeriod].find(x=>x.b===branchId);
-  const sorted = [...BRANCH_STATS[ownerPeriod]].sort((a,b)=>b.rev-a.rev);
-  const rank   = sorted.findIndex(x=>x.b===branchId)+1;
-  const topRev = sorted[0].rev;
-  const avgSale   = Math.round(d.rev/d.txn);
-  const collectRate = Math.round(d.rev/(d.rev+d.credit)*100);
-  const digAmt  = Math.round(d.rev*d.dig);
-  const cashAmt = d.rev - digAmt;
-  const gapToTop = rank===1 ? null : sorted[0].rev - d.rev;
-  const rateColor = collectRate>=85?'#1A6B45':collectRate>=65?'var(--accent)':'var(--alert)';
-  const periodLabel = T('owner_period_'+ownerPeriod);
-
-  openModal(`
-    <div class="modal-head" style="padding:20px 22px 8px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:2px">
-        <span style="width:12px;height:12px;border-radius:50%;background:${br.color};flex-shrink:0"></span>
-        <h3 style="font-size:18px">${br.name}</h3>
-        <span style="margin-left:auto;background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:3px 9px;font-size:11px;font-weight:700;color:var(--muted)">#${rank} of ${BRANCHES.length}</span>
-      </div>
-      <p style="padding-left:22px">${br.area} &nbsp;·&nbsp; ${periodLabel}${gapToTop?` &nbsp;·&nbsp; <span style="color:var(--alert)">${PESO(gapToTop)} behind #1</span>`:' &nbsp;·&nbsp; <span style="color:#1A6B45">🏆 Top Branch</span>'}</p>
-    </div>
-    <div class="modal-body" style="padding:10px 22px 20px">
-      <div class="bdetail-kpis">
-        <div class="bdk"><div class="bdk-lbl">Revenue</div><div class="bdk-val num">${PESO(d.rev)}</div></div>
-        <div class="bdk"><div class="bdk-lbl">Transactions</div><div class="bdk-val num">${d.txn}</div></div>
-        <div class="bdk"><div class="bdk-lbl">Avg per Sale</div><div class="bdk-val num">${PESO(avgSale)}</div></div>
-        <div class="bdk" style="background:var(--alert-soft)"><div class="bdk-lbl" style="color:var(--alert)">Outstanding Credit</div><div class="bdk-val num" style="color:var(--alert)">${PESO(d.credit)}</div></div>
-      </div>
-      <div style="margin-bottom:14px">
-        <div style="display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px">
-          <span>Collection Rate</span><span style="color:${rateColor}">${collectRate}%</span>
-        </div>
-        <div class="bdetail-collect"><div class="bdetail-fill" style="width:${collectRate}%;background:${rateColor}"></div></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--muted)">
-          <span>${PESO(d.rev)} collected</span><span style="color:var(--alert)">${PESO(d.credit)} unpaid</span>
-        </div>
-      </div>
-      <div class="bdetail-split">
-        <div class="bds-pill" style="background:var(--accent-soft)">
-          <div class="bdp-lbl" style="color:var(--accent-deep)">Digital (GCash/Maya)</div>
-          <div class="bdp-val" style="color:var(--accent)">${Math.round(d.dig*100)}%</div>
-          <div class="bdp-sub">${PESO(digAmt)}</div>
-        </div>
-        <div class="bds-pill" style="background:var(--navy-soft)">
-          <div class="bdp-lbl" style="color:var(--navy)">Cash</div>
-          <div class="bdp-val" style="color:var(--navy)">${Math.round((1-d.dig)*100)}%</div>
-          <div class="bdp-sub">${PESO(cashAmt)}</div>
-        </div>
-      </div>
-      <div style="background:var(--surface-2);border-radius:10px;padding:10px 14px;margin-top:10px;display:flex;align-items:center;gap:10px">
-        <span style="font-size:20px">🏆</span>
-        <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">Top Product</div>
-        <div style="font-weight:600;font-size:14px">${d.top}</div></div>
-        <div style="margin-left:auto;text-align:right">
-          <div style="font-size:10px;color:var(--muted);font-weight:600">vs Network Avg</div>
-          <div style="font-size:13px;font-weight:700;color:${d.rev>=totalRev/BRANCHES.length?'#1A6B45':'var(--alert)'}">${d.rev>=totalRev/BRANCHES.length?'Above avg':'Below avg'}</div>
-        </div>
-      </div>
-      <div class="modal-foot" style="margin-top:14px">
-        <button class="btn btn-ghost" onclick="closeModal()" style="flex:1">${T('owner_close')}</button>
-      </div>
-    </div>`);
-
-  // compute totalRev inside modal scope
-  const totalRev = BRANCH_STATS[ownerPeriod].reduce((s,x)=>s+x.rev,0);
-}
-
 
 /* ============ MODAL + TOAST ============ */
 function openModal(html){ $('modal').innerHTML=html; $('scrim').classList.add('show'); }
@@ -1631,8 +934,6 @@ function toast(msg){ $('toastMsg').textContent=msg; $('toast').classList.add('sh
 /* ============ INIT ============ */
 ['favicon','brandLogo','topLogo'].forEach(id=>{ const el=$(id); if(el) el.src=LOGO; });
 renderNav(); go('pos');
-// set initial toggle label
-const _lt=$('langToggle'); if(_lt) _lt.querySelector('span').textContent=T('lang_toggle_label');
 </script>
 </body>
 </html>
