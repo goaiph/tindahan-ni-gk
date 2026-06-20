@@ -3,298 +3,622 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tindahan ni GK — Store System Demo</title>
+<title>Tindahan ni GK — Store System Demo (EN)</title>
 <link rel="icon" type="image/png" id="favicon" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
 <style>
-    :root{
-    --bg:#EEF1F8;
-    --surface:#FFFFFF;
-    --surface-2:#F5F7FC;
-    --ink:#0B1020;
-    --muted:#5E6580;
-    --navy:#0A1130;
-    --navy-2:#12193C;
-    --navy-soft:#E8EBF7;
-    --accent:#3B5BBF;
-    --accent-deep:#2B3F86;
-    --accent-soft:#E4EAFB;
-    --alert:#C0392B;
-    --alert-soft:#FBE7E4;
-    --line:#E2E6F1;
-    --line-2:#D2D8E8;
-    --shadow:0 1px 3px rgba(11,16,32,.06), 0 4px 16px rgba(11,16,32,.08);
-    --shadow-lg:0 8px 32px rgba(11,16,32,.12), 0 2px 8px rgba(11,16,32,.06);
-    --font-ui:'Inter',system-ui,sans-serif;
-    --font-display:'Playfair Display',Georgia,serif;
-    --radius:16px;
-    --radius-sm:11px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    font-family:var(--font-ui);
-    font-feature-settings:'kern' 1,'liga' 1,'calt' 1;
-    background:var(--bg);
-    color:var(--ink);
-    -webkit-font-smoothing:antialiased;
-    font-size:15px;
-    line-height:1.45;
-  }
-  .num{font-variant-numeric:tabular-nums}
-  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  button:focus-visible, .tab:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
-  input{font-family:inherit;font-size:15px}
+/* ═══════════════════════════════════════════════
+   TINDAHAN NI GK — Mobile-First CSS
+   Base = 375px phone. Scales up via min-width.
+═══════════════════════════════════════════════ */
 
-  /* ---------- App shell ---------- */
-  .app{display:flex;min-height:100vh}
+/* ── Reset & Tokens ── */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+:root{
+  --bg:#EEF1F8;
+  --surface:#FFFFFF;
+  --sf2:#F5F7FC;
+  --ink:#0B1020;
+  --muted:#5E6580;
+  --navy:#0A1130;
+  --navy2:#12193C;
+  --navy-soft:#E8EBF7;
+  --accent:#3B5BBF;
+  --accent-deep:#2B3F86;
+  --accent-soft:#E4EAFB;
+  --alert:#C0392B;
+  --alert-soft:#FBE7E4;
+  --ok:#1A6B45;
+  --ok-soft:#E2F0E8;
+  --line:#E2E6F1;
+  --line2:#D2D8E8;
+  --sh:0 1px 3px rgba(11,16,32,.06),0 4px 16px rgba(11,16,32,.08);
+  --sh-lg:0 8px 32px rgba(11,16,32,.12),0 2px 8px rgba(11,16,32,.06);
+  --r:16px;
+  --r-sm:11px;
+  --fu:'Inter',system-ui,sans-serif;
+  --fd:'Playfair Display',Georgia,serif;
+}
+body{
+  font-family:var(--fu);
+  font-size:15px;line-height:1.45;
+  background:var(--bg);color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:'kern' 1,'liga' 1,'calt' 1;
+  /* prevent horizontal scroll on mobile */
+  overflow-x:hidden;
+}
+.num{font-variant-numeric:tabular-nums}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+input,select{font-family:inherit;font-size:15px}
+img{max-width:100%}
+
+/* ═══════════════════════════════════════════════
+   APP SHELL — mobile: topbar + bottom nav only
+═══════════════════════════════════════════════ */
+.app{display:flex;min-height:100vh}
+.sidebar{display:none} /* hidden on mobile */
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+
+/* Topbar */
+.topbar{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;border-bottom:1px solid var(--line);
+  background:var(--surface);position:sticky;top:0;z-index:20;
+}
+.topbar-logo{width:32px;height:32px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 2px rgba(10,17,48,.08)}
+.topbar .page-title{font-family:var(--fd);font-size:18px;font-weight:700;letter-spacing:-.2px;line-height:1.1}
+.topbar .page-sub{font-size:11px;color:var(--muted);margin-top:1px;font-weight:500;letter-spacing:.1px}
+.demo-pill{
+  display:flex;align-items:center;gap:5px;
+  background:var(--accent-soft);color:var(--accent-deep);
+  font-weight:700;font-size:10px;padding:4px 9px;border-radius:30px;
+  letter-spacing:.4px;text-transform:uppercase;flex-shrink:0;
+}
+.demo-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Main view area — leaves room for bottom nav */
+.view{padding:14px 14px 130px;flex:1}
+
+/* Bottom nav — always visible on mobile */
+.mobnav{
+  display:flex;position:fixed;bottom:0;left:0;right:0;
+  background:var(--navy);z-index:50;
+  padding:6px 4px env(safe-area-inset-bottom,6px);
+  justify-content:space-around;
+  box-shadow:0 -4px 20px rgba(0,0,0,.2);
+}
+.mobnav button{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  color:#8A9AC8;font-size:9px;font-weight:600;
+  padding:5px 6px;border-radius:10px;
+  position:relative;min-width:0;flex:1;
+  transition:.12s;
+}
+.mobnav button.active{color:#fff}
+.mobnav .ic{width:20px;height:20px;opacity:.65}
+.mobnav button.active .ic{opacity:1}
+.mobnav .mbadge{
+  position:absolute;top:1px;right:4px;
+  background:var(--alert);color:#fff;
+  font-size:8px;font-weight:700;padding:0 4px;border-radius:8px;
+}
+
+/* ═══════════════════════════════════════════════
+   POS
+═══════════════════════════════════════════════ */
+.pos{display:flex;flex-direction:column;gap:0}
+.pos-left{min-width:0}
+.search-row{margin-bottom:12px}
+.search{
+  display:flex;align-items:center;gap:9px;
+  background:var(--surface);border:1px solid var(--line2);
+  border-radius:12px;padding:0 14px;box-shadow:var(--sh);
+}
+.search input{border:none;background:none;outline:none;padding:12px 0;width:100%;color:var(--ink);font-weight:500}
+.search svg{opacity:.5;flex-shrink:0}
+.cats{
+  display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.cats::-webkit-scrollbar{display:none}
+.cat{
+  white-space:nowrap;padding:6px 13px;border-radius:30px;
+  background:var(--surface);border:1px solid var(--line2);
+  font-weight:600;font-size:11px;color:var(--muted);
+  letter-spacing:.3px;text-transform:uppercase;transition:.12s;flex-shrink:0;
+}
+.cat.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+/* Product grid — 2 cols on phone */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.prod{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  text-align:left;transition:.15s cubic-bezier(.2,.8,.2,1);position:relative;
+  box-shadow:var(--sh);display:flex;flex-direction:column;overflow:hidden;cursor:pointer;
+}
+.prod:active{transform:scale(.97)}
+.prod-img-wrap{position:relative;overflow:hidden}
+.prod-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--sf2);transition:transform .4s}
+.prod-body{padding:8px 10px 10px;display:flex;flex-direction:column;gap:2px;flex:1}
+.prod .pname{font-weight:600;font-size:12px;line-height:1.3;color:var(--ink)}
+.prod .pprice{font-family:var(--fd);font-weight:700;color:var(--navy);font-size:15px;margin-top:auto;padding-top:4px;font-feature-settings:'tnum' 1}
+.prod .pstock{
+  position:absolute;top:7px;right:7px;font-size:9px;font-weight:800;
+  color:#fff;background:rgba(10,17,48,.65);backdrop-filter:blur(6px);
+  padding:2px 7px;border-radius:20px;letter-spacing:.4px;text-transform:uppercase;
+}
+.prod.low .pstock{background:rgba(192,57,43,.82)}
+.prod.out{opacity:.5;pointer-events:none}
+.prod.out::after{
+  content:'Out';position:absolute;inset:0;display:grid;place-items:center;
+  background:rgba(255,255,255,.72);backdrop-filter:blur(3px);
+  font-weight:800;color:var(--alert);font-size:13px;border-radius:var(--r);
+}
+
+/* Cart — slides up from bottom on mobile */
+.cart{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--sh);display:flex;flex-direction:column;
+  position:fixed;bottom:60px;left:0;right:0;
+  border-radius:18px 18px 0 0;max-height:65vh;
+  box-shadow:0 -8px 28px rgba(0,0,0,.16);z-index:40;
+  transform:translateY(calc(100% - 58px));transition:.28s cubic-bezier(.3,.8,.3,1);
+}
+.cart.open{transform:translateY(0)}
+.cart-head{
+  padding:14px 16px 10px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:9px;cursor:pointer;
+  /* drag handle */
+  background:var(--surface);border-radius:18px 18px 0 0;
+}
+.cart-head::before{
+  content:'';display:block;width:36px;height:4px;border-radius:2px;
+  background:var(--line2);position:absolute;top:8px;left:50%;transform:translateX(-50%);
+}
+.cart-head h3{font-family:var(--fd);font-size:16px;font-weight:700;letter-spacing:-.2px}
+.cart-head .count{margin-left:auto;background:var(--navy-soft);color:var(--navy);font-weight:700;font-size:11px;padding:2px 9px;border-radius:20px}
+.cart-items{overflow-y:auto;padding:4px 8px;flex:1;min-height:60px;-webkit-overflow-scrolling:touch}
+.citem{display:flex;align-items:center;gap:8px;padding:8px 8px;border-radius:10px}
+.citem:hover{background:var(--sf2)}
+.citem .ci-name{font-weight:600;font-size:12.5px;line-height:1.2}
+.citem .ci-price{font-size:11px;color:var(--muted)}
+.qty{display:flex;align-items:center;background:var(--sf2);border-radius:9px;border:1px solid var(--line2)}
+.qty button{width:28px;height:28px;display:grid;place-items:center;font-weight:700;color:var(--navy);font-size:18px}
+.qty span{min-width:26px;text-align:center;font-weight:700;font-size:13px}
+.ci-total{font-weight:700;font-size:13px;min-width:52px;text-align:right}
+.cart-empty{text-align:center;color:var(--muted);padding:28px 20px;font-size:13px}
+.cart-empty .big{font-size:26px;margin-bottom:6px;opacity:.6}
+.cart-foot{
+  border-top:1px solid var(--line);padding:12px 14px 14px;
+  background:var(--sf2);border-radius:0 0 var(--r) var(--r);
+}
+.totals .row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-bottom:3px}
+.totals .grand{display:flex;justify-content:space-between;align-items:baseline;margin:7px 0 10px}
+.totals .grand .lbl{font-weight:600;font-size:13.5px}
+.totals .grand .amt{font-family:var(--fd);font-weight:700;font-size:24px;color:var(--navy);letter-spacing:-.5px}
+.pay-methods{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.pm{
+  padding:8px 4px;border-radius:10px;border:1.5px solid var(--line2);background:var(--surface);
+  font-weight:600;font-size:10.5px;letter-spacing:.2px;text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:3px;transition:.1s;
+}
+.pm .pm-ic{font-size:14px}
+.pm.active{border-color:var(--navy);background:var(--navy-soft);color:var(--navy)}
+.pm.active.utang{border-color:var(--alert);background:var(--alert-soft);color:var(--alert)}
+.btn{width:100%;padding:13px;border-radius:12px;font-weight:700;font-size:13px;letter-spacing:.3px;text-transform:uppercase;transition:.12s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-go{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(59,91,191,.32)}
+.btn-go:hover{background:var(--accent-deep)}
+.btn-go:disabled{background:var(--line2);color:var(--muted);box-shadow:none;cursor:not-allowed}
+.btn-ghost{background:var(--sf2);color:var(--ink);border:1px solid var(--line2)}
+.btn-ghost:hover{background:var(--line)}
+.btn-green{background:var(--navy);color:#fff}
+.btn-green:hover{background:var(--navy2)}
+
+/* ═══════════════════════════════════════════════
+   SHARED CARDS / TABLES
+═══════════════════════════════════════════════ */
+.cardbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.cardbox-head{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cardbox-head h3{font-family:var(--fd);font-size:15px;font-weight:700;letter-spacing:-.2px}
+/* Mobile tables: horizontal scroll */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+th{
+  text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.8px;
+  color:var(--muted);font-weight:700;padding:10px 14px;
+  border-bottom:1px solid var(--line);background:var(--sf2);white-space:nowrap;
+}
+th.r,td.r{text-align:right}
+td{padding:11px 14px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle;letter-spacing:-.1px}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--sf2)}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase}
+.tag.ok{background:var(--navy-soft);color:var(--navy)}
+.tag.low{background:var(--alert-soft);color:var(--alert)}
+.tag.warn{background:var(--accent-soft);color:#8a5807}
+.mini-btn{padding:7px 12px;border-radius:9px;font-weight:600;font-size:12px;letter-spacing:.1px;border:1px solid var(--line2);background:var(--surface);white-space:nowrap}
+.mini-btn:hover{border-color:var(--navy);color:var(--navy)}
+.mini-btn.solid{background:var(--navy);color:#fff;border-color:var(--navy)}
+.mini-btn.solid:hover{background:var(--navy2)}
+.mini-btn.clay{background:var(--alert);color:#fff;border-color:var(--alert)}
+
+/* ═══════════════════════════════════════════════
+   DASHBOARD (per-branch)
+═══════════════════════════════════════════════ */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 15px;box-shadow:var(--sh)}
+.stat .s-lbl{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.7px;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.stat .s-val{font-family:var(--fd);font-size:26px;font-weight:700;margin-top:7px;line-height:1;letter-spacing:-.5px;font-feature-settings:'tnum' 1}
+.stat .s-sub{font-size:10.5px;color:var(--muted);margin-top:5px;font-weight:500}
+.stat.accent{background:var(--navy);border-color:var(--navy)}
+.stat.accent .s-lbl{color:#AEB7D8}
+.stat.accent .s-val{color:#fff}
+.stat.accent .s-sub{color:#9098BC}
+.dash-cols{display:flex;flex-direction:column;gap:14px}
+.bars{padding:14px 16px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.bar-row .bl{width:90px;font-size:12.5px;font-weight:600;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:10px;background:var(--sf2);border-radius:20px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#3B5BBF);border-radius:20px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.bar-row .bv{font-size:12px;font-weight:700;color:var(--muted);width:36px;text-align:right;flex-shrink:0}
+.split{display:flex;border-radius:10px;overflow:hidden;height:14px;margin:6px 0 12px;border:1px solid var(--line)}
+.split>div{height:100%}
+.legend{display:flex;flex-direction:column;gap:8px}
+.legend .lg{display:flex;align-items:center;gap:8px;font-size:13px}
+.legend .sw{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.legend .lg b{margin-left:auto;font-variant-numeric:tabular-nums}
+
+/* ═══════════════════════════════════════════════
+   MODAL & TOAST
+═══════════════════════════════════════════════ */
+.scrim{
+  position:fixed;inset:0;background:rgba(11,16,32,.48);backdrop-filter:blur(2px);
+  display:none;align-items:flex-end;justify-content:center;z-index:60;padding:0 0 env(safe-area-inset-bottom);
+  animation:fade .15s;
+}
+.scrim.show{display:flex}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+/* Modal slides up from bottom on mobile */
+.modal{
+  background:var(--surface);border-radius:20px 20px 0 0;width:100%;
+  max-height:92vh;overflow-y:auto;
+  box-shadow:0 -8px 40px rgba(0,0,0,.22);
+  animation:slideup .25s cubic-bezier(.2,.9,.3,1);
+}
+@keyframes slideup{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
+.modal-head{padding:18px 18px 4px}
+.modal-head h3{font-family:var(--fd);font-size:19px;font-weight:700;letter-spacing:-.3px}
+.modal-head p{font-size:12px;color:var(--muted);margin-top:3px;font-weight:500}
+.modal-body{padding:12px 18px 28px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:10px;font-weight:700;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.7px}
+.field input,.field select{width:100%;padding:13px;border:1.5px solid var(--line2);border-radius:11px;background:var(--sf2);outline:none;color:var(--ink);font-weight:500;font-size:15px}
+.field input:focus,.field select:focus{border-color:var(--navy);background:var(--surface)}
+.modal-foot{display:flex;gap:8px;margin-top:8px}
+.modal-foot .btn{padding:13px}
+
+.receipt{font-family:var(--fu);padding:4px 0 2px}
+.receipt .r-line{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:4px 0;color:var(--muted)}
+.receipt .r-line.b{color:var(--ink);font-weight:600}
+.receipt .r-div{border-top:1px dashed var(--line2);margin:8px 0}
+.receipt .r-grand{display:flex;justify-content:space-between;font-family:var(--fd);font-weight:700;font-size:17px;color:var(--navy);margin:4px 0;letter-spacing:-.2px}
+.receipt .r-change{display:flex;justify-content:space-between;font-weight:700;font-size:14px;color:var(--accent-deep);background:var(--accent-soft);padding:8px 12px;border-radius:10px;margin-top:8px}
+.check-ic{width:50px;height:50px;border-radius:50%;background:var(--navy-soft);display:grid;place-items:center;margin:0 auto 10px}
+
+.toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);
+  background:var(--ink);color:#fff;padding:11px 18px;border-radius:12px;
+  font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,.28);z-index:90;opacity:0;
+  transition:.28s cubic-bezier(.2,.9,.3,1.2);pointer-events:none;white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast .t-ic{color:var(--accent)}
+
+/* Ledger */
+.ledger-list{padding:4px 0}
+.ledger-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line)}
+.ledger-item:last-child{border:none}
+.ledger-item .li-ic{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;flex-shrink:0;font-size:14px}
+.li-ic.charge{background:var(--alert-soft)}
+.li-ic.pay{background:var(--navy-soft)}
+.ledger-item .li-amt{margin-left:auto;font-weight:700;font-size:13.5px}
+.li-amt.charge{color:var(--alert)}
+.li-amt.pay{color:var(--navy)}
+.empty-note{text-align:center;color:var(--muted);padding:36px;font-size:13.5px}
+
+/* ═══════════════════════════════════════════════
+   OWNER DASHBOARD (mobile-first)
+═══════════════════════════════════════════════ */
+.ow-wrap{display:flex;flex-direction:column;gap:14px}
+
+/* Period tabs */
+.period-tabs{display:flex;gap:3px;background:var(--sf2);border-radius:10px;padding:3px;border:1px solid var(--line)}
+.period-tab{flex:1;padding:7px 6px;border-radius:8px;font-weight:700;font-size:11px;letter-spacing:.3px;text-transform:uppercase;transition:.12s;color:var(--muted);cursor:pointer;border:none;background:none;font-family:var(--fu);text-align:center}
+.period-tab.active{background:var(--navy);color:#fff;box-shadow:0 2px 8px rgba(10,17,48,.22)}
+
+/* KPI strip — 2×3 grid on mobile */
+.kpi-strip{display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.kpi-cell{padding:14px 15px;position:relative;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kpi-cell:nth-child(even){border-right:none}
+.kpi-cell:nth-last-child(-n+2){border-bottom:none}
+.kpi-cell.accent{background:var(--navy);grid-column:span 2;border-right:none}
+.kpi-cell.warn-cell .kv{color:var(--alert)}
+.kpi-cell.good-cell .kv{color:var(--ok)}
+.kl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px}
+.kpi-cell.accent .kl{color:#7A8EC8}
+.kv{font-family:var(--fd);font-size:22px;font-weight:700;line-height:1;letter-spacing:-.4px;font-feature-settings:'tnum' 1;color:var(--ink)}
+.kpi-cell.accent .kv{color:#fff;font-size:26px}
+.ks{font-size:10.5px;color:var(--muted);margin-top:5px;font-weight:500}
+.kpi-cell.accent .ks{color:#7A8EC8}
+
+/* Heatmap */
+.heat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.heat-cell{border-radius:8px;padding:8px 6px;text-align:center;cursor:pointer;transition:.12s;min-height:72px;display:flex;flex-direction:column;justify-content:center}
+.heat-cell:active{filter:brightness(.9)}
+.hc-name{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hc-rev{font-family:var(--fd);font-size:12px;font-weight:700;margin-top:4px;font-feature-settings:'tnum' 1}
+.hc-txn{font-size:9px;font-weight:600;margin-top:1px;opacity:.75}
+
+/* Branch bar rows */
+.rev-grid{display:flex;flex-direction:column;gap:14px}
+.brow{display:flex;align-items:center;gap:0;padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer;transition:.12s;position:relative}
+.brow:last-child{border-bottom:none}
+.brow:active{background:var(--sf2)}
+.brow-rank{width:26px;flex-shrink:0}
+.rank-pip{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font-size:9.5px;font-weight:800}
+.r1{background:#FFD700;color:#5a3d00}
+.r2{background:#E8E8E8;color:#444}
+.r3{background:#E8C49A;color:#6B3A00}
+.rn{background:var(--sf2);color:var(--muted);font-size:9px}
+.brow-name{width:110px;flex-shrink:0;padding-right:10px}
+.brow-name .bn{font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:5px}
+.brow-name .ba{font-size:10px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brow-bar{flex:1;padding-right:10px}
+.bbar-bg{height:28px;background:var(--sf2);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+.bbar-fg{height:100%;border-radius:7px;display:flex;align-items:center;padding:0 8px;min-width:6px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.bbar-fg .bl{font-size:10.5px;font-weight:700;color:#fff;font-feature-settings:'tnum' 1;white-space:nowrap}
+.brow-rev{width:72px;flex-shrink:0;text-align:right}
+.brow-rev .rv{font-family:var(--fd);font-size:13.5px;font-weight:700;letter-spacing:-.2px;font-feature-settings:'tnum' 1}
+.brow-rev .rd{font-size:10px;font-weight:600;margin-top:1px}
+.rd.top{color:var(--ok)}
+.rd.neg{color:var(--muted)}
+
+/* Collection health */
+.rpanel{display:flex;flex-direction:column;gap:14px}
+.collect-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}
+.collect-row:last-child{border:none}
+.cr-name{font-size:11.5px;font-weight:600;width:100px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cr-bar{flex:1;height:7px;background:var(--sf2);border-radius:4px;overflow:hidden;border:1px solid var(--line)}
+.cr-fill{height:100%;border-radius:4px;transition:width .6s}
+.cr-pct{font-size:11px;font-weight:700;width:34px;text-align:right;flex-shrink:0}
+.cr-credit{font-size:10.5px;color:var(--alert);width:60px;text-align:right;flex-shrink:0;font-feature-settings:'tnum' 1}
+
+/* Digital split */
+.dsplit-bar{height:14px;border-radius:8px;overflow:hidden;display:flex;margin:10px 0 6px;border:1px solid var(--line)}
+.dsplit-leg{display:flex;gap:10px;font-size:11.5px;font-weight:600}
+.dsplit-dot{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
+
+/* Branch detail modal */
+.bdetail-kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.bdk{background:var(--sf2);border-radius:10px;padding:11px 13px}
+.bdk-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:4px}
+.bdk-val{font-family:var(--fd);font-size:19px;font-weight:700;letter-spacing:-.3px}
+.bdetail-collect{height:9px;border-radius:5px;background:var(--surface);border:1px solid var(--line);overflow:hidden;margin:6px 0 3px}
+.bdetail-fill{height:100%;border-radius:5px;transition:width .5s}
+.bdetail-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.bds-pill{border-radius:10px;padding:10px 12px;text-align:center}
+.bds-pill .bdp-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.bds-pill .bdp-val{font-family:var(--fd);font-size:19px;font-weight:700}
+.bds-pill .bdp-sub{font-size:10px;color:var(--muted);margin-top:3px}
+
+/* ═══════════════════════════════════════════════
+   TABLET  min-width: 640px
+═══════════════════════════════════════════════ */
+@media(min-width:640px){
+  .view{padding:18px 20px 100px}
+  .topbar{padding:14px 22px}
+  .topbar .page-title{font-size:20px}
+  .topbar-logo{width:34px;height:34px}
+
+  /* POS */
+  .grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+  .pos{display:grid;grid-template-columns:1fr 340px;gap:16px}
+  .cart{
+    position:sticky;top:72px;transform:none;border-radius:var(--r);
+    max-height:calc(100vh - 90px);box-shadow:var(--sh);
+  }
+  .cart-head::before{display:none}
+
+  /* Dashboard */
+  .stat-grid{grid-template-columns:repeat(4,1fr)}
+  .dash-cols{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:start}
+
+  /* Tables — no wrapper scroll needed */
+  table{min-width:0}
+
+  /* Owner */
+  .kpi-strip{grid-template-columns:repeat(3,1fr)}
+  .kpi-cell:nth-child(even){border-right:1px solid var(--line)}
+  .kpi-cell:nth-last-child(-n+2){border-bottom:none}
+  .kpi-cell.accent{grid-column:span 3;border-bottom:1px solid var(--line)}
+  .kpi-cell:nth-child(n+5){border-bottom:none}
+  .heat-strip{grid-template-columns:repeat(8,1fr)}
+  .brow-name{width:130px}
+  .brow-rev{width:82px}
+}
+
+/* ═══════════════════════════════════════════════
+   DESKTOP  min-width: 1024px
+═══════════════════════════════════════════════ */
+@media(min-width:1024px){
+  /* Show sidebar, hide bottom nav */
   .sidebar{
+    display:flex;flex-direction:column;
     width:236px;flex-shrink:0;background:var(--navy);color:#EAEDF8;
-    display:flex;flex-direction:column;padding:22px 16px;position:sticky;top:0;height:100vh;
+    padding:22px 16px;position:sticky;top:0;height:100vh;
   }
-  .brand{display:flex;align-items:center;gap:11px;padding:4px 8px 22px}
-  .brand .mark{
-    width:44px;height:44px;border-radius:50%;flex-shrink:0;
-    background:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.18);overflow:hidden;
-  }
-  .brand .mark img{width:100%;height:100%;display:block;object-fit:cover}
-  .brand h1{font-family:var(--font-display);font-weight:700;font-size:17px;line-height:1.1;letter-spacing:-.1px;color:#fff}
-  .brand span{font-size:10.5px;opacity:.55;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
-  .nav{display:flex;flex-direction:column;gap:3px;margin-top:6px}
-  .nav button{
-    display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:11px;
-    color:#C3CBE6;font-weight:500;font-size:13.5px;letter-spacing:.1px;text-align:left;width:100%;transition:.13s;
-  }
-  .nav button .ic{width:20px;height:20px;flex-shrink:0;opacity:.85}
-  .nav button:hover{background:rgba(255,255,255,.07)}
-  .nav button.active{background:var(--surface);color:var(--navy);box-shadow:var(--shadow)}
-  .nav button.active .ic{opacity:1}
-  .nav .badge{margin-left:auto;background:var(--alert);color:#fff;font-size:11px;font-weight:700;
-    padding:1px 7px;border-radius:20px;min-width:20px;text-align:center}
-  .nav button.active .badge{background:var(--alert)}
-  .side-foot{margin-top:auto;padding:14px 10px 2px;border-top:1px solid rgba(255,255,255,.1);font-size:10.5px;opacity:.55;letter-spacing:.2px}
-  .side-foot b{font-weight:700;opacity:.9}
-
-  .main{flex:1;min-width:0;display:flex;flex-direction:column}
-  .topbar{
-    display:flex;align-items:center;gap:14px;padding:16px 26px;border-bottom:1px solid var(--line);
-    background:var(--surface);position:sticky;top:0;z-index:20;
-  }
-  .topbar-logo{width:34px;height:34px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 2px rgba(10,17,48,.08)}
-  .topbar .page-title{font-family:var(--font-display);font-size:21px;font-weight:700;letter-spacing:-.2px}
-  .topbar .page-sub{font-size:12px;color:var(--muted);margin-top:2px;letter-spacing:.1px;font-weight:500}
-  .demo-pill{margin-left:auto;display:flex;align-items:center;gap:7px;background:var(--accent-soft);
-    color:var(--accent-deep);font-weight:600;font-size:11px;padding:5px 12px;border-radius:30px;letter-spacing:.3px;text-transform:uppercase}
-  .demo-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  .view{padding:22px 26px 90px;flex:1}
-
-  /* ---------- POS ---------- */
-  .pos{display:grid;grid-template-columns:1fr 372px;gap:20px;align-items:start}
-  .pos-left{min-width:0}
-  .search-row{display:flex;gap:10px;margin-bottom:16px}
-  .search{
-    flex:1;display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--line-2);
-    border-radius:12px;padding:0 14px;box-shadow:var(--shadow);
-  }
-  .search input{border:none;background:none;outline:none;padding:13px 0;width:100%;color:var(--ink);font-weight:500;letter-spacing:-.1px}
-  .search svg{opacity:.5;flex-shrink:0}
-  .cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:thin}
-  .cat{white-space:nowrap;padding:6px 14px;border-radius:30px;background:var(--surface);
-    border:1px solid var(--line-2);font-weight:600;font-size:11.5px;color:var(--muted);letter-spacing:.2px;text-transform:uppercase;transition:.12s}
-  .cat.active{background:var(--navy);color:#fff;border-color:var(--navy)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:14px}
-  .prod{
-    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    text-align:left;transition:.15s cubic-bezier(.2,.8,.2,1);position:relative;
-    box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;
-    cursor:pointer;
-  }
-  .prod:hover{transform:translateY(-3px);border-color:var(--accent);
-    box-shadow:0 14px 32px rgba(10,17,48,.14)}
-  .prod:active{transform:translateY(-1px)}
-  .prod-img{
-    width:100%;aspect-ratio:4/3;object-fit:cover;display:block;
-    background:var(--surface-2);
-    transition:transform .4s cubic-bezier(.2,.8,.2,1);
-  }
-  .prod:hover .prod-img{transform:scale(1.06)}
-  .prod-body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:3px;flex:1}
-  .prod .pname{font-weight:600;font-size:12.5px;line-height:1.3;color:var(--ink);letter-spacing:-.1px}
-  .prod .pprice{font-family:var(--font-display);font-weight:700;color:var(--navy);font-size:16px;margin-top:auto;padding-top:5px;font-feature-settings:'tnum' 1}
-  .prod .pstock{
-    position:absolute;top:8px;right:8px;font-size:10px;font-weight:800;
-    color:#fff;background:rgba(10,17,48,.66);backdrop-filter:blur(6px) saturate(180%);
-    padding:3px 9px;border-radius:20px;letter-spacing:.4px;text-transform:uppercase;font-size:9.5px;
-  }
-  .prod.low .pstock{background:rgba(192,57,43,.82)}
-  .prod.out{opacity:.55;pointer-events:none}
-  .prod.out::after{
-    content:'Ubos na';position:absolute;inset:0;display:grid;place-items:center;
-    background:rgba(255,255,255,.72);backdrop-filter:blur(3px);
-    font-weight:800;color:var(--alert);font-size:14px;
-    border-radius:var(--radius);
-  }
-  .prod-img-wrap{position:relative;overflow:hidden}
-
-  /* Cart */
-  .cart{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    box-shadow:var(--shadow);position:sticky;top:88px;display:flex;flex-direction:column;max-height:calc(100vh - 110px)}
-  .cart-head{padding:16px 18px 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px}
-  .cart-head h3{font-family:var(--font-display);font-size:17px;font-weight:700;letter-spacing:-.2px}
-  .cart-head .count{margin-left:auto;background:var(--navy-soft);color:var(--navy);font-weight:700;
-    font-size:12px;padding:3px 10px;border-radius:20px}
-  .cart-items{overflow-y:auto;padding:6px 10px;flex:1;min-height:90px}
-  .citem{display:flex;align-items:center;gap:10px;padding:9px 8px;border-radius:10px}
-  .citem:hover{background:var(--surface-2)}
-  .citem .ci-name{font-weight:600;font-size:13px;line-height:1.2;letter-spacing:-.1px}
-  .citem .ci-price{font-size:11.5px;color:var(--muted)}
-  .qty{display:flex;align-items:center;gap:0;background:var(--surface-2);border-radius:9px;border:1px solid var(--line-2)}
-  .qty button{width:26px;height:26px;display:grid;place-items:center;font-weight:700;color:var(--navy);font-size:16px}
-  .qty span{min-width:24px;text-align:center;font-weight:700;font-size:13px}
-  .ci-total{font-weight:700;font-size:13.5px;min-width:58px;text-align:right}
-  .cart-empty{text-align:center;color:var(--muted);padding:38px 20px;font-size:13.5px}
-  .cart-empty .big{font-size:30px;margin-bottom:8px;opacity:.6}
-  .cart-foot{border-top:1px solid var(--line);padding:14px 18px 16px;background:var(--surface-2);border-radius:0 0 var(--radius) var(--radius)}
-  .totals .row{display:flex;justify-content:space-between;font-size:13.5px;color:var(--muted);margin-bottom:4px}
-  .totals .grand{display:flex;justify-content:space-between;align-items:baseline;margin:8px 0 13px}
-  .totals .grand .lbl{font-weight:600;font-size:14px}
-  .totals .grand .amt{font-family:var(--font-display);font-weight:700;font-size:28px;color:var(--navy);letter-spacing:-.5px}
-  .pay-methods{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
-  .pm{padding:9px 4px;border-radius:10px;border:1.5px solid var(--line-2);background:var(--surface);
-    font-weight:600;font-size:11px;letter-spacing:.2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:3px;transition:.1s}
-  .pm .pm-ic{font-size:15px}
-  .pm.active{border-color:var(--navy);background:var(--navy-soft);color:var(--navy)}
-  .pm.active.utang{border-color:var(--alert);background:var(--alert-soft);color:var(--alert)}
-  .btn{width:100%;padding:14px;border-radius:12px;font-weight:700;font-size:13.5px;letter-spacing:.3px;text-transform:uppercase;transition:.12s;display:flex;align-items:center;justify-content:center;gap:8px}
-  .btn-go{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(59,91,191,.35);letter-spacing:.2px;font-size:14px;font-weight:700;text-transform:uppercase}
-  .btn-go:hover{background:#12193C;transform:translateY(-1px)}
-  .btn-go:disabled{background:var(--line-2);color:var(--muted);box-shadow:none;cursor:not-allowed;transform:none}
-
-  /* ---------- Tables / cards (shared) ---------- */
-  .cardbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-  .cardbox-head{padding:15px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .cardbox-head h3{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:-.2px}
-  table{width:100%;border-collapse:collapse}
-  th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);
-    font-weight:600;padding:11px 20px;border-bottom:1px solid var(--line);background:var(--surface-2)}
-  th.r,td.r{text-align:right}
-  td{padding:13px 20px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:middle;letter-spacing:-.1px}
-  tr:last-child td{border-bottom:none}
-  tbody tr:hover{background:var(--surface-2)}
-  .tag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase}
-  .tag.ok{background:var(--navy-soft);color:var(--navy)}
-  .tag.low{background:var(--alert-soft);color:var(--alert)}
-  .tag.warn{background:var(--accent-soft);color:#8a5807}
-  .mini-btn{padding:7px 14px;border-radius:9px;font-weight:600;font-size:12px;letter-spacing:.1px;border:1px solid var(--line-2);background:var(--surface)}
-  .mini-btn:hover{border-color:var(--navy);color:var(--navy)}
-  .mini-btn.solid{background:var(--navy);color:#fff;border-color:var(--navy)}
-  .mini-btn.solid:hover{background:#12193C}
-  .mini-btn.clay{background:var(--alert);color:#fff;border-color:var(--alert)}
-
-  /* ---------- Dashboard ---------- */
-  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-  .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:17px 18px;box-shadow:var(--shadow)}
-  .stat .s-lbl{font-size:10.5px;color:var(--muted);font-weight:600;letter-spacing:.7px;text-transform:uppercase;display:flex;align-items:center;gap:7px}
-  .stat .s-val{font-family:var(--font-display);font-size:30px;font-weight:700;margin-top:8px;line-height:1;letter-spacing:-.5px;font-feature-settings:'tnum' 1}
-  .stat .s-sub{font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:.1px;font-weight:500}
-  .stat.accent{background:var(--navy);color:#EAF2EE;border-color:var(--navy)}
-  .stat.accent .s-lbl{color:#AEB7D8}
-  .stat.accent .s-val{color:#fff}
-  .stat.accent .s-sub{color:#9098BC}
-  .dash-cols{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;align-items:start}
-  .bars{padding:18px 20px}
-  .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-  .bar-row .bl{width:120px;font-size:13.5px;font-weight:600;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .bar-track{flex:1;height:11px;background:var(--surface-2);border-radius:20px;overflow:hidden}
-  .bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#3B5BBF);border-radius:20px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
-  .bar-row .bv{font-size:13px;font-weight:700;color:var(--muted);width:46px;text-align:right;flex-shrink:0}
-  .split{display:flex;gap:0;border-radius:12px;overflow:hidden;height:16px;margin:6px 0 14px;border:1px solid var(--line)}
-  .split>div{height:100%}
-  .legend{display:flex;flex-direction:column;gap:9px}
-  .legend .lg{display:flex;align-items:center;gap:9px;font-size:13.5px}
-  .legend .sw{width:13px;height:13px;border-radius:4px;flex-shrink:0}
-  .legend .lg b{margin-left:auto;font-variant-numeric:tabular-nums}
-
-  /* ---------- Modal / toast ---------- */
-  .scrim{position:fixed;inset:0;background:rgba(28,27,22,.42);backdrop-filter:blur(2px);display:none;
-    align-items:center;justify-content:center;z-index:60;padding:20px;animation:fade .15s}
-  .scrim.show{display:flex}
-  @keyframes fade{from{opacity:0}to{opacity:1}}
-  .modal{background:var(--surface);border-radius:20px;width:100%;max-width:400px;box-shadow:0 24px 60px rgba(0,0,0,.3);
-    overflow:hidden;animation:pop .2s cubic-bezier(.2,.9,.3,1.2)}
-  @keyframes pop{from{transform:scale(.94) translateY(8px);opacity:0}to{transform:none;opacity:1}}
-  .modal-head{padding:20px 22px 4px}
-  .modal-head h3{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.3px}
-  .modal-head p{font-size:12.5px;color:var(--muted);margin-top:4px;font-weight:500}
-  .modal-body{padding:14px 22px 22px}
-  .field{margin-bottom:13px}
-  .field label{display:block;font-size:10.5px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.7px}
-  .field input, .field select{width:100%;padding:12px 13px;border:1.5px solid var(--line-2);border-radius:11px;
-    background:var(--surface-2);outline:none;color:var(--ink);font-weight:500;font-size:15px;letter-spacing:-.1px}
-  .field input:focus, .field select:focus{border-color:var(--navy);background:var(--surface)}
-  .modal-foot{display:flex;gap:10px;margin-top:6px}
-  .modal-foot .btn{padding:13px}
-  .btn-ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line-2)}
-  .btn-ghost:hover{background:var(--line)}
-  .btn-green{background:var(--navy);color:#fff}
-  .btn-green:hover{background:#12193C}
-
-  .receipt{font-family:'Inter',system-ui,sans-serif;padding:4px 0 2px}
-  .receipt .r-line{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;color:var(--muted)}
-  .receipt .r-line.b{color:var(--ink);font-weight:600}
-  .receipt .r-div{border-top:1px dashed var(--line-2);margin:8px 0}
-  .receipt .r-grand{display:flex;justify-content:space-between;font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--navy);margin:4px 0;letter-spacing:-.2px}
-  .receipt .r-change{display:flex;justify-content:space-between;font-weight:700;font-size:15px;color:var(--accent-deep);background:var(--accent-soft);padding:9px 12px;border-radius:10px;margin-top:8px}
-  .check-ic{width:54px;height:54px;border-radius:50%;background:var(--navy-soft);display:grid;place-items:center;margin:0 auto 12px}
-
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
-    background:var(--ink);color:#fff;padding:13px 20px;border-radius:13px;font-weight:600;font-size:14px;
-    display:flex;align-items:center;gap:10px;box-shadow:0 12px 30px rgba(0,0,0,.3);z-index:80;opacity:0;
-    transition:.3s cubic-bezier(.2,.9,.3,1.2);pointer-events:none}
-  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-  .toast .t-ic{color:var(--accent)}
-
-  .ledger-list{padding:6px 0}
-  .ledger-item{display:flex;align-items:center;gap:12px;padding:11px 22px;border-bottom:1px solid var(--line)}
-  .ledger-item:last-child{border:none}
-  .ledger-item .li-ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex-shrink:0;font-size:15px}
-  .li-ic.charge{background:var(--alert-soft)}
-  .li-ic.pay{background:var(--navy-soft)}
-  .ledger-item .li-amt{margin-left:auto;font-weight:700;font-size:14px}
-  .li-amt.charge{color:var(--alert)}
-  .li-amt.pay{color:var(--navy)}
-
-  .empty-note{text-align:center;color:var(--muted);padding:40px;font-size:14px}
-
-  /* mobile bottom nav */
   .mobnav{display:none}
+  .topbar-logo{display:none} /* logo already in sidebar */
 
-  @media(max-width:980px){
-    .pos{grid-template-columns:1fr}
-    .cart{position:fixed;bottom:64px;left:0;right:0;top:auto;border-radius:18px 18px 0 0;max-height:62vh;
-      box-shadow:0 -10px 30px rgba(0,0,0,.18);z-index:40;transform:translateY(calc(100% - 60px));transition:.25s}
-    .cart.open{transform:translateY(0)}
-    .cart-head{cursor:pointer}
-    .stat-grid{grid-template-columns:repeat(2,1fr)}
-    .dash-cols{grid-template-columns:1fr}
+  .view{padding:22px 28px 90px}
+  .topbar{padding:16px 28px}
+  .topbar .page-title{font-size:21px}
+
+  /* POS */
+  .grid{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:14px}
+  .pos{grid-template-columns:1fr 372px;gap:20px}
+  .cart{top:82px;max-height:calc(100vh - 100px)}
+
+  /* Tables */
+  td{padding:13px 18px;font-size:13.5px}
+  th{padding:11px 18px}
+
+  /* Dashboard */
+  .stat-grid{gap:14px}
+  .stat .s-val{font-size:30px}
+
+  /* Owner KPI — full 6-col */
+  .kpi-strip{grid-template-columns:repeat(6,1fr)}
+  .kpi-cell{border-bottom:none!important}
+  .kpi-cell.accent{grid-column:span 1;border-right:1px solid var(--line)}
+  .kpi-cell:last-child{border-right:none}
+  .kv{font-size:24px}
+  .kpi-cell.accent .kv{font-size:28px}
+
+  /* Owner layout: bars left, panel right */
+  .rev-grid{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
+  .rpanel{display:flex;flex-direction:column}
+  .brow-name{width:148px}
+  .brow-rev{width:90px}
+  .cr-name{width:130px}
+}
+
+/* ═══════════════════════════════════════════════
+   SIDEBAR (only active on desktop via above)
+═══════════════════════════════════════════════ */
+.brand{display:flex;align-items:center;gap:11px;padding:4px 8px 22px}
+.brand .mark{width:44px;height:44px;border-radius:50%;flex-shrink:0;background:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.18);overflow:hidden}
+.brand .mark img{width:100%;height:100%;display:block;object-fit:cover}
+.brand h1{font-family:var(--fd);font-weight:700;font-size:17px;line-height:1.1;letter-spacing:-.1px;color:#fff}
+.brand span{font-size:10.5px;opacity:.55;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+.nav{display:flex;flex-direction:column;gap:3px;margin-top:6px}
+.nav button{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:11px;color:#C3CBE6;font-weight:500;font-size:13.5px;text-align:left;width:100%;transition:.13s}
+.nav button .ic{width:20px;height:20px;flex-shrink:0;opacity:.85}
+.nav button:hover{background:rgba(255,255,255,.07)}
+.nav button.active{background:var(--surface);color:var(--navy);box-shadow:var(--sh)}
+.nav button.active .ic{opacity:1}
+.nav .badge{margin-left:auto;background:var(--alert);color:#fff;font-size:11px;font-weight:700;padding:1px 7px;border-radius:20px;min-width:20px;text-align:center}
+.side-foot{margin-top:auto;padding:14px 10px 2px;border-top:1px solid rgba(255,255,255,.1);font-size:10.5px;opacity:.55;letter-spacing:.2px}
+.side-foot b{font-weight:700;opacity:.9}
+</style>
+
+<style>
+@media(min-width:640px){
+  .scrim{align-items:center;padding:20px}
+  .modal{border-radius:20px;max-width:420px;max-height:88vh}
+}
+.topbar-logo{display:block} /* shown on mobile */
+@media(min-width:1024px){.topbar-logo{display:none}}
+/* Hide page-sub on very small screens to save space */
+@media(max-width:400px){.page-sub{display:none}}
+
+  /* ═══ Branch Detail Drawer ═══ */
+  .drawer-scrim{
+    position:fixed;inset:0;background:rgba(11,16,32,.35);
+    backdrop-filter:blur(3px);z-index:70;
+    opacity:0;pointer-events:none;transition:opacity .28s;
   }
-  @media(max-width:760px){
-    .sidebar{display:none}
-    .mobnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--navy);z-index:50;
-      padding:7px 6px;justify-content:space-around;box-shadow:0 -4px 20px rgba(0,0,0,.15)}
-    .mobnav button{display:flex;flex-direction:column;align-items:center;gap:2px;color:#AEB7D8;font-size:9.5px;font-weight:600;padding:5px 5px;border-radius:10px;position:relative;min-width:0;flex:1}
-    .mobnav button.active{color:#fff}
-    .mobnav button.active .ic{opacity:1}
-    .mobnav .ic{opacity:.7}
-    .mobnav .mbadge{position:absolute;top:0;right:6px;background:var(--alert);color:#fff;font-size:9px;font-weight:700;padding:0 5px;border-radius:10px}
-    .view{padding:16px 14px 150px}
-    .topbar{padding:13px 16px}
-    .topbar .page-title{font-size:19px}
-    .grid{grid-template-columns:repeat(auto-fill,minmax(108px,1fr))}
+  .drawer-scrim.show{opacity:1;pointer-events:all}
+  .drawer{
+    position:fixed;top:0;right:0;bottom:0;width:min(480px,100vw);
+    background:var(--surface);z-index:71;
+    display:flex;flex-direction:column;
+    box-shadow:-8px 0 40px rgba(11,16,32,.18);
+    transform:translateX(100%);transition:transform .3s cubic-bezier(.25,.8,.25,1);
+    overflow:hidden;
   }
+  .drawer.show{transform:translateX(0)}
+  .drawer-head{
+    display:flex;align-items:center;gap:12px;
+    padding:18px 20px 16px;border-bottom:1px solid var(--line);
+    background:var(--surface);flex-shrink:0;
+  }
+  .drawer-color{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+  .drawer-head h2{font-family:var(--fd);font-size:19px;font-weight:700;letter-spacing:-.2px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .drawer-close{width:34px;height:34px;border-radius:50%;background:var(--sf2);border:1px solid var(--line);display:grid;place-items:center;flex-shrink:0;font-size:18px;cursor:pointer;transition:.12s}
+  .drawer-close:hover{background:var(--line)}
+  .drawer-body{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+  /* Rank banner */
+  .d-rank-banner{
+    display:flex;align-items:center;gap:16px;
+    padding:16px 20px;background:var(--navy);color:#fff;
+  }
+  .d-rank-num{font-family:var(--fd);font-size:48px;font-weight:700;line-height:1;letter-spacing:-2px;color:rgba(255,255,255,.15)}
+  .d-rank-info .d-rank-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#7A8EC8;margin-bottom:4px}
+  .d-rank-info .d-rank-val{font-family:var(--fd);font-size:28px;font-weight:700;letter-spacing:-.5px;font-feature-settings:'tnum' 1}
+  .d-rank-info .d-rank-sub{font-size:11px;color:#7A8EC8;margin-top:4px;font-weight:500}
+  .d-rank-gap{margin-left:auto;text-align:right}
+  .d-rank-gap .dg-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#7A8EC8;margin-bottom:4px}
+  .d-rank-gap .dg-val{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--alert)}
+  .d-rank-gap .dg-val.top{color:#4ade80}
+  /* Section */
+  .d-section{padding:16px 20px;border-bottom:1px solid var(--line)}
+  .d-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:12px}
+  /* KPI row */
+  .d-kpi-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .d-kpi{background:var(--sf2);border-radius:12px;padding:13px 15px;border:1px solid var(--line)}
+  .d-kpi .dk-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px}
+  .d-kpi .dk-val{font-family:var(--fd);font-size:22px;font-weight:700;letter-spacing:-.4px;font-feature-settings:'tnum' 1}
+  .d-kpi .dk-sub{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:500}
+  /* Performance score */
+  .d-score{
+    display:flex;align-items:center;gap:14px;
+    background:var(--sf2);border-radius:14px;padding:14px 16px;border:1px solid var(--line);
+  }
+  .d-score-ring{position:relative;width:56px;height:56px;flex-shrink:0}
+  .d-score-ring svg{width:56px;height:56px;transform:rotate(-90deg)}
+  .d-score-ring .bg{fill:none;stroke:var(--line);stroke-width:5}
+  .d-score-ring .fg{fill:none;stroke-width:5;stroke-linecap:round;transition:stroke-dasharray .6s}
+  .d-score-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:15px;font-weight:700}
+  /* Collection bar */
+  .d-collect-bar{height:10px;border-radius:5px;background:var(--sf2);border:1px solid var(--line);overflow:hidden;margin:8px 0 4px}
+  .d-collect-fill{height:100%;border-radius:5px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+  /* Payment split */
+  .d-split-bar{height:16px;border-radius:8px;overflow:hidden;display:flex;margin:10px 0 8px;border:1px solid var(--line)}
+  .d-pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .d-pay-pill{border-radius:10px;padding:11px 14px;text-align:center}
+  .d-pay-pill .dp-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+  .d-pay-pill .dp-val{font-family:var(--fd);font-size:22px;font-weight:700}
+  .d-pay-pill .dp-sub{font-size:11px;color:var(--muted);margin-top:3px;font-feature-settings:'tnum' 1}
+  /* vs network bar */
+  .d-vs-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .d-vs-lbl{font-size:12px;font-weight:600;width:90px;flex-shrink:0}
+  .d-vs-track{flex:1;height:8px;background:var(--sf2);border-radius:4px;overflow:hidden;border:1px solid var(--line);position:relative}
+  .d-vs-fill{height:100%;border-radius:4px;transition:width .6s}
+  .d-vs-avg{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--muted);border-radius:1px}
+  .d-vs-val{font-size:11.5px;font-weight:700;width:52px;text-align:right;flex-shrink:0;font-feature-settings:'tnum' 1}
+  /* Period switcher in drawer */
+  .d-period-row{display:flex;gap:6px;margin-bottom:14px}
+  .d-period-btn{flex:1;padding:7px 4px;border-radius:8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;border:1.5px solid var(--line2);background:var(--surface);cursor:pointer;text-align:center;transition:.12s;font-family:var(--fu)}
+  .d-period-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+  /* Top product card */
+  .d-top-prod{display:flex;align-items:center;gap:12px;background:var(--sf2);border-radius:12px;padding:12px 14px;border:1px solid var(--line)}
+  .d-top-prod img{width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;background:var(--line)}
+  /* Trend chart (fake sparkline) */
+  .d-spark{display:flex;align-items:flex-end;gap:3px;height:36px;margin:10px 0 4px}
+  .d-spark-bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;transition:height .4s}
+  @media(max-width:640px){
+    .drawer{width:100vw}
+    .d-kpi-row{grid-template-columns:repeat(2,1fr)}
+  }
+
 </style>
 </head>
 <body>
@@ -309,8 +633,7 @@
       </div>
     </div>
     <nav class="nav" id="nav"></nav>
-    <div class="side-foot">
-      Demo build by <b>Go Ai PH</b><br>Para sa community-driven na negosyo.
+    <div class="side-foot" id="sidefoot">Demo by <b>Go Ai PH</b><br>Built for community-driven businesses.
     </div>
   </aside>
 
@@ -319,9 +642,18 @@
     <header class="topbar">
       <img id="topLogo" class="topbar-logo" alt="Tindahan ni GK" />
       <div>
-        <div class="page-title" id="pageTitle">Benta (POS)</div>
-        <div class="page-sub" id="pageSub">Mabilis na pag-benta at resibo</div>
+        <div class="page-title" id="pageTitle">Sales (POS)</div>
+        <div class="page-sub" id="pageSub">Fast checkout and receipts</div>
+
       </div>
+      <button id="langToggle" onclick="setLang(lang==='tl'?'en':'tl')" style="
+        display:flex;align-items:center;gap:6px;padding:6px 11px;border-radius:30px;
+        border:1.5px solid var(--line2);background:var(--sf2);font-weight:700;
+        font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;cursor:pointer;
+        color:var(--ink);transition:.13s;flex-shrink:0;white-space:nowrap;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>Filipino</span>
+      </button>
       <div class="demo-pill"><span class="dot"></span> LIVE DEMO</div>
     </header>
     <div class="view" id="view"></div>
@@ -333,6 +665,8 @@
 
 <!-- Modal -->
 <div class="scrim" id="scrim"><div class="modal" id="modal"></div></div>
+<div class="drawer-scrim" id="drawerScrim" onclick="closeDrawer()"></div>
+<div class="drawer" id="branchDrawer"><div id="drawerContent" style="display:contents"></div></div>
 
 <!-- Toast -->
 <div class="toast" id="toast"><span class="t-ic">✓</span><span id="toastMsg"></span></div>
@@ -349,6 +683,7 @@ const IC = {
   chart:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v16h16"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></svg>',
   search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>',
   receipt:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2v20l3-2 3 2 3-2 3 2 3-2V2l-3 2-3-2-3 2-3-2-3 2Z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>',
+  owner:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
 };
 
 /* ============ SAMPLE DATA (generic PH tindahan items) ============ */
@@ -402,37 +737,488 @@ let transactions = [
   {id:1007, ts:tseed(12,44),items:[{name:'Pancit Canton',qty:4,price:18,photo:'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=60&h=60&fit=crop&auto=format&q=70'},{name:'Tubig 1L',qty:2,price:20,photo:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=60&h=60&fit=crop&auto=format&q=70'}], total:112, method:'maya'},
 ];
 
+
+/* ============ BRANCH DATA (8 branches) ============ */
+const BRANCHES = [
+  {id:1, name:'GK — Angeles Main',    area:'Angeles City',   color:'#0A1130'},
+  {id:2, name:'GK — Nepo Center',     area:'Angeles City',   color:'#3B5BBF'},
+  {id:3, name:'GK — Olongapo Main',   area:'Olongapo City',  color:'#1A6B45'},
+  {id:4, name:'GK — Gordon Heights',  area:'Olongapo City',  color:'#7B3CC4'},
+  {id:5, name:'GK — Castillejos',     area:'Zambales',       color:'#C47B1A'},
+  {id:6, name:'GK — San Antonio',     area:'Zambales',       color:'#C0392B'},
+  {id:7, name:'GK — Subic',          area:'Zambales',       color:'#0E7E8A'},
+  {id:8, name:'GK — Clark',          area:'Pampanga',       color:'#6B3A1A'},
+];
+
+// Seeded financials per branch per period
+// today / week / month  →  {revenue, txn, credit, digitalPct, topProduct}
+const BRANCH_STATS = {
+  today: [
+    {b:1, rev:8420,  txn:74,  credit:3200, dig:0.58, top:'Bigas (per kilo)'},
+    {b:2, rev:6180,  txn:55,  credit:1800, dig:0.72, top:'Kape 3-in-1'},
+    {b:3, rev:11240, txn:98,  credit:4100, dig:0.44, top:'Pancit Canton'},
+    {b:4, rev:5390,  txn:47,  credit:2700, dig:0.61, top:'Sardinas 155g'},
+    {b:5, rev:4210,  txn:38,  credit:1200, dig:0.35, top:'Bigas (per kilo)'},
+    {b:6, rev:3860,  txn:34,  credit:980,  dig:0.48, top:'Tubig 1L'},
+    {b:7, rev:7730,  txn:66,  credit:2400, dig:0.67, top:'Softdrink 1.5L'},
+    {b:8, rev:9560,  txn:84,  credit:3600, dig:0.76, top:'Corned Beef 150g'},
+  ],
+  week: [
+    {b:1, rev:54200, txn:488, credit:9800, dig:0.56, top:'Bigas (per kilo)'},
+    {b:2, rev:42100, txn:374, credit:7200, dig:0.71, top:'Kape 3-in-1'},
+    {b:3, rev:78400, txn:692, credit:14200,dig:0.43, top:'Pancit Canton'},
+    {b:4, rev:37800, txn:331, credit:9100, dig:0.60, top:'Sardinas 155g'},
+    {b:5, rev:28600, txn:254, credit:5400, dig:0.34, top:'Bigas (per kilo)'},
+    {b:6, rev:26200, txn:228, credit:4200, dig:0.47, top:'Tubig 1L'},
+    {b:7, rev:51800, txn:455, credit:8800, dig:0.65, top:'Softdrink 1.5L'},
+    {b:8, rev:64400, txn:568, credit:12200,dig:0.74, top:'Corned Beef 150g'},
+  ],
+  month: [
+    {b:1, rev:218400, txn:1940, credit:28600, dig:0.55, top:'Bigas (per kilo)'},
+    {b:2, rev:166200, txn:1480, credit:19800, dig:0.70, top:'Kape 3-in-1'},
+    {b:3, rev:312800, txn:2780, credit:42400, dig:0.42, top:'Pancit Canton'},
+    {b:4, rev:148200, txn:1320, credit:26800, dig:0.59, top:'Sardinas 155g'},
+    {b:5, rev:112400, txn:1002, credit:16200, dig:0.33, top:'Bigas (per kilo)'},
+    {b:6, rev:104800, txn:932,  credit:14600, dig:0.46, top:'Tubig 1L'},
+    {b:7, rev:204200, txn:1820, credit:25400, dig:0.64, top:'Softdrink 1.5L'},
+    {b:8, rev:258600, txn:2310, credit:36800, dig:0.73, top:'Corned Beef 150g'},
+  ],
+};
+let ownerPeriod = 'today'; // 'today' | 'week' | 'month'
+
 /* ============ STATE ============ */
 let view = 'pos';
 let cart = {};            // {productId: qty}
 let payMethod = 'cash';
-let activeCat = 'Lahat';
+let activeCat = '__all__';
 let searchQ = '';
 let utangCustomerId = null; // for utang sales
 
 const PESO = n => '₱' + n.toLocaleString('en-PH',{minimumFractionDigits:0,maximumFractionDigits:2});
 const $ = id => document.getElementById(id);
 
+
+/* ============ TRANSLATIONS ============ */
+let lang = 'en'; // 'tl' = Tagalog, 'en' = English
+const LANGS = {
+  tl: {
+    /* Nav */
+    nav_pos:'Benta', nav_pos_sub:'Mabilis na pag-benta at resibo', nav_pos_title:'Benta (POS)',
+    nav_inv:'Stock', nav_inv_sub:'Imbentaryo at low-stock alerts', nav_inv_title:'Imbentaryo',
+    nav_utang:'Listahan', nav_utang_sub:'Utang at bayad ng mga suki', nav_utang_title:'Listahan ng Utang',
+    nav_dash:'Ulat', nav_dash_sub:'Benta, best-sellers at performance', nav_dash_title:'Ulat at Dashboard',
+    nav_txn:'Kasaysayan', nav_txn_sub:'Lahat ng transaksyon ngayon', nav_txn_title:'Kasaysayan ng Benta',
+    /* POS */
+    search_ph:'Hanapin ang produkto...',
+    cat_all:'Lahat',
+    cart_title:'Order', cart_empty:'Wala pang laman.', cart_empty_sub:'I-tap ang produkto para idagdag.',
+    item_count_s:'item', item_count_p:'items',
+    qty_label:'Bilang ng item', total_label:'Kabuuan',
+    pay_cash:'Cash', pay_gcash:'GCash', pay_maya:'Maya', pay_utang:'Utang',
+    checkout_btn:'Tapusin ang Benta', checkout_utang_btn:'Ilista sa Utang',
+    no_product:'Walang nahanap na produkto.',
+    out_of_stock:'Ubos na',
+    /* Toast messages */
+    toast_added:' na-add', toast_no_stock:'Wala nang stock para dito',
+    toast_max_stock:'Abot na sa available stock',
+    toast_enter_qty:'Maglagay ng bilang',
+    toast_enter_name_price:'Kailangan ng pangalan at presyo',
+    toast_enter_name:'Kailangan ng pangalan',
+    toast_enter_amount:'Maglagay ng halaga',
+    /* Receipt / Checkout */
+    receipt_title_sale:'Tapos na ang Benta!',
+    receipt_title_utang:'Nailista na sa Utang',
+    receipt_sub_sale:'Salamat sa pagbili',
+    receipt_sub_utang:'Idinagdag kay ',
+    receipt_method:'Paraan ng bayad',
+    receipt_total:'Kabuuan',
+    receipt_done:'Tapos na',
+    receipt_cash_label:'Bayad ng customer (Cash)',
+    receipt_change:'Sukli',
+    /* Utang pick */
+    utang_pick_title:'Ilista sa Utang',
+    utang_pick_sub:'Piliin kung sino ang uutang • ',
+    utang_pick_label:'Suki / Customer',
+    utang_pick_note:'Auto-update ang balance sa Listahan at mababawas sa stock.',
+    utang_pick_cancel:'Kanselahin', utang_pick_confirm:'Ilista',
+    utang_method_label:'Utang (Listahan)',
+    /* Inventory */
+    inv_title:'Imbentaryo', inv_btn_add:'+ Bagong Produkto',
+    inv_col_product:'Produkto', inv_col_cat:'Kategorya', inv_col_price:'Presyo',
+    inv_col_stock:'Stock', inv_col_status:'Status', inv_col_sold:'Nabenta', inv_col_action:'',
+    inv_auto_note:'produkto • auto-bawas tuwing may benta',
+    inv_status_ok:'OK', inv_status_low:'Paubos', inv_status_out:'Ubos na',
+    inv_btn_restock:'+ Stock',
+    inv_low_alert_pre:'', inv_low_alert_mid:' produkto ang paubos na.', inv_low_alert_post:'Kailangan nang mag-order ulit.',
+    /* Restock modal */
+    restock_title:'Dagdag Stock', restock_label:'Ilang dadagdagin?', restock_ph:'Halimbawa: 50',
+    restock_current:'meron na: ',
+    restock_cancel:'Kanselahin', restock_save:'I-save',
+    toast_restocked:' na-dagdag sa ',
+    /* Add product modal */
+    addprod_title:'Bagong Produkto', addprod_sub:'Idagdag sa imbentaryo',
+    addprod_name_label:'Pangalan', addprod_name_ph:'Hal: Mantika 1L',
+    addprod_cat_label:'Kategorya',
+    addprod_price_label:'Presyo (₱)', addprod_stock_label:'Simulang Stock',
+    addprod_cancel:'Kanselahin', addprod_save:'Idagdag',
+    toast_prod_added:' naidagdag na',
+    /* Utang / Listahan */
+    utang_total_lbl:'Kabuuang utang', utang_total_sub:'na hindi pa bayad',
+    utang_with_balance_lbl:'May utang', utang_with_balance_sub:'na suki',
+    utang_all_lbl:'Listado na suki', utang_all_sub:'sa sistema',
+    utang_section_title:'Listahan ng Utang',
+    utang_section_note:'Wala nang notebook — naka-record na lahat',
+    utang_btn_add_customer:'+ Bagong Suki',
+    utang_col_customer:'Suki', utang_col_balance:'Utang ngayon', utang_col_status:'Status', utang_col_action:'Aksyon',
+    utang_status_has:'May utang', utang_status_clear:'Bayad na',
+    utang_records:' record',
+    utang_btn_view:'Tingnan', utang_btn_pay:'Bayad',
+    /* Ledger modal */
+    ledger_current_balance:'Utang ngayon: ',
+    ledger_type_charge:'Utang', ledger_type_pay:'Bayad',
+    ledger_btn_pay:'Magbayad', ledger_btn_close:'Isara',
+    /* Pay utang modal */
+    pay_utang_title:'Bayad sa Utang',
+    pay_utang_label:'Magkano ang babayaran?',
+    pay_utang_ph:'Hanggang ',
+    pay_utang_all_btn:'Bayaran lahat (',
+    pay_utang_cancel:'Kanselahin', pay_utang_save:'I-record ang bayad',
+    toast_payment_recorded:' bayad — na-record',
+    /* Add customer modal */
+    add_cust_title:'Bagong Suki', add_cust_sub:'Magdagdag sa listahan',
+    add_cust_label:'Pangalan ng suki', add_cust_ph:'Hal: Aling Maria',
+    add_cust_cancel:'Kanselahin', add_cust_save:'Idagdag',
+    toast_cust_added:' naidagdag sa listahan',
+    /* Dashboard */
+    dash_stat1_lbl:'💰 Benta ngayon', dash_stat1_sub:'transaksyon',
+    dash_stat2_lbl:'🧾 Average bawat benta', dash_stat2_sub:'per transaksyon',
+    dash_stat3_lbl:'📒 Nakalistang utang', dash_stat3_sub:'hindi pa bayad',
+    dash_stat4_lbl:'⚠️ Paubos na stock', dash_stat4_sub:'produkto',
+    dash_bestsellers:'Pinakamabentang Produkto',
+    dash_payment_methods:'Paraan ng Bayad',
+    dash_reorder:'Kailangang i-order',
+    dash_stock_ok:'✓ Sapat pa ang lahat ng stock.',
+    dash_view_all:'Tingnan ang lahat ng transaksyon →',
+    dash_date_prefix:'Ulat — ',
+    dash_hint:'Auto-update sa bawat benta. Subukan: gumawa ng benta, bumalik dito.',
+    /* Transactions */
+    txn_back:'← Bumalik sa Ulat',
+    txn_title:'Lahat ng Transaksyon',
+    txn_count_suffix:' benta ngayon • ',
+    txn_total_suffix:'total',
+    txn_empty:'Wala pang benta ngayon. Magsimula sa Benta tab.',
+    txn_footer_label:'transaksyon ngayon',
+    /* Sidebar footer */
+    side_foot:'Demo build ng ',
+    side_foot2:'Para sa community-driven na negosyo.',
+    /* Misc */
+    lang_toggle_label:'English',
+    demo_pill:'LIVE DEMO',
+    /* Owner Dashboard */
+    nav_owner:'Owner', nav_owner_sub:'Revenue at KPI ng lahat ng branches', nav_owner_title:'Owner Dashboard — Lahat ng Branches',
+    owner_period_today:'Ngayon', owner_period_week:'Linggong ito', owner_period_month:'Buwang ito',
+    owner_kpi_total_rev:'Kabuuang Kita', owner_kpi_branches:'Aktibong Branches', owner_kpi_total_txn:'Kabuuang Transaksyon',
+    owner_kpi_total_credit:'Uncollected Credit', owner_kpi_best:'Pinakamataas na Branch', owner_kpi_avg_branch:'Average / Branch',
+    owner_branch_col_branch:'Branch', owner_branch_col_rev:'Revenue', owner_branch_col_txn:'Transaksyon',
+    owner_branch_col_avg:'Avg/Sale', owner_branch_col_credit:'Credit', owner_branch_col_rate:'Collect Rate', owner_branch_col_top:'',
+    owner_digital_split:'Digital vs Cash', owner_top_products:'Top Products (Network-wide)',
+    owner_branch_detail:'Branch Detail', owner_close:'Isara',
+    owner_vs_best:'kumpara sa pinakamataas', owner_rank:'Rank',
+    owner_credit_note:'Outstanding na hindi pa bayad',
+    owner_no_data:'Walang datos para sa panahong ito.',
+    /* Owner KPI subtitles */
+    owner_ks_branches_combined:'branches combined',
+    owner_ks_per_txn:'per transaction',
+    owner_ks_below_top:'below top',
+    owner_ks_uncollected:'% ng total na hindi nakolekta',
+    owner_ks_cash_recovered:'cash na nakolekta',
+    owner_kpi_collection:'Collection Rate',
+    owner_hint_heatmap:'Mas madilim = mas mataas na kita · ibabang bar = collection rate',
+    owner_hint_click:'I-tap ang kahit anong branch para sa detalye',
+    owner_lbl_branch_revenue:'Branch Revenue',
+    owner_lbl_period_sorted:'naayos ayon sa kita',
+    owner_lbl_tap_detail:'i-tap ang row para sa detalye',
+    owner_lbl_collection_health:'Collection Health',
+    owner_lbl_branch_breakdown:'Branch Breakdown',
+    /* Branch detail modal labels */
+    bdet_revenue:'Kita',
+    bdet_transactions:'Transaksyon',
+    bdet_avg_sale:'Average bawat Benta',
+    bdet_credit:'Naghihintay na Credit',
+    bdet_collection_rate:'Collection Rate',
+    bdet_collected:'nakolekta',
+    bdet_unpaid:'hindi pa bayad',
+    bdet_digital:'Digital (GCash/Maya)',
+    bdet_cash:'Cash',
+    bdet_top_product:'Pinakamabentang Produkto',
+    bdet_vs_network:'vs Network Average',
+    bdet_above_avg:'Higit sa average',
+    bdet_below_avg:'Wala sa average',
+    bdet_behind:'kulang sa #1',
+    bdet_top_branch:'🏆 Pinakamataas na Branch',
+    bdet_rank:'Rank',
+    bdet_of:'ng',
+    /* Addprod category label */
+    addprod_cat_label_txt:'Kategorya',
+    /* Utang note in finalizeSale */
+    utang_note_charge:'Binili',
+    utang_note_pay:'Bayad',
+    /* Units sold label */
+    units_sold:'units sold',
+    /* Digital vs Cash section */
+    dig_digital_label:'GCash / Maya',
+    dig_cash_label:'Cash',
+    /* Inv table: Kategorya column already covered, this is the add product select */
+    addcat_label:'Kategorya',
+    /* at-a-glance section */
+    ow_ataglance:'At-a-Glance — Lahat ng Branches',
+    /* === Mobile-first additions === */
+    app_subtitle:'Sistema ng Tindahan',
+    at_a_glance:'Mabilis na Pangkalahatang Tingin — Lahat ng Branches',
+    branches_label:' branches',
+    cash_example:'Halimbawa: ',
+    inv_low_suffix:' na lang',
+    rank_of:' sa ',
+    sidebar_demo:'Demo build ng ',
+    sidebar_tagline:'Para sa community-driven na negosyo.',
+    star_top:'★ Pinakamataas',
+    txn_now:'transaksyon ngayon',
+    txn_short:'txn',
+    utang_note_items:' item(s)',
+    utang_picker_balance:'kasalukuyang utang',
+    vs_top_suffix:'% mas mababa',
+  },
+  en: {
+    /* Nav */
+    nav_pos:'Sales', nav_pos_sub:'Fast checkout and receipts', nav_pos_title:'Sales (POS)',
+    nav_inv:'Inventory', nav_inv_sub:'Stock levels and low-stock alerts', nav_inv_title:'Inventory',
+    nav_utang:'Credit', nav_utang_sub:'Customer credit and payments', nav_utang_title:'Credit Ledger',
+    nav_dash:'Reports', nav_dash_sub:'Sales, best-sellers and performance', nav_dash_title:'Reports & Dashboard',
+    nav_txn:'History', nav_txn_sub:'All transactions today', nav_txn_title:'Sales History',
+    /* POS */
+    search_ph:'Search products...',
+    cat_all:'All',
+    cart_title:'Order', cart_empty:'Cart is empty.', cart_empty_sub:'Tap a product to add it.',
+    item_count_s:'item', item_count_p:'items',
+    qty_label:'Items', total_label:'Total',
+    pay_cash:'Cash', pay_gcash:'GCash', pay_maya:'Maya', pay_utang:'Credit',
+    checkout_btn:'Complete Sale', checkout_utang_btn:'Add to Credit',
+    no_product:'No products found.',
+    out_of_stock:'Out of stock',
+    /* Toast messages */
+    toast_added:' added', toast_no_stock:'No more stock available',
+    toast_max_stock:'Maximum available stock reached',
+    toast_enter_qty:'Please enter a quantity',
+    toast_enter_name_price:'Name and price are required',
+    toast_enter_name:'Name is required',
+    toast_enter_amount:'Please enter an amount',
+    /* Receipt / Checkout */
+    receipt_title_sale:'Sale Complete!',
+    receipt_title_utang:'Added to Credit!',
+    receipt_sub_sale:'Thank you for your purchase',
+    receipt_sub_utang:'Added to ',
+    receipt_method:'Payment method',
+    receipt_total:'Total',
+    receipt_done:'Done',
+    receipt_cash_label:'Cash received',
+    receipt_change:'Change',
+    /* Utang pick */
+    utang_pick_title:'Add to Credit',
+    utang_pick_sub:'Select customer • ',
+    utang_pick_label:'Customer',
+    utang_pick_note:'Balance and stock update automatically.',
+    utang_pick_cancel:'Cancel', utang_pick_confirm:'Add to Credit',
+    utang_method_label:'Credit',
+    /* Inventory */
+    inv_title:'Inventory', inv_btn_add:'+ Add Product',
+    inv_col_product:'Product', inv_col_cat:'Category', inv_col_price:'Price',
+    inv_col_stock:'Stock', inv_col_status:'Status', inv_col_sold:'Sold', inv_col_action:'',
+    inv_auto_note:'products • auto-deducted on every sale',
+    inv_status_ok:'OK', inv_status_low:'Low stock', inv_status_out:'Out of stock',
+    inv_btn_restock:'+ Restock',
+    inv_low_alert_pre:'', inv_low_alert_mid:' products are running low.', inv_low_alert_post:'These need to be reordered.',
+    /* Restock modal */
+    restock_title:'Add Stock', restock_label:'How many to add?', restock_ph:'e.g. 50',
+    restock_current:'current stock: ',
+    restock_cancel:'Cancel', restock_save:'Save',
+    toast_restocked:' added to ',
+    /* Add product modal */
+    addprod_title:'New Product', addprod_sub:'Add to inventory',
+    addprod_name_label:'Name', addprod_name_ph:'e.g. Cooking Oil 1L',
+    addprod_cat_label:'Category',
+    addprod_price_label:'Price (₱)', addprod_stock_label:'Starting Stock',
+    addprod_cancel:'Cancel', addprod_save:'Add Product',
+    toast_prod_added:' added to inventory',
+    /* Utang / Listahan */
+    utang_total_lbl:'Total outstanding', utang_total_sub:'unpaid balance',
+    utang_with_balance_lbl:'Customers with credit', utang_with_balance_sub:'accounts',
+    utang_all_lbl:'Registered customers', utang_all_sub:'in system',
+    utang_section_title:'Credit Ledger',
+    utang_section_note:'No more notebooks — all records are here',
+    utang_btn_add_customer:'+ New Customer',
+    utang_col_customer:'Customer', utang_col_balance:'Balance', utang_col_status:'Status', utang_col_action:'Action',
+    utang_status_has:'Has balance', utang_status_clear:'Settled',
+    utang_records:' records',
+    utang_btn_view:'View', utang_btn_pay:'Pay',
+    /* Ledger modal */
+    ledger_current_balance:'Current balance: ',
+    ledger_type_charge:'Credit', ledger_type_pay:'Payment',
+    ledger_btn_pay:'Record Payment', ledger_btn_close:'Close',
+    /* Pay utang modal */
+    pay_utang_title:'Record Payment',
+    pay_utang_label:'How much is being paid?',
+    pay_utang_ph:'Up to ',
+    pay_utang_all_btn:'Pay full amount (',
+    pay_utang_cancel:'Cancel', pay_utang_save:'Save Payment',
+    toast_payment_recorded:' payment recorded',
+    /* Add customer modal */
+    add_cust_title:'New Customer', add_cust_sub:'Add to ledger',
+    add_cust_label:'Customer name', add_cust_ph:'e.g. Maria Santos',
+    add_cust_cancel:'Cancel', add_cust_save:'Add',
+    toast_cust_added:' added to ledger',
+    /* Dashboard */
+    dash_stat1_lbl:'💰 Sales today', dash_stat1_sub:'transactions',
+    dash_stat2_lbl:'🧾 Average per sale', dash_stat2_sub:'per transaction',
+    dash_stat3_lbl:'📒 Outstanding credit', dash_stat3_sub:'unpaid',
+    dash_stat4_lbl:'⚠️ Low stock items', dash_stat4_sub:'products',
+    dash_bestsellers:'Best-selling Products',
+    dash_payment_methods:'Payment Methods',
+    dash_reorder:'Needs Reorder',
+    dash_stock_ok:'✓ All products have sufficient stock.',
+    dash_view_all:'View all transactions →',
+    dash_date_prefix:'Report — ',
+    dash_hint:'All numbers update automatically on every sale. Try it: make a sale, come back here.',
+    /* Transactions */
+    txn_back:'← Back to Reports',
+    txn_title:'All Transactions',
+    txn_count_suffix:' sales today • ',
+    txn_total_suffix:'total',
+    txn_empty:'No sales yet today. Start from the Sales tab.',
+    txn_footer_label:'transactions today',
+    /* Sidebar footer */
+    side_foot:'Demo by ',
+    side_foot2:'Built for community-driven businesses.',
+    /* Misc */
+    lang_toggle_label:'Filipino',
+    demo_pill:'LIVE DEMO',
+    /* Owner Dashboard */
+    nav_owner:'Owner', nav_owner_sub:'Revenue and KPIs across all branches', nav_owner_title:'Owner Dashboard — All Branches',
+    owner_period_today:'Today', owner_period_week:'This Week', owner_period_month:'This Month',
+    owner_kpi_total_rev:'Total Revenue', owner_kpi_branches:'Active Branches', owner_kpi_total_txn:'Total Transactions',
+    owner_kpi_total_credit:'Uncollected Credit', owner_kpi_best:'Top Branch', owner_kpi_avg_branch:'Avg / Branch',
+    owner_branch_col_branch:'Branch', owner_branch_col_rev:'Revenue', owner_branch_col_txn:'Transactions',
+    owner_branch_col_avg:'Avg/Sale', owner_branch_col_credit:'Credit', owner_branch_col_rate:'Collection Rate', owner_branch_col_top:'',
+    owner_digital_split:'Digital vs Cash', owner_top_products:'Top Products (Network-wide)',
+    owner_branch_detail:'Branch Detail', owner_close:'Close',
+    owner_vs_best:'vs top branch', owner_rank:'Rank',
+    owner_credit_note:'Outstanding unpaid balance',
+    owner_no_data:'No data available for this period.',
+    /* Owner KPI subtitles */
+    owner_ks_branches_combined:'branches combined',
+    owner_ks_per_txn:'per transaction',
+    owner_ks_below_top:'below top',
+    owner_ks_uncollected:'% of total uncollected',
+    owner_ks_cash_recovered:'cash recovered',
+    owner_kpi_collection:'Collection Rate',
+    owner_hint_heatmap:'Darker = higher revenue · bottom bar = collection rate',
+    owner_hint_click:'Click any branch for details',
+    owner_lbl_branch_revenue:'Branch Revenue',
+    owner_lbl_period_sorted:'sorted by revenue',
+    owner_lbl_tap_detail:'tap row for detail',
+    owner_lbl_collection_health:'Collection Health',
+    owner_lbl_branch_breakdown:'Branch Breakdown',
+    /* Branch detail modal labels */
+    bdet_revenue:'Revenue',
+    bdet_transactions:'Transactions',
+    bdet_avg_sale:'Avg per Sale',
+    bdet_credit:'Outstanding Credit',
+    bdet_collection_rate:'Collection Rate',
+    bdet_collected:'collected',
+    bdet_unpaid:'unpaid',
+    bdet_digital:'Digital (GCash/Maya)',
+    bdet_cash:'Cash',
+    bdet_top_product:'Top Product',
+    bdet_vs_network:'vs Network Avg',
+    bdet_above_avg:'Above avg',
+    bdet_below_avg:'Below avg',
+    bdet_behind:'behind #1',
+    bdet_top_branch:'🏆 Top Branch',
+    bdet_rank:'Rank',
+    bdet_of:'of',
+    /* Addprod category label */
+    addprod_cat_label_txt:'Category',
+    /* Utang note in finalizeSale */
+    utang_note_charge:'Purchase',
+    utang_note_pay:'Payment',
+    /* Units sold label */
+    units_sold:'units sold',
+    /* Digital vs Cash section */
+    dig_digital_label:'GCash / Maya',
+    dig_cash_label:'Cash',
+    /* at-a-glance section */
+    ow_ataglance:'At-a-Glance — All Branches',
+    /* === Mobile-first additions === */
+    app_subtitle:'Store Operations System',
+    at_a_glance:'At-a-Glance — All Branches',
+    branches_label:' branches',
+    cash_example:'e.g. ',
+    inv_low_suffix:' left',
+    rank_of:' of ',
+    sidebar_demo:'Demo by ',
+    sidebar_tagline:'Built for community-driven businesses.',
+    star_top:'★ Top Branch',
+    txn_now:'transactions today',
+    txn_short:'txn',
+    utang_note_items:' item(s)',
+    utang_picker_balance:'current balance',
+    vs_top_suffix:'% below top',
+  }
+};
+function T(k){ return (LANGS[lang]||LANGS.tl)[k]||k; }
+function setLang(l){
+  lang = l;
+  render();
+  renderNav();
+  var p = PAGES.find(function(x){return x.id===view;});
+  if(p){
+    $('pageTitle').textContent = pageTitle(p);
+    $('pageSub').textContent   = pageSub(p);
+  }
+  var btn=$('langToggle');
+  if(btn){ var sp=btn.querySelector('span'); if(sp) sp.textContent=T('lang_toggle_label'); }
+  var sf=$('sidefoot');
+  if(sf) sf.innerHTML = T('sidebar_demo')+'<b>Go Ai PH</b><br>'+T('sidebar_tagline');
+}
+function renderTopbar(){
+  $('pageTitle').textContent = PAGES.find(x=>x.id===view)?.['title_'+lang] || $('pageTitle').textContent;
+  const toggle = $('langToggle');
+  if(toggle){ toggle.textContent = T('lang_toggle_label'); }
+}
+
 /* ============ NAV ============ */
 const PAGES = [
-  {id:'pos', label:'Benta', sub:'Mabilis na pag-benta at resibo', title:'Benta (POS)', ic:IC.cart},
-  {id:'inv', label:'Stock', sub:'Imbentaryo at low-stock alerts', title:'Imbentaryo', ic:IC.box},
-  {id:'utang', label:'Listahan', sub:'Utang at bayad ng mga suki', title:'Listahan ng Utang', ic:IC.ledger},
-  {id:'dash', label:'Ulat', sub:'Benta, best-sellers at performance', title:'Ulat at Dashboard', ic:IC.chart},
-  {id:'txn',  label:'Kasaysayan', sub:'Lahat ng transaksyon ngayon', title:'Kasaysayan ng Benta', ic:IC.receipt, moblabel:'Kasaysayan'},
+  {id:'pos',   ic:IC.cart},
+  {id:'inv',   ic:IC.box},
+  {id:'utang', ic:IC.ledger},
+  {id:'dash',  ic:IC.chart},
+  {id:'txn',   ic:IC.receipt},
+  {id:'owner', ic:IC.owner},
 ];
+function pageLabel(p){ return T('nav_'+p.id); }
+function pageTitle(p){ return T('nav_'+p.id+'_title'); }
+function pageSub(p){   return T('nav_'+p.id+'_sub'); }
 function lowStockCount(){ return products.filter(p=>p.stock<=REORDER).length; }
 function renderNav(){
   $('nav').innerHTML = PAGES.map(p=>{
     const badge = p.id==='inv' && lowStockCount() ? `<span class="badge">${lowStockCount()}</span>`:'';
-    return `<button class="${view===p.id?'active':''}" onclick="go('${p.id}')">${p.ic}<span>${p.label}</span>${badge}</button>`;
+    return `<button class="${view===p.id?'active':''}" onclick="go('${p.id}')">${p.ic}<span>${pageLabel(p)}</span>${badge}</button>`;
   }).join('');
   $('mobnav').innerHTML = PAGES.map(p=>{
     const badge = p.id==='inv' && lowStockCount() ? `<span class="mbadge">${lowStockCount()}</span>`:'';
-    return `<button class="${view===p.id?'active':''}" onclick="go('${p.id}')">${p.ic}${p.label}${badge}</button>`;
+    return `<button class="${view===p.id?'active':''}" onclick="go('${p.id}')">${p.ic}${pageLabel(p)}${badge}</button>`;
   }).join('');
 }
-function go(id){ view=id; const p=PAGES.find(x=>x.id===id); $('pageTitle').textContent=p.title; $('pageSub').textContent=p.sub; renderNav(); render(); window.scrollTo(0,0); }
+function go(id){ view=id; const p=PAGES.find(x=>x.id===id); $('pageTitle').textContent=pageTitle(p); $('pageSub').textContent=pageSub(p); renderNav(); render(); window.scrollTo(0,0); }
 
 /* ============ RENDER ROUTER ============ */
 function render(){
@@ -441,13 +1227,14 @@ function render(){
   else if(view==='utang') renderUtang();
   else if(view==='dash') renderDash();
   else if(view==='txn')  renderTxn();
+  else if(view==='owner') renderOwner();
 }
 
 /* ============ POS ============ */
 function renderPOS(){
-  const cats = ['Lahat', ...new Set(products.map(p=>p.cat))];
+  const cats = [T('cat_all'), ...new Set(products.map(p=>p.cat))];
   let filtered = products.filter(p=>{
-    const okCat = activeCat==='Lahat' || p.cat===activeCat;
+    const okCat = activeCat==='__all__' || p.cat===activeCat;
     const okQ = !searchQ || p.name.toLowerCase().includes(searchQ.toLowerCase());
     return okCat && okQ;
   });
@@ -456,11 +1243,11 @@ function renderPOS(){
     <div class="pos-left">
       <div class="search-row">
         <label class="search">${IC.search}
-          <input id="posSearch" placeholder="Hanapin ang produkto..." value="${searchQ}" oninput="onSearch(this.value)" />
+          <input id="posSearch" placeholder="${T('search_ph')}" value="${searchQ}" oninput="onSearch(this.value)" />
         </label>
       </div>
       <div class="cats">
-        ${cats.map(c=>`<button class="cat ${activeCat===c?'active':''}" onclick="setCat('${c}')">${c}</button>`).join('')}
+        ${cats.map((c,i)=>{const key=i===0?'__all__':c;return `<button class="cat ${activeCat===key?'active':''}" onclick="setCat('${key}')">${c}</button>`;}).join('')}
       </div>
       <div class="grid">
         ${filtered.map(p=>{
@@ -470,7 +1257,7 @@ function renderPOS(){
               <img class="prod-img" src="${p.photo}" alt="${p.name}" loading="lazy"
                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
               <div style="display:none;aspect-ratio:4/3;align-items:center;justify-content:center;
-                font-size:28px;background:var(--surface-2)">${p.emoji||'📦'}</div>
+                font-size:28px;background:var(--sf2)">${p.emoji||'📦'}</div>
               <span class="pstock">${p.stock} pcs</span>
             </div>
             <div class="prod-body">
@@ -478,14 +1265,14 @@ function renderPOS(){
               <span class="pprice num">${PESO(p.price)}</span>
             </div>
           </button>`;
-        }).join('') || '<div class="empty-note">Walang nahanap na produkto.</div>'}
+        }).join('') || `<div class="empty-note">${T('no_product')}</div>`}
       </div>
     </div>
     ${renderCart()}
   </div>`;
 }
 function onSearch(v){ searchQ=v; const f=document.activeElement; renderPOS(); const i=$('posSearch'); if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length);} }
-function setCat(c){ activeCat=c; renderPOS(); }
+function setCat(c){ activeCat=c==='__all__'?'__all__':c; renderPOS(); }
 
 function renderCart(){
   const items = Object.entries(cart).map(([id,qty])=>{ const p=products.find(x=>x.id==id); return {...p,qty}; });
@@ -494,14 +1281,14 @@ function renderCart(){
   const isUtang = payMethod==='utang';
   return `<div class="cart" id="cartEl">
     <div class="cart-head" onclick="toggleCart()">
-      ${IC.cart}<h3>Order</h3><span class="count">${count} item${count!==1?'s':''}</span>
+      ${IC.cart}<h3>${T('cart_title')}</h3><span class="count">${count} ${count!==1?T('item_count_p'):T('item_count_s')}</span>
     </div>
     <div class="cart-items">
       ${items.length? items.map(i=>`
         <div class="citem">
           <img src="${i.photo||''}" alt="${i.name}"
-            style="width:42px;height:42px;border-radius:9px;object-fit:cover;flex-shrink:0;background:var(--surface-2)"
-            onerror="this.src='';this.style.background='var(--surface-2)';this.style.display='none'" />
+            style="width:42px;height:42px;border-radius:9px;object-fit:cover;flex-shrink:0;background:var(--sf2)"
+            onerror="this.src='';this.style.background='var(--sf2)';this.style.display='none'" />
           <div style="flex:1;min-width:0">
             <div class="ci-name">${i.name}</div>
             <div class="ci-price num">${PESO(i.price)}</div>
@@ -513,19 +1300,19 @@ function renderCart(){
           </div>
           <div class="ci-total num">${PESO(i.price*i.qty)}</div>
         </div>`).join('')
-        : `<div class="cart-empty"><div class="big">🛒</div>Wala pang laman.<br>I-tap ang produkto para idagdag.</div>`}
+        : `<div class="cart-empty"><div class="big">🛒</div>${T('cart_empty')}<br>${T('cart_empty_sub')}</div>`}
     </div>
     <div class="cart-foot">
       <div class="totals">
-        <div class="row"><span>Bilang ng item</span><span class="num">${count}</span></div>
-        <div class="grand"><span class="lbl">Kabuuan</span><span class="amt num">${PESO(total)}</span></div>
+        <div class="row"><span>${T('qty_label')}</span><span class="num">${count}</span></div>
+        <div class="grand"><span class="lbl">${T('total_label')}</span><span class="amt num">${PESO(total)}</span></div>
       </div>
       <div class="pay-methods">
-        ${[['cash','💵','Cash'],['gcash','🟦','GCash'],['maya','🟩','Maya'],['utang','📒','Utang']].map(([m,ic,lbl])=>
+        ${[['cash','💵',T('pay_cash')],['gcash','🟦',T('pay_gcash')],['maya','🟩',T('pay_maya')],['utang','📒',T('pay_utang')]].map(([m,ic,lbl])=>
           `<button class="pm ${payMethod===m?'active':''} ${m==='utang'?'utang':''}" onclick="setPay('${m}')"><span class="pm-ic">${ic}</span>${lbl}</button>`).join('')}
       </div>
       <button class="btn btn-go" ${count===0?'disabled':''} onclick="checkout()">
-        ${isUtang?'📒 Ilista sa Utang':'Tapusin ang Benta'} ${count?'• '+PESO(total):''}
+        ${isUtang?'📒 '+T('checkout_utang_btn'):T('checkout_btn')} ${count?'• '+PESO(total):''}
       </button>
     </div>
   </div>`;
@@ -535,15 +1322,15 @@ function addToCart(id){
   const p=products.find(x=>x.id===id);
   if(p.stock<=0) return;
   const inCart=cart[id]||0;
-  if(inCart>=p.stock){ toast('Wala nang stock para dito'); return; }
+  if(inCart>=p.stock){ toast(T('toast_no_stock')); return; }
   cart[id]=inCart+1;
   if(view==='pos') renderPOS();
-  toast(p.name+' added');
+  toast(p.name+T('toast_added'));
 }
 function chgQty(id,d){
   const p=products.find(x=>x.id===id);
   let q=(cart[id]||0)+d;
-  if(q>p.stock){ toast('Abot na sa available stock'); return; }
+  if(q>p.stock){ toast(T('toast_max_stock')); return; }
   if(q<=0) delete cart[id]; else cart[id]=q;
   renderPOS();
 }
@@ -562,40 +1349,40 @@ function finalizeSale(items,total,method,customerId){
   items.forEach(it=>{ const p=products.find(x=>x.id===it.id); if(p){ p.stock-=it.qty; p.sold+=it.qty; }});
   const txn={id:Date.now(), ts:new Date(), items:items.map(i=>({name:i.name,qty:i.qty,price:i.price,photo:i.photo||''})), total, method, customerId};
   transactions.push(txn);
-  if(method==='utang' && customerId){ const c=customers.find(x=>x.id===customerId); c.balance+=total; c.ledger.push({date:'Ngayon',type:'charge',amt:total,note:items.length+' item(s)'}); }
+  if(method==='utang' && customerId){ const c=customers.find(x=>x.id===customerId); c.balance+=total; c.ledger.push({date:T('txn_now')||'Ngayon',type:'charge',amt:total,note:items.length+' '+T('utang_note_items')}); }
   showReceipt(items,total,method,customerId);
   cart={}; payMethod='cash'; renderNav();
 }
 function showReceipt(items,total,method,customerId){
-  const methodLbl={cash:'Cash',gcash:'GCash',maya:'Maya',utang:'Utang (Listahan)'}[method];
+  const methodLbl={cash:T('pay_cash'),gcash:T('pay_gcash'),maya:T('pay_maya'),utang:T('utang_method_label')}[method];
   let payHtml='';
   if(method==='cash'){
-    payHtml=`<div class="field" style="margin-top:6px"><label>Bayad ng customer (Cash)</label>
-      <input id="cashIn" type="number" inputmode="numeric" placeholder="Halimbawa: ${Math.ceil(total/50)*50}" oninput="calcChange(${total})" /></div>
-      <div class="receipt"><div class="r-change" id="changeBox" style="display:none"><span>Sukli</span><span class="num" id="changeAmt">₱0</span></div></div>`;
+    payHtml=`<div class="field" style="margin-top:6px"><label>${T('receipt_cash_label')}</label>
+      <input id="cashIn" type="number" inputmode="numeric" placeholder="${T('cash_example')}${Math.ceil(total/50)*50}" oninput="calcChange(${total})" /></div>
+      <div class="receipt"><div class="r-change" id="changeBox" style="display:none"><span>${T('receipt_change')}</span><span class="num" id="changeAmt">₱0</span></div></div>`;
   }
   const custName = customerId? customers.find(c=>c.id===customerId).name : '';
   openModal(`
     <div class="modal-head" style="text-align:center;padding-top:22px">
       <img src="${LOGO}" alt="" style="width:30px;height:30px;border-radius:50%;margin:0 auto 10px;display:block;opacity:.9" />
       <div class="check-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0A1130" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></div>
-      <h3>${method==='utang'?'Nailista na sa Utang':'Tapos na ang Benta!'}</h3>
-      <p>${method==='utang'? 'Idinagdag kay '+custName : 'Salamat sa pagbili'}</p>
+      <h3>${method==='utang'?T('receipt_title_utang'):T('receipt_title_sale')}</h3>
+      <p>${method==='utang'? T('receipt_sub_utang')+custName : T('receipt_sub_sale')}</p>
     </div>
     <div class="modal-body">
       <div class="receipt">
         ${items.map(i=>`<div class="r-line" style="display:flex;align-items:center;gap:8px;padding:5px 0">
-          <img src="${i.photo||''}" alt="" style="width:34px;height:34px;border-radius:7px;object-fit:cover;flex-shrink:0;background:var(--surface-2)"
+          <img src="${i.photo||''}" alt="" style="width:34px;height:34px;border-radius:7px;object-fit:cover;flex-shrink:0;background:var(--sf2)"
             onerror="this.style.display='none'" />
           <span style="flex:1">${i.qty}× ${i.name}</span>
           <span class="num">${PESO(i.price*i.qty)}</span>
         </div>`).join('')}
         <div class="r-div"></div>
-        <div class="r-line b"><span>Paraan ng bayad</span><span>${methodLbl}</span></div>
-        <div class="r-grand"><span>Kabuuan</span><span class="num">${PESO(total)}</span></div>
+        <div class="r-line b"><span>${T('receipt_method')}</span><span>${methodLbl}</span></div>
+        <div class="r-grand"><span>${T('receipt_total')}</span><span class="num">${PESO(total)}</span></div>
       </div>
       ${payHtml}
-      <div class="modal-foot"><button class="btn btn-green" onclick="closeModal()">Tapos na</button></div>
+      <div class="modal-foot"><button class="btn btn-green" onclick="closeModal()">${T('receipt_done')}</button></div>
     </div>`);
 }
 function calcChange(total){
@@ -605,17 +1392,17 @@ function calcChange(total){
 }
 function openUtangPick(items,total){
   openModal(`
-    <div class="modal-head"><h3>Ilista sa Utang</h3><p>Piliin kung sino ang uutang • ${PESO(total)}</p></div>
+    <div class="modal-head"><h3>${T('utang_pick_title')}</h3><p>${T('utang_pick_sub')}${PESO(total)}</p></div>
     <div class="modal-body">
       <div class="field"><label>Suki / Customer</label>
         <select id="utangSel">
-          ${customers.map(c=>`<option value="${c.id}">${c.name} — kasalukuyang utang ${PESO(c.balance)}</option>`).join('')}
+          ${customers.map(c=>`<option value="${c.id}">${c.name} — ${T('utang_picker_balance')} ${PESO(c.balance)}</option>`).join('')}
         </select>
       </div>
-      <p style="font-size:12.5px;color:var(--muted);margin-bottom:4px">Auto-update ang balance sa Listahan at mababawas sa stock.</p>
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:4px">${T('utang_pick_note')}</p>
       <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">Kanselahin</button>
-        <button class="btn btn-green" onclick="confirmUtang()">Ilista</button>
+        <button class="btn btn-ghost" onclick="closeModal()">${T('utang_pick_cancel')}</button>
+        <button class="btn btn-green" onclick="confirmUtang()">${T('utang_pick_confirm')}</button>
       </div>
     </div>`);
   // stash
@@ -640,25 +1427,25 @@ function renderInv(){
     </div></div>`:''}
   <div class="cardbox">
     <div class="cardbox-head">
-      <h3>Imbentaryo</h3>
-      <span style="font-size:13px;color:var(--muted)">${products.length} produkto • auto-bawas tuwing may benta</span>
-      <button class="mini-btn solid" style="margin-left:auto" onclick="openAddProduct()">+ Bagong Produkto</button>
+      <h3>${T('inv_title')}</h3>
+      <span style="font-size:13px;color:var(--muted)">${products.length} ${T('inv_auto_note')}</span>
+      <button class="mini-btn solid" style="margin-left:auto" onclick="openAddProduct()">${T('inv_btn_add')}</button>
     </div>
     <table>
-      <thead><tr><th>Produkto</th><th>Kategorya</th><th class="r">Presyo</th><th class="r">Stock</th><th>Status</th><th class="r">Nabenta</th><th></th></tr></thead>
+      <thead><tr><th>${T('inv_col_product')}</th><th>${T('inv_col_cat')}</th><th class="r">${T('inv_col_price')}</th><th class="r">${T('inv_col_stock')}</th><th>${T('inv_col_status')}</th><th class="r">${T('inv_col_sold')}</th><th></th></tr></thead>
       <tbody>
         ${products.map(p=>{
-          const st = p.stock<=0? `<span class="tag low">Ubos na</span>` : p.stock<=REORDER? `<span class="tag low">Paubos</span>`:`<span class="tag ok">OK</span>`;
+          const st = p.stock<=0? `<span class="tag low">${T('inv_status_out')}</span>` : p.stock<=REORDER? `<span class="tag low">${T('inv_status_low')}</span>`:`<span class="tag ok">${T('inv_status_ok')}</span>`;
           return `<tr>
             <td style="display:flex;align-items:center;gap:10px">
-              <img src="${p.photo||''}" alt="${p.name}" style="width:40px;height:40px;border-radius:9px;object-fit:cover;flex-shrink:0;background:var(--surface-2)"
+              <img src="${p.photo||''}" alt="${p.name}" style="width:40px;height:40px;border-radius:9px;object-fit:cover;flex-shrink:0;background:var(--sf2)"
                 onerror="this.style.display='none'" /><b>${p.name}</b></td>
             <td style="color:var(--muted)">${p.cat}</td>
             <td class="r num">${PESO(p.price)}</td>
             <td class="r num"><b>${p.stock}</b></td>
             <td>${st}</td>
             <td class="r num" style="color:var(--muted)">${p.sold}</td>
-            <td class="r"><button class="mini-btn" onclick="openRestock(${p.id})">+ Stock</button></td>
+            <td class="r"><button class="mini-btn" onclick="openRestock(${p.id})">${T('inv_btn_restock')}</button></td>
           </tr>`;
         }).join('')}
       </tbody>
@@ -668,43 +1455,43 @@ function renderInv(){
 function openRestock(id){
   const p=products.find(x=>x.id===id);
   openModal(`
-    <div class="modal-head"><h3>Dagdag Stock</h3><p>${p.emoji} ${p.name} • meron na: ${p.stock}</p></div>
+    <div class="modal-head"><h3>${T('restock_title')}</h3><p>${p.emoji} ${p.name} • ${T('restock_current')}${p.stock}</p></div>
     <div class="modal-body">
-      <div class="field"><label>Ilang dadagdagin?</label>
-        <input id="restockN" type="number" inputmode="numeric" placeholder="Halimbawa: 50" autofocus /></div>
+      <div class="field"><label>${T('restock_label')}</label>
+        <input id="restockN" type="number" inputmode="numeric" placeholder="${T('restock_ph')}" autofocus /></div>
       <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">Kanselahin</button>
-        <button class="btn btn-green" onclick="doRestock(${id})">I-save</button>
+        <button class="btn btn-ghost" onclick="closeModal()">${T('restock_cancel')}</button>
+        <button class="btn btn-green" onclick="doRestock(${id})">${T('restock_save')}</button>
       </div>
     </div>`);
 }
 function doRestock(id){
-  const n=parseInt($('restockN').value||0); if(!n||n<=0){toast('Maglagay ng bilang');return;}
+  const n=parseInt($('restockN').value||0); if(!n||n<=0){toast(T('toast_enter_qty'));return;}
   const p=products.find(x=>x.id===id); p.stock+=n; closeModal(); renderNav(); renderInv();
-  toast('+'+n+' stock para sa '+p.name);
+  toast('+'+n+T('toast_restocked')+p.name);
 }
 function openAddProduct(){
   openModal(`
-    <div class="modal-head"><h3>Bagong Produkto</h3><p>Idagdag sa imbentaryo</p></div>
+    <div class="modal-head"><h3>${T('addprod_title')}</h3><p>${T('addprod_sub')}</p></div>
     <div class="modal-body">
-      <div class="field"><label>Pangalan</label><input id="npName" placeholder="Hal: Mantika 1L" autofocus/></div>
-      <div class="field"><label>Kategorya</label>
+      <div class="field"><label>${T('addprod_name_label')}</label><input id="npName" placeholder="${T('addprod_name_ph')}" autofocus/></div>
+      <div class="field"><label>${T('addcat_label')}</label>
         <select id="npCat">${[...new Set(products.map(p=>p.cat))].map(c=>`<option>${c}</option>`).join('')}</select></div>
       <div style="display:flex;gap:10px">
-        <div class="field" style="flex:1"><label>Presyo (₱)</label><input id="npPrice" type="number" placeholder="0"/></div>
-        <div class="field" style="flex:1"><label>Simulang Stock</label><input id="npStock" type="number" placeholder="0"/></div>
+        <div class="field" style="flex:1"><label>${T('addprod_price_label')}</label><input id="npPrice" type="number" placeholder="0"/></div>
+        <div class="field" style="flex:1"><label>${T('addprod_stock_label')}</label><input id="npStock" type="number" placeholder="0"/></div>
       </div>
       <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">Kanselahin</button>
-        <button class="btn btn-green" onclick="doAddProduct()">Idagdag</button>
+        <button class="btn btn-ghost" onclick="closeModal()">${T('addprod_cancel')}</button>
+        <button class="btn btn-green" onclick="doAddProduct()">${T('addprod_save')}</button>
       </div>
     </div>`);
 }
 function doAddProduct(){
   const name=$('npName').value.trim(); const price=parseFloat($('npPrice').value||0); const stock=parseInt($('npStock').value||0);
-  if(!name||!price){toast('Kailangan ng pangalan at presyo');return;}
+  if(!name||!price){toast(T('toast_enter_name_price'));return;}
   products.push({id:Date.now(),name,cat:$('npCat').value,emoji:'📦',photo:'',price,stock,sold:0});
-  closeModal(); renderNav(); renderInv(); toast(name+' naidagdag na');
+  closeModal(); renderNav(); renderInv(); toast(name+T('toast_prod_added'));
 }
 
 /* ============ UTANG / LISTAHAN ============ */
@@ -713,27 +1500,27 @@ function renderUtang(){
   const withBalance=customers.filter(c=>c.balance>0).length;
   $('view').innerHTML=`
   <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="stat accent"><div class="s-lbl">Kabuuang utang</div><div class="s-val num">${PESO(totalOut)}</div><div class="s-sub">na hindi pa bayad</div></div>
-    <div class="stat"><div class="s-lbl">May utang</div><div class="s-val num">${withBalance}</div><div class="s-sub">na suki</div></div>
-    <div class="stat"><div class="s-lbl">Listado na suki</div><div class="s-val num">${customers.length}</div><div class="s-sub">sa sistema</div></div>
+    <div class="stat accent"><div class="s-lbl">${T('utang_total_lbl')}</div><div class="s-val num">${PESO(totalOut)}</div><div class="s-sub">${T('utang_total_sub')}</div></div>
+    <div class="stat"><div class="s-lbl">${T('utang_with_balance_lbl')}</div><div class="s-val num">${withBalance}</div><div class="s-sub">${T('utang_with_balance_sub')}</div></div>
+    <div class="stat"><div class="s-lbl">${T('utang_all_lbl')}</div><div class="s-val num">${customers.length}</div><div class="s-sub">${T('utang_all_sub')}</div></div>
   </div>
   <div class="cardbox">
-    <div class="cardbox-head"><h3>Listahan ng Utang</h3>
-      <span style="font-size:13px;color:var(--muted)">Wala nang notebook — naka-record na lahat</span>
-      <button class="mini-btn solid" style="margin-left:auto" onclick="openAddCustomer()">+ Bagong Suki</button>
+    <div class="cardbox-head"><h3>${T('utang_section_title')}</h3>
+      <span style="font-size:13px;color:var(--muted)">${T('utang_section_note')}</span>
+      <button class="mini-btn solid" style="margin-left:auto" onclick="openAddCustomer()">${T('utang_btn_add_customer')}</button>
     </div>
     <table>
-      <thead><tr><th>Suki</th><th class="r">Utang ngayon</th><th>Status</th><th class="r">Aksyon</th></tr></thead>
+      <thead><tr><th>${T('utang_col_customer')}</th><th class="r">${T('utang_col_balance')}</th><th>${T('utang_col_status')}</th><th class="r">${T('utang_col_action')}</th></tr></thead>
       <tbody>
         ${customers.map(c=>{
-          const status=c.balance>0?`<span class="tag warn">May utang</span>`:`<span class="tag ok">Bayad na</span>`;
+          const status=c.balance>0?`<span class="tag warn">${T('utang_status_has')}</span>`:`<span class="tag ok">${T('utang_status_clear')}</span>`;
           return `<tr>
             <td><b>${c.name}</b><div style="font-size:11.5px;color:var(--muted)">${c.ledger.length} record</div></td>
             <td class="r num"><b style="color:${c.balance>0?'var(--alert)':'var(--navy)'}">${PESO(c.balance)}</b></td>
             <td>${status}</td>
             <td class="r">
-              <button class="mini-btn" onclick="openLedger(${c.id})">Tingnan</button>
-              ${c.balance>0?`<button class="mini-btn solid" onclick="openPayUtang(${c.id})">Bayad</button>`:''}
+              <button class="mini-btn" onclick="openLedger(${c.id})">${T('utang_btn_view')}</button>
+              ${c.balance>0?`<button class="mini-btn solid" onclick="openPayUtang(${c.id})">${T('utang_btn_pay')}</button>`:''}
             </td>
           </tr>`;
         }).join('')}
@@ -744,65 +1531,66 @@ function renderUtang(){
 function openLedger(id){
   const c=customers.find(x=>x.id===id);
   openModal(`
-    <div class="modal-head"><h3>${c.name}</h3><p>Utang ngayon: <b style="color:${c.balance>0?'var(--alert)':'var(--navy)'}">${PESO(c.balance)}</b></p></div>
+    <div class="modal-head"><h3>${c.name}</h3><p>${T('ledger_current_balance')}<b style="color:${c.balance>0?'var(--alert)':'var(--navy)'}">${PESO(c.balance)}</b></p></div>
     <div class="ledger-list">
       ${[...c.ledger].reverse().map(l=>`
         <div class="ledger-item">
           <div class="li-ic ${l.type}">${l.type==='charge'?'📥':'✓'}</div>
-          <div><div style="font-weight:600;font-size:13.5px">${l.type==='charge'?'Utang':'Bayad'}</div>
+          <div><div style="font-weight:600;font-size:13.5px">${l.type==='charge'?T('ledger_type_charge'):T('ledger_type_pay')}</div>
           <div style="font-size:12px;color:var(--muted)">${l.date} • ${l.note}</div></div>
           <div class="li-amt ${l.type} num">${l.type==='charge'?'+':'−'}${PESO(l.amt)}</div>
         </div>`).join('')}
     </div>
     <div class="modal-body" style="padding-top:8px">
       <div class="modal-foot">
-        ${c.balance>0?`<button class="btn btn-green" onclick="closeModal();setTimeout(()=>openPayUtang(${c.id}),120)">Magbayad</button>`:`<button class="btn btn-ghost" onclick="closeModal()">Isara</button>`}
+        ${c.balance>0?`<button class="btn btn-green" onclick="closeModal();setTimeout(()=>openPayUtang(${c.id}),120)">${T('ledger_btn_pay')}</button>`:`<button class="btn btn-ghost" onclick="closeModal()">${T('ledger_btn_close')}</button>`}
       </div>
     </div>`);
 }
 function openPayUtang(id){
   const c=customers.find(x=>x.id===id);
   openModal(`
-    <div class="modal-head"><h3>Bayad sa Utang</h3><p>${c.name} • utang: ${PESO(c.balance)}</p></div>
+    <div class="modal-head"><h3>${T('pay_utang_title')}</h3><p>${c.name} • ${T('ledger_current_balance')}${PESO(c.balance)}</p></div>
     <div class="modal-body">
-      <div class="field"><label>Magkano ang babayaran?</label>
-        <input id="payN" type="number" inputmode="numeric" placeholder="Hanggang ${c.balance}" autofocus/></div>
-      <button class="mini-btn" onclick="$('payN').value=${c.balance};" style="margin-bottom:12px">Bayaran lahat (${PESO(c.balance)})</button>
+      <div class="field"><label>${T('pay_utang_label')}</label>
+        <input id="payN" type="number" inputmode="numeric" placeholder="${T('pay_utang_ph')}${c.balance}" autofocus/></div>
+      <button class="mini-btn" onclick="$('payN').value=${c.balance};" style="margin-bottom:12px">${T('pay_utang_all_btn')}${PESO(c.balance)})</button>
       <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">Kanselahin</button>
-        <button class="btn btn-green" onclick="doPayUtang(${id})">I-record ang bayad</button>
+        <button class="btn btn-ghost" onclick="closeModal()">${T('pay_utang_cancel')}</button>
+        <button class="btn btn-green" onclick="doPayUtang(${id})">${T('pay_utang_save')}</button>
       </div>
     </div>`);
 }
 function doPayUtang(id){
   const c=customers.find(x=>x.id===id);
   let n=parseFloat($('payN').value||0);
-  if(!n||n<=0){toast('Maglagay ng halaga');return;}
+  if(!n||n<=0){toast(T('toast_enter_amount'));return;}
   if(n>c.balance) n=c.balance;
-  c.balance-=n; c.ledger.push({date:'Ngayon',type:'pay',amt:n,note:'Bayad'});
-  closeModal(); renderUtang(); toast(PESO(n)+' bayad — na-record');
+  const today=new Date().toLocaleDateString(lang==='tl'?'fil-PH':'en-PH',{month:'short',day:'numeric'});
+  c.balance-=n; c.ledger.push({date:today,type:'pay',amt:n,note:T('utang_note_pay')});
+  closeModal(); renderUtang(); toast(PESO(n)+T('toast_payment_recorded'));
 }
 function openAddCustomer(){
   openModal(`
-    <div class="modal-head"><h3>Bagong Suki</h3><p>Magdagdag sa listahan</p></div>
+    <div class="modal-head"><h3>${T('add_cust_title')}</h3><p>${T('add_cust_sub')}</p></div>
     <div class="modal-body">
-      <div class="field"><label>Pangalan ng suki</label><input id="ncName" placeholder="Hal: Aling Maria" autofocus/></div>
+      <div class="field"><label>${T('add_cust_label')}</label><input id="ncName" placeholder="${T('add_cust_ph')}" autofocus/></div>
       <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">Kanselahin</button>
-        <button class="btn btn-green" onclick="doAddCustomer()">Idagdag</button>
+        <button class="btn btn-ghost" onclick="closeModal()">${T('add_cust_cancel')}</button>
+        <button class="btn btn-green" onclick="doAddCustomer()">${T('add_cust_save')}</button>
       </div>
     </div>`);
 }
 function doAddCustomer(){
-  const name=$('ncName').value.trim(); if(!name){toast('Kailangan ng pangalan');return;}
+  const name=$('ncName').value.trim(); if(!name){toast(T('toast_enter_name'));return;}
   customers.push({id:Date.now(),name,balance:0,ledger:[]});
-  closeModal(); renderUtang(); toast(name+' naidagdag sa listahan');
+  closeModal(); renderUtang(); toast(name+T('toast_cust_added'));
 }
 
 
 /* ============ TRANSACTIONS HISTORY ============ */
 function renderTxn(){
-  const methodLbl={cash:'Cash',gcash:'GCash',maya:'Maya',utang:'Utang'};
+  const methodLbl={cash:T('pay_cash'),gcash:T('pay_gcash'),maya:T('pay_maya'),utang:T('pay_utang')};
   const methodColor={cash:'var(--navy)',gcash:'var(--accent)',maya:'#6E86C8',utang:'var(--alert)'};
   const dayTotal=transactions.reduce((s,t)=>s+t.total,0);
   const txSorted=[...transactions].reverse(); // newest first
@@ -810,15 +1598,15 @@ function renderTxn(){
   $('view').innerHTML=`
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
     <div>
-      <div style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;letter-spacing:-.2px">${dayStr}</div>
-      <div style="font-size:12.5px;color:var(--muted);margin-top:2px">${transactions.length} transaksyon • kabuuan ${PESO(dayTotal)}</div>
+      <div style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;letter-spacing:-.2px">${T('nav_txn_title')} — ${dayStr}</div>
+      <div style="font-size:12.5px;color:var(--muted);margin-top:2px">${transactions.length}${T('txn_count_suffix')}${PESO(dayTotal)}</div>
     </div>
-    <button class="mini-btn" onclick="go('dash')">← Bumalik sa Ulat</button>
+    <button class="mini-btn" onclick="go('dash')">${T('txn_back')}</button>
   </div>
   <div class="cardbox">
     <div class="cardbox-head" style="gap:10px;flex-wrap:wrap">
-      <h3>Lahat ng Transaksyon</h3>
-      <span style="font-size:13px;color:var(--muted);margin-left:auto">${transactions.length} benta ngayon • ${PESO(dayTotal)} total</span>
+      <h3>${T('txn_title')}</h3>
+      <span style="font-size:13px;color:var(--muted);margin-left:auto">${transactions.length}${T('txn_count_suffix')}${PESO(dayTotal)} ${T('txn_total_suffix')}</span>
     </div>
     ${txSorted.length ? txSorted.map((t,i)=>{
       const timeStr = t.ts ? t.ts.toLocaleTimeString('en-PH',{hour:'2-digit',minute:'2-digit',hour12:true}) : '';
@@ -831,10 +1619,10 @@ function renderTxn(){
         </div>
         <div style="display:flex;gap:6px;flex-shrink:0;margin-top:2px">
           ${t.items.slice(0,3).map(it=>
-            it.photo ? `<img src="${it.photo}" alt="${it.name}" style="width:38px;height:38px;border-radius:8px;object-fit:cover;background:var(--surface-2)" onerror="this.style.display='none'" />`
-            : `<div style="width:38px;height:38px;border-radius:8px;background:var(--surface-2)"></div>`
+            it.photo ? `<img src="${it.photo}" alt="${it.name}" style="width:38px;height:38px;border-radius:8px;object-fit:cover;background:var(--sf2)" onerror="this.style.display='none'" />`
+            : `<div style="width:38px;height:38px;border-radius:8px;background:var(--sf2)"></div>`
           ).join('')}
-          ${t.items.length>3?`<div style="width:38px;height:38px;border-radius:8px;background:var(--surface-2);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--muted)">+${t.items.length-3}</div>`:''}
+          ${t.items.length>3?`<div style="width:38px;height:38px;border-radius:8px;background:var(--sf2);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--muted)">+${t.items.length-3}</div>`:''}
         </div>
         <div style="flex:1;min-width:0">
           <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${itemSummary}</div>
@@ -846,10 +1634,10 @@ function renderTxn(){
         </div>
       </div>`;
     }).join('')
-    : '<div class="empty-note" style="padding:40px">Wala pang benta ngayon. Magsimula sa Benta tab.</div>'}
+    : `<div class="empty-note" style="padding:40px">${T('txn_empty')}</div>`}
     ${transactions.length ? `
-    <div style="padding:16px 20px;background:var(--surface-2);border-top:2px solid var(--line);display:flex;justify-content:space-between;align-items:center">
-      <div style="font-size:13px;color:var(--muted)">${transactions.length} transaksyon ngayon</div>
+    <div style="padding:16px 20px;background:var(--sf2);border-top:2px solid var(--line);display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:13px;color:var(--muted)">${transactions.length} ${T('txn_footer_label')}</div>
       <div style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;letter-spacing:-.4px;color:var(--navy)" class="num">${PESO(dayTotal)}</div>
     </div>` : ''}
   </div>`;
@@ -874,23 +1662,23 @@ function renderDash(){
   $('view').innerHTML=`
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
     <div>
-      <div style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;letter-spacing:-.2px">Ulat — ${dayStr}</div>
-      <div style="font-size:12.5px;color:var(--muted);margin-top:2px">Auto-update sa bawat benta. Subukan: gumawa ng benta, bumalik dito.</div>
+      <div style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;letter-spacing:-.2px">${T('dash_date_prefix')}${dayStr}</div>
+      <div style="font-size:12.5px;color:var(--muted);margin-top:2px">${T('dash_hint')}</div>
     </div>
-    <button class="mini-btn" onclick="go('txn')" style="white-space:nowrap">Tingnan ang lahat ng transaksyon →</button>
+    <button class="mini-btn" onclick="go('txn')" style="white-space:nowrap">${T('dash_view_all')}</button>
   </div>
   <div class="stat-grid">
-    <div class="stat accent"><div class="s-lbl">💰 Benta ngayon</div><div class="s-val num">${PESO(salesTotal)}</div><div class="s-sub">${cnt} transaksyon</div></div>
-    <div class="stat"><div class="s-lbl">🧾 Average bawat benta</div><div class="s-val num">${PESO(Math.round(ave))}</div><div class="s-sub">per transaksyon</div></div>
-    <div class="stat"><div class="s-lbl">📒 Nakalistang utang</div><div class="s-val num" style="color:var(--alert)">${PESO(totalUtang)}</div><div class="s-sub">hindi pa bayad</div></div>
-    <div class="stat"><div class="s-lbl">⚠️ Paubos na stock</div><div class="s-val num" style="color:${low.length?'var(--alert)':'var(--navy)'}">${low.length}</div><div class="s-sub">produkto</div></div>
+    <div class="stat accent"><div class="s-lbl">${T('dash_stat1_lbl')}</div><div class="s-val num">${PESO(salesTotal)}</div><div class="s-sub">${cnt} ${T('dash_stat1_sub')}</div></div>
+    <div class="stat"><div class="s-lbl">${T('dash_stat2_lbl')}</div><div class="s-val num">${PESO(Math.round(ave))}</div><div class="s-sub">${T('dash_stat2_sub')}</div></div>
+    <div class="stat"><div class="s-lbl">${T('dash_stat3_lbl')}</div><div class="s-val num" style="color:var(--alert)">${PESO(totalUtang)}</div><div class="s-sub">${T('dash_stat3_sub')}</div></div>
+    <div class="stat"><div class="s-lbl">${T('dash_stat4_lbl')}</div><div class="s-val num" style="color:${low.length?'var(--alert)':'var(--navy)'}">${low.length}</div><div class="s-sub">${T('dash_stat4_sub')}</div></div>
   </div>
   <div class="dash-cols">
     <div class="cardbox">
-      <div class="cardbox-head"><h3>Pinakamabentang Produkto</h3></div>
+      <div class="cardbox-head"><h3>${T('dash_bestsellers')}</h3></div>
       <div class="bars">
         ${top.map(p=>`<div class="bar-row" style="align-items:center">
-          <img src="${p.photo||''}" alt="" style="width:30px;height:30px;border-radius:7px;object-fit:cover;flex-shrink:0;margin-right:8px;background:var(--surface-2)"
+          <img src="${p.photo||''}" alt="" style="width:30px;height:30px;border-radius:7px;object-fit:cover;flex-shrink:0;margin-right:8px;background:var(--sf2)"
             onerror="this.style.display='none'" />
           <span class="bl">${p.name}</span>
           <div class="bar-track"><div class="bar-fill" style="width:${Math.max(6,p.sold/maxSold*100)}%"></div></div>
@@ -899,28 +1687,487 @@ function renderDash(){
       </div>
     </div>
     <div class="cardbox">
-      <div class="cardbox-head"><h3>Paraan ng Bayad</h3></div>
+      <div class="cardbox-head"><h3>${T('dash_payment_methods')}</h3></div>
       <div style="padding:18px 20px">
         <div class="split">
           ${Object.entries(byMethod).map(([m,v])=>v>0?`<div style="width:${v/methodTotal*100}%;background:${methodColors[m]}"></div>`:'').join('')}
         </div>
         <div class="legend">
           ${Object.entries(byMethod).map(([m,v])=>`<div class="lg"><span class="sw" style="background:${methodColors[m]}"></span>
-            ${({cash:'Cash',gcash:'GCash',maya:'Maya',utang:'Utang'})[m]}<b class="num">${PESO(v)}</b></div>`).join('')}
+            ${({cash:T('pay_cash'),gcash:T('pay_gcash'),maya:T('pay_maya'),utang:T('pay_utang')})[m]}<b class="num">${PESO(v)}</b></div>`).join('')}
         </div>
       </div>
-      <div class="cardbox-head" style="border-top:1px solid var(--line)"><h3 style="font-size:15px">Kailangang i-order</h3></div>
+      <div class="cardbox-head" style="border-top:1px solid var(--line)"><h3 style="font-size:15px">${T('dash_reorder')}</h3></div>
       <div style="padding:10px 20px 18px">
         ${low.length? low.map(p=>`<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13.5px">
-          <span>${p.emoji} ${p.name}</span><b style="color:var(--alert)" class="num">${p.stock} na lang</b></div>`).join('')
-          : '<div style="color:var(--navy);font-size:13.5px">✓ Sapat pa ang lahat ng stock.</div>'}
+          <span>${p.emoji} ${p.name}</span><b style="color:var(--alert)" class="num">${p.stock}${T('inv_low_suffix')}</b></div>`).join('')
+          : `<div style="color:var(--navy);font-size:13.5px">${T('dash_stock_ok')}</div>`}
       </div>
     </div>
   </div>
   <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:22px">
-    Lahat ng numerong ito ay auto-update tuwing may benta o bayad. Subukan: gumawa ng benta sa <b>Benta</b> tab, balik dito — kusang nagbago.
+    ${T('dash_hint')}
   </p>`;
 }
+
+
+/* ═══════════ OWNER DASHBOARD ═══════════ */
+function renderOwner(){
+  const data = BRANCH_STATS[ownerPeriod];
+  const sorted = [...data].sort((a,b)=>b.rev-a.rev);
+  const topRev  = sorted[0].rev;
+  const botRev  = sorted[sorted.length-1].rev;
+  const totalRev  = data.reduce((s,d)=>s+d.rev,0);
+  const totalTxn  = data.reduce((s,d)=>s+d.txn,0);
+  const totalCred = data.reduce((s,d)=>s+d.credit,0);
+  const avgBranch = Math.round(totalRev/data.length);
+  const avgTxn    = Math.round(totalRev/totalTxn);
+  const topBr = BRANCHES.find(b=>b.id===sorted[0].b);
+  const totalDig  = data.reduce((s,d)=>s+d.rev*d.dig,0);
+  const digPct    = Math.round(totalDig/totalRev*100);
+  const collectRate = Math.round(totalRev/(totalRev+totalCred)*100);
+  const dayStr = TODAY.toLocaleDateString(lang==='tl'?'fil-PH':'en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  // colour helpers
+  const rateColor = r => r>=85?'#1A6B45':r>=65?'var(--accent)':'var(--alert)';
+  const rankClass = i => ['r1','r2','r3'][i]||'rn';
+
+  $('view').innerHTML = `<div class="ow-wrap">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-family:var(--font-display);font-size:21px;font-weight:700;letter-spacing:-.2px">${T('nav_owner_title')}</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:3px">${dayStr} &nbsp;·&nbsp; ${BRANCHES.length}${T('branches_label')}</div>
+    </div>
+    <div class="period-tabs">
+      <button class="period-tab ${ownerPeriod==='today'?'active':''}" onclick="setPeriod('today')">${T('owner_period_today')}</button>
+      <button class="period-tab ${ownerPeriod==='week'?'active':''}" onclick="setPeriod('week')">${T('owner_period_week')}</button>
+      <button class="period-tab ${ownerPeriod==='month'?'active':''}" onclick="setPeriod('month')">${T('owner_period_month')}</button>
+    </div>
+  </div>
+
+  <!-- KPI strip: 6 cells side by side -->
+  <div class="kpi-strip">
+    <div class="kpi-cell accent">
+      <div class="kl">${T('owner_kpi_total_rev')}</div>
+      <div class="kv num">${PESO(totalRev)}</div>
+      <div class="ks">${BRANCHES.length} ${T('owner_ks_branches_combined')}</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kl">${T('owner_kpi_total_txn')}</div>
+      <div class="kv num">${totalTxn.toLocaleString()}</div>
+      <div class="ks">${PESO(avgTxn)} ${T('owner_ks_per_txn')}</div>
+    </div>
+    <div class="kpi-cell good-cell">
+      <div class="kl">🏆 ${T('owner_kpi_best')}</div>
+      <div class="kv" style="font-size:17px;letter-spacing:0">${topBr.name.replace('GK — ','')}</div>
+      <div class="ks">${PESO(sorted[0].rev)} · ${sorted[0].txn} ${T('txn_short')}</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kl">${T('owner_kpi_avg_branch')}</div>
+      <div class="kv num">${PESO(avgBranch)}</div>
+      <div class="ks">${PESO(topRev - avgBranch)} ${T('owner_ks_below_top')}</div>
+    </div>
+    <div class="kpi-cell warn-cell">
+      <div class="kl">⚠ ${T('owner_kpi_total_credit')}</div>
+      <div class="kv num">${PESO(totalCred)}</div>
+      <div class="ks">${100-collectRate}${T('owner_ks_uncollected')}</div>
+    </div>
+    <div class="kpi-cell ${collectRate>=80?'good-cell':'warn-cell'}">
+      <div class="kl">${T('owner_kpi_collection')}</div>
+      <div class="kv num">${collectRate}%</div>
+      <div class="ks">${PESO(Math.round(totalDig+totalRev*(collectRate/100)-totalDig))} ${T('owner_ks_cash_recovered')}</div>
+    </div>
+  </div>
+
+  <!-- Branch heatmap strip (at a glance view) -->
+  <div class="cardbox" style="padding:18px 20px">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px">${T('ow_ataglance')}</div>
+    <div class="heat-strip">
+      ${[...data].sort((a,b)=>b.rev-a.rev).map((d,i)=>{
+        const br = BRANCHES.find(b=>b.id===d.b);
+        const intensity = 0.15 + 0.85*(d.rev/topRev);
+        // Navy base hex blended by intensity
+        const lightness = Math.round(15 + (1-intensity)*55);
+        const bg = `hsl(228,${Math.round(65-intensity*20)}%,${lightness}%)`;
+        const fg = lightness < 45 ? '#fff' : '#1a2060';
+        const collectPct = Math.round(d.rev/(d.rev+d.credit)*100);
+        return `<div class="heat-cell" style="background:${bg}" onclick="openBranchDetail(${d.b})" title="${br.name}">
+          <div class="hc-name" style="color:${fg};opacity:.8">${br.name.replace('GK — ','').split(' ')[0]}</div>
+          <div class="hc-rev" style="color:${fg}">${PESO(d.rev)}</div>
+          <div class="hc-txn" style="color:${fg}">${d.txn} ${T('txn_short')}</div>
+          <div style="margin-top:5px;height:3px;border-radius:2px;background:rgba(255,255,255,.2);overflow:hidden">
+            <div style="height:100%;width:${collectPct}%;background:${lightness<45?'rgba(255,255,255,.7)':'rgba(26,107,69,.7)'}"></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10.5px;color:var(--muted);font-weight:500">
+      <span>${T('owner_hint_heatmap')}</span>
+      <span>${T('owner_hint_click')}</span>
+    </div>
+  </div>
+
+  <!-- Main section: branch bars + right panel -->
+  <div class="rev-grid">
+
+    <!-- Branch bar chart -->
+    <div class="cardbox">
+      <div class="cardbox-head" style="padding:14px 22px">
+        <h3>${T('owner_lbl_branch_revenue')}</h3>
+        <span style="margin-left:auto;font-size:11.5px;color:var(--muted);font-weight:500">${T('owner_period_'+ownerPeriod)} · ${T('owner_lbl_tap_detail')}</span>
+      </div>
+      ${sorted.map((d,i)=>{
+        const br = BRANCHES.find(b=>b.id===d.b);
+        const pct = Math.max(6, Math.round(d.rev/topRev*100));
+        const vsTop = i===0 ? {txt:T('star_top'),cls:'top'} : {txt:'−'+Math.round((1-d.rev/topRev)*100)+T('vs_top_suffix'),cls:'neg'};
+        return `<div class="brow" onclick="openBranchDetail(${d.b})">
+          <div class="brow-rank"><div class="rank-pip ${rankClass(i)}">${i+1}</div></div>
+          <div class="brow-name">
+            <div class="bn" style="display:flex;align-items:center;gap:6px">
+              <span style="width:8px;height:8px;border-radius:50%;background:${br.color};flex-shrink:0"></span>
+              ${br.name.replace('GK — ','')}
+            </div>
+            <div class="ba">${br.area}</div>
+          </div>
+          <div class="brow-bar">
+            <div class="bbar-bg">
+              <div class="bbar-fg" style="width:${pct}%;background:${br.color}">
+                ${pct>28?`<span class="bl">${PESO(d.rev)}</span>`:''}
+              </div>
+            </div>
+          </div>
+          <div class="brow-rev">
+            <div class="rv">${PESO(d.rev)}</div>
+            <div class="rd ${vsTop.cls}">${vsTop.txt}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <!-- Right panel -->
+    <div class="rpanel">
+
+      <!-- Collection health per branch -->
+      <div class="cardbox">
+        <div class="cardbox-head" style="padding:14px 18px"><h3>${T('owner_lbl_collection_health')}</h3></div>
+        <div style="padding:10px 18px 14px">
+          ${sorted.map(d=>{
+            const br = BRANCHES.find(b=>b.id===d.b);
+            const rate = Math.round(d.rev/(d.rev+d.credit)*100);
+            const fc = rateColor(rate);
+            return `<div class="collect-row">
+              <div class="cr-name">
+                <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${br.color};margin-right:5px;vertical-align:middle"></span>
+                ${br.name.replace('GK — ','')}
+              </div>
+              <div class="cr-bar"><div class="cr-fill" style="width:${rate}%;background:${fc}"></div></div>
+              <div class="cr-pct" style="color:${fc}">${rate}%</div>
+              <div class="cr-credit">−${PESO(d.credit)}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- Digital vs Cash split -->
+      <div class="cardbox">
+        <div class="cardbox-head" style="padding:14px 18px"><h3>${T('owner_digital_split')}</h3></div>
+        <div style="padding:14px 18px 16px">
+          <div class="dsplit-bar">
+            <div style="width:${digPct}%;background:var(--accent)"></div>
+            <div style="flex:1;background:var(--navy)"></div>
+          </div>
+          <div class="dsplit-leg">
+            <span><span class="dsplit-dot" style="background:var(--accent)"></span>${T('dig_digital_label')} &nbsp;<b>${digPct}%</b> &nbsp;<span style="color:var(--muted);font-weight:400">${PESO(Math.round(totalDig))}</span></span>
+            <span><b>${100-digPct}%</b> ${T('dig_cash_label')} &nbsp;<span style="color:var(--muted);font-weight:400">${PESO(Math.round(totalRev-totalDig))}</span> <span class="dsplit-dot" style="background:var(--navy)"></span></span>
+          </div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+            ${[...data].sort((a,b)=>b.dig-a.dig).map(d=>{
+              const br=BRANCHES.find(b=>b.id===d.b);
+              const dp=Math.round(d.dig*100);
+              return `<div style="display:flex;align-items:center;gap:8px">
+                <span style="width:7px;height:7px;border-radius:50%;background:${br.color};flex-shrink:0"></span>
+                <span style="font-size:11.5px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${br.name.replace('GK — ','')}</span>
+                <div style="width:70px;height:5px;background:var(--sf2);border-radius:3px;overflow:hidden;border:1px solid var(--line)">
+                  <div style="height:100%;width:${dp}%;background:var(--accent);border-radius:3px"></div>
+                </div>
+                <span style="font-size:11px;font-weight:700;color:var(--accent);width:28px;text-align:right">${dp}%</span>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /rpanel -->
+  </div><!-- /rev-grid -->
+  </div><!-- /ow-wrap -->`;
+}
+
+function setPeriod(p){ ownerPeriod=p; renderOwner(); }
+
+
+
+/* ════════════════════════════════════════
+   BRANCH DETAIL DRAWER
+════════════════════════════════════════ */
+let drawerBranchId = null;
+
+function openBranchDetail(branchId){
+  drawerBranchId = branchId;
+  renderDrawer(branchId);
+  document.getElementById('branchDrawer').classList.add('show');
+  document.getElementById('drawerScrim').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer(){
+  document.getElementById('branchDrawer').classList.remove('show');
+  document.getElementById('drawerScrim').classList.remove('show');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDrawer(); });
+
+function renderDrawer(branchId){
+  const br = BRANCHES.find(b=>b.id===branchId);
+  const periods = ['today','week','month'];
+  const allData = {};
+  periods.forEach(p=>{ allData[p] = BRANCH_STATS[p].find(x=>x.b===branchId); });
+  const d = allData[ownerPeriod];
+  const allPeriodData = BRANCH_STATS[ownerPeriod];
+  const sorted = [...allPeriodData].sort((a,b)=>b.rev-a.rev);
+  const rank = sorted.findIndex(x=>x.b===branchId)+1;
+  const totalRev = allPeriodData.reduce((s,x)=>s+x.rev,0);
+  const avgRev = Math.round(totalRev/BRANCHES.length);
+  const topRev = sorted[0].rev;
+  const avgSale = Math.round(d.rev/d.txn);
+  const collectRate = Math.round(d.rev/(d.rev+d.credit)*100);
+  const digAmt = Math.round(d.rev*d.dig);
+  const cashAmt = d.rev - digAmt;
+  const gapToTop = rank===1 ? 0 : sorted[0].rev - d.rev;
+  const rc = collectRate>=85?'#1A6B45':collectRate>=65?'var(--accent)':'var(--alert)';
+  const rankClass = rank===1?'r1':rank===2?'r2':rank===3?'r3':'rn';
+
+  // Performance score: weighted avg of rank (40%), collection (30%), digital (30%)
+  const rankScore  = Math.round((1 - (rank-1)/BRANCHES.length) * 100);
+  const digScore   = Math.round(d.dig * 100);
+  const perfScore  = Math.round(rankScore*.4 + collectRate*.3 + digScore*.3);
+  const perfColor  = perfScore>=80?'#1A6B45':perfScore>=60?'var(--accent)':'var(--alert)';
+
+  // Sparkline data: use all 3 periods for a "trend"
+  const sparkVals = [allData.month.rev/22, allData.week.rev/7, allData.today.rev];
+  const sparkMax  = Math.max(...sparkVals);
+  const sparkColors = ['#94A3CB','#5B7AC8','#0A1130'];
+
+  // Find this branch's top product photo
+  const topProd = products.find(p=>p.name===d.top);
+
+  // Per-period comparison rows
+  const networkAvgToday = BRANCH_STATS.today.reduce((s,x)=>s+x.rev,0)/BRANCHES.length;
+  const networkAvgWeek  = BRANCH_STATS.week.reduce((s,x)=>s+x.rev,0)/BRANCHES.length;
+  const networkAvgMonth = BRANCH_STATS.month.reduce((s,x)=>s+x.rev,0)/BRANCHES.length;
+  const maxAcross = Math.max(...BRANCHES.map(b=>{
+    const bv = BRANCH_STATS[ownerPeriod].find(x=>x.b===b.id);
+    return bv?bv.rev:0;
+  }));
+
+  const periodLabel = {today:'Today',week:'This Week',month:'This Month'}[ownerPeriod];
+
+  document.getElementById('branchDrawer').innerHTML = `
+  <!-- Head -->
+  <div class="drawer-head">
+    <div class="drawer-color" style="background:${br.color}"></div>
+    <h2>${br.name}</h2>
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <div class="rank-pip ${rankClass}" style="width:26px;height:26px;font-size:11px">${rank}</div>
+      <button class="drawer-close" onclick="closeDrawer()">×</button>
+    </div>
+  </div>
+
+  <div class="drawer-body">
+
+    <!-- Revenue banner -->
+    <div class="d-rank-banner">
+      <div style="font-family:var(--fd);font-size:56px;font-weight:700;line-height:1;letter-spacing:-3px;color:rgba(255,255,255,.1);flex-shrink:0">#${rank}</div>
+      <div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#7A8EC8;margin-bottom:4px">${br.area} · ${periodLabel}</div>
+        <div style="font-family:var(--fd);font-size:32px;font-weight:700;letter-spacing:-.6px;color:#fff;font-feature-settings:'tnum' 1">${PESO(d.rev)}</div>
+        <div style="font-size:11px;color:#7A8EC8;margin-top:4px">${d.txn} transactions · ${PESO(avgSale)} avg</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;flex-shrink:0">
+        ${rank===1
+          ? `<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#7A8EC8;margin-bottom:4px">Status</div>
+             <div style="font-family:var(--fd);font-size:15px;font-weight:700;color:#4ade80">🏆 Top Branch</div>`
+          : `<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#7A8EC8;margin-bottom:4px">Behind #1</div>
+             <div style="font-family:var(--fd);font-size:18px;font-weight:700;color:var(--alert);letter-spacing:-.3px">${PESO(gapToTop)}</div>`}
+      </div>
+    </div>
+
+    <!-- Period selector -->
+    <div class="d-section">
+      <div class="d-section-title">View period</div>
+      <div class="d-period-row">
+        <button class="d-period-btn ${ownerPeriod==='today'?'active':''}" onclick="ownerPeriod='today';renderDrawer(${branchId})">Today</button>
+        <button class="d-period-btn ${ownerPeriod==='week'?'active':''}" onclick="ownerPeriod='week';renderDrawer(${branchId})">This Week</button>
+        <button class="d-period-btn ${ownerPeriod==='month'?'active':''}" onclick="ownerPeriod='month';renderDrawer(${branchId})">This Month</button>
+      </div>
+
+      <!-- KPI 4-grid -->
+      <div class="d-kpi-row">
+        <div class="d-kpi">
+          <div class="dk-lbl">Revenue</div>
+          <div class="dk-val" style="color:var(--navy)">${PESO(d.rev)}</div>
+          <div class="dk-sub">${rank===1?'🏆 Rank #1':('#'+rank+' of '+BRANCHES.length)}</div>
+        </div>
+        <div class="d-kpi">
+          <div class="dk-lbl">Transactions</div>
+          <div class="dk-val">${d.txn}</div>
+          <div class="dk-sub">${PESO(avgSale)} avg/sale</div>
+        </div>
+        <div class="d-kpi" style="border-color:${rc};background:${collectRate>=85?'var(--ok-soft)':collectRate>=65?'var(--accent-soft)':'var(--alert-soft)'}">
+          <div class="dk-lbl" style="color:${rc}">Collection Rate</div>
+          <div class="dk-val" style="color:${rc}">${collectRate}%</div>
+          <div class="dk-sub">${PESO(d.credit)} unpaid</div>
+        </div>
+        <div class="d-kpi">
+          <div class="dk-lbl">Digital Payments</div>
+          <div class="dk-val" style="color:var(--accent)">${Math.round(d.dig*100)}%</div>
+          <div class="dk-sub">${PESO(digAmt)} GCash/Maya</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance score -->
+    <div class="d-section">
+      <div class="d-section-title">Performance Score</div>
+      <div class="d-score">
+        <div class="d-score-ring">
+          <svg viewBox="0 0 56 56">
+            <circle class="bg" cx="28" cy="28" r="23"/>
+            <circle class="fg" cx="28" cy="28" r="23"
+              stroke="${perfColor}"
+              stroke-dasharray="${Math.round(2*Math.PI*23*perfScore/100)} ${Math.round(2*Math.PI*23*(100-perfScore)/100)}"/>
+          </svg>
+          <div class="d-score-num" style="color:${perfColor}">${perfScore}</div>
+        </div>
+        <div style="flex:1">
+          <div style="font-family:var(--fd);font-size:18px;font-weight:700;color:${perfColor}">${perfScore>=80?'Excellent':perfScore>=65?'Good':perfScore>=50?'Fair':'Needs Attention'}</div>
+          <div style="font-size:11.5px;color:var(--muted);margin-top:3px">Based on rank, collection rate &amp; digital adoption</div>
+          <div style="display:flex;gap:10px;margin-top:8px;font-size:11px;font-weight:600">
+            <span style="color:var(--muted)">Rank <b style="color:var(--ink)">${rankScore}/100</b></span>
+            <span style="color:var(--muted)">Credit <b style="color:${rc}">${collectRate}/100</b></span>
+            <span style="color:var(--muted)">Digital <b style="color:var(--accent)">${digScore}/100</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenue trend (period comparison) -->
+    <div class="d-section">
+      <div class="d-section-title">Revenue Trend (daily average)</div>
+      <div style="display:flex;align-items:flex-end;gap:6px;height:52px;margin-bottom:8px">
+        ${sparkVals.map((v,i)=>{
+          const h=Math.max(6,Math.round(v/sparkMax*52));
+          const labels=['Monthly avg/day','Weekly avg/day','Today'];
+          return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="width:100%;height:${h}px;border-radius:4px 4px 0 0;background:${sparkColors[i]};min-height:4px"></div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="display:flex;gap:6px">
+        ${sparkVals.map((v,i)=>{
+          const labels=['Month avg/d','Week avg/d','Today'];
+          return `<div style="flex:1;text-align:center">
+            <div style="font-size:9.5px;color:var(--muted);font-weight:600">${labels[i]}</div>
+            <div style="font-family:var(--fd);font-size:13px;font-weight:700;color:${sparkColors[i]}">${PESO(Math.round(v))}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <!-- vs Network comparison -->
+    <div class="d-section">
+      <div class="d-section-title">vs Network Average</div>
+      ${[['Revenue',d.rev,avgRev,maxAcross,'var(--navy)'],
+         ['Transactions',d.txn,Math.round(allPeriodData.reduce((s,x)=>s+x.txn,0)/BRANCHES.length),Math.max(...allPeriodData.map(x=>x.txn)),'var(--accent)'],
+         ['Avg/Sale',avgSale,Math.round(allPeriodData.reduce((s,x)=>s+x.rev/x.txn,0)/BRANCHES.length),Math.max(...allPeriodData.map(x=>Math.round(x.rev/x.txn))),'#1A6B45'],
+      ].map(([lbl,val,avg,max,clr])=>{
+        const valPct=Math.round(val/max*100);
+        const avgPct=Math.round(avg/max*100);
+        const diff=Math.round((val-avg)/avg*100);
+        const diffColor=diff>=0?'#1A6B45':'var(--alert)';
+        return `<div class="d-vs-row">
+          <div class="d-vs-lbl">${lbl}</div>
+          <div class="d-vs-track">
+            <div class="d-vs-fill" style="width:${valPct}%;background:${clr};opacity:.85"></div>
+            <div class="d-vs-avg" style="left:${avgPct}%"></div>
+          </div>
+          <div class="d-vs-val" style="color:${diffColor}">${diff>=0?'+':''}${diff}%</div>
+        </div>`;
+      }).join('')}
+      <div style="font-size:10.5px;color:var(--muted);margin-top:4px">Grey line = network average · bar = this branch</div>
+    </div>
+
+    <!-- Collection health -->
+    <div class="d-section">
+      <div class="d-section-title">Collection Health</div>
+      <div class="d-collect-bar"><div class="d-collect-fill" style="width:${collectRate}%;background:${rc}"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:12px">
+        <span style="color:${rc}">${collectRate}% collected</span>
+        <span style="color:var(--alert)">${100-collectRate}% outstanding</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:var(--ok-soft);border-radius:10px;padding:11px 13px;border:1px solid rgba(26,107,69,.15)">
+          <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#1A6B45;margin-bottom:5px">Collected</div>
+          <div style="font-family:var(--fd);font-size:20px;font-weight:700;color:#1A6B45">${PESO(d.rev)}</div>
+        </div>
+        <div style="background:var(--alert-soft);border-radius:10px;padding:11px 13px;border:1px solid rgba(192,57,43,.15)">
+          <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--alert);margin-bottom:5px">Outstanding</div>
+          <div style="font-family:var(--fd);font-size:20px;font-weight:700;color:var(--alert)">${PESO(d.credit)}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment split -->
+    <div class="d-section">
+      <div class="d-section-title">Payment Split</div>
+      <div class="d-split-bar">
+        <div style="width:${Math.round(d.dig*100)}%;background:var(--accent)"></div>
+        <div style="flex:1;background:var(--navy)"></div>
+      </div>
+      <div class="d-pay-grid">
+        <div class="d-pay-pill" style="background:var(--accent-soft)">
+          <div class="dp-lbl" style="color:var(--accent-deep)">GCash / Maya</div>
+          <div class="dp-val" style="color:var(--accent)">${Math.round(d.dig*100)}%</div>
+          <div class="dp-sub">${PESO(digAmt)}</div>
+        </div>
+        <div class="d-pay-pill" style="background:var(--navy-soft)">
+          <div class="dp-lbl" style="color:var(--navy)">Cash</div>
+          <div class="dp-val" style="color:var(--navy)">${Math.round((1-d.dig)*100)}%</div>
+          <div class="dp-sub">${PESO(cashAmt)}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top product -->
+    <div class="d-section" style="border-bottom:none">
+      <div class="d-section-title">Top Product</div>
+      <div class="d-top-prod">
+        ${topProd?.photo?`<img src="${topProd.photo.replace('w=300&h=225','w=80&h=80')}" alt="${d.top}" onerror="this.style.display='none'" />`:'<div style="width:44px;height:44px;border-radius:10px;background:var(--line);flex-shrink:0"></div>'}
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:15px">${d.top}</div>
+          <div style="font-size:11.5px;color:var(--muted);margin-top:2px">Best-seller this branch · ${periodLabel.toLowerCase()}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:3px">vs Network</div>
+          <div style="font-weight:700;font-size:13px;color:${d.rev>=avgRev?'#1A6B45':'var(--alert)'}">${d.rev>=avgRev?'Above avg':'Below avg'}</div>
+        </div>
+      </div>
+      <div style="height:24px"></div>
+    </div>
+
+  </div>`;
+}
+
 
 /* ============ MODAL + TOAST ============ */
 function openModal(html){ $('modal').innerHTML=html; $('scrim').classList.add('show'); }
@@ -932,8 +2179,21 @@ let toastT;
 function toast(msg){ $('toastMsg').textContent=msg; $('toast').classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>$('toast').classList.remove('show'),1900); }
 
 /* ============ INIT ============ */
-['favicon','brandLogo','topLogo'].forEach(id=>{ const el=$(id); if(el) el.src=LOGO; });
-renderNav(); go('pos');
+(function(){
+  // Set logo on all brand images
+  ['favicon','brandLogo','topLogo'].forEach(function(id){
+    var el=$(id); if(el) el.src=LOGO;
+  });
+  // Set sidebar footer text
+  var sf=$('sidefoot');
+  if(sf) sf.innerHTML=T('sidebar_demo')+'<b>Go Ai PH</b><br>'+T('sidebar_tagline');
+  // Render the app
+  renderNav();
+  go('pos');
+  // Set lang toggle label
+  var lt=$('langToggle');
+  if(lt){ var sp=lt.querySelector('span'); if(sp) sp.textContent=T('lang_toggle_label'); }
+})();
 </script>
 </body>
 </html>
