@@ -437,7 +437,7 @@ tbody tr:hover{background:var(--sf2)}
   .cart-head::before{display:none}
 
   /* Dashboard */
-  .stat-grid{grid-template-columns:repeat(4,1fr)}
+  .stat-grid{grid-template-columns:repeat(3,1fr)}
   .dash-cols{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:start}
 
   /* Tables — no wrapper scroll needed */
@@ -792,7 +792,6 @@ let cart = {};            // {productId: qty}
 let payMethod = 'cash';
 let activeCat = '__all__';
 let searchQ = '';
-let utangCustomerId = null; // for utang sales
 
 const PESO = n => '₱' + n.toLocaleString('en-PH',{minimumFractionDigits:0,maximumFractionDigits:2});
 const $ = id => document.getElementById(id);
@@ -1199,7 +1198,6 @@ function renderTopbar(){
 const PAGES = [
   {id:'pos',   ic:IC.cart},
   {id:'inv',   ic:IC.box},
-  {id:'utang', ic:IC.ledger},
   {id:'dash',  ic:IC.chart},
   {id:'txn',   ic:IC.receipt},
   {id:'owner', ic:IC.owner},
@@ -1224,7 +1222,6 @@ function go(id){ view=id; const p=PAGES.find(x=>x.id===id); $('pageTitle').textC
 function render(){
   if(view==='pos') renderPOS();
   else if(view==='inv') renderInv();
-  else if(view==='utang') renderUtang();
   else if(view==='dash') renderDash();
   else if(view==='txn')  renderTxn();
   else if(view==='owner') renderOwner();
@@ -1278,7 +1275,7 @@ function renderCart(){
   const items = Object.entries(cart).map(([id,qty])=>{ const p=products.find(x=>x.id==id); return {...p,qty}; });
   const count = items.reduce((s,i)=>s+i.qty,0);
   const total = items.reduce((s,i)=>s+i.price*i.qty,0);
-  const isUtang = payMethod==='utang';
+  const isUtang = false;
   return `<div class="cart" id="cartEl">
     <div class="cart-head" onclick="toggleCart()">
       ${IC.cart}<h3>${T('cart_title')}</h3><span class="count">${count} ${count!==1?T('item_count_p'):T('item_count_s')}</span>
@@ -1308,11 +1305,11 @@ function renderCart(){
         <div class="grand"><span class="lbl">${T('total_label')}</span><span class="amt num">${PESO(total)}</span></div>
       </div>
       <div class="pay-methods">
-        ${[['cash','💵',T('pay_cash')],['gcash','🟦',T('pay_gcash')],['maya','🟩',T('pay_maya')],['utang','📒',T('pay_utang')]].map(([m,ic,lbl])=>
+        ${[['cash','💵',T('pay_cash')],['gcash','🟦',T('pay_gcash')],['maya','🟩',T('pay_maya')]].map(([m,ic,lbl])=>
           `<button class="pm ${payMethod===m?'active':''} ${m==='utang'?'utang':''}" onclick="setPay('${m}')"><span class="pm-ic">${ic}</span>${lbl}</button>`).join('')}
       </div>
       <button class="btn btn-go" ${count===0?'disabled':''} onclick="checkout()">
-        ${isUtang?'📒 '+T('checkout_utang_btn'):T('checkout_btn')} ${count?'• '+PESO(total):''}
+        ${T('checkout_btn')} ${count?'• '+PESO(total):''}
       </button>
     </div>
   </div>`;
@@ -1341,7 +1338,6 @@ function checkout(){
   const items=Object.entries(cart).map(([id,qty])=>{const p=products.find(x=>x.id==id);return {id:p.id,name:p.name,emoji:p.emoji||'📦',photo:p.photo||'',price:p.price,qty};});
   const total=items.reduce((s,i)=>s+i.price*i.qty,0);
   if(!items.length) return;
-  if(payMethod==='utang'){ openUtangPick(items,total); return; }
   finalizeSale(items,total,payMethod,null);
 }
 function finalizeSale(items,total,method,customerId){
@@ -1349,7 +1345,7 @@ function finalizeSale(items,total,method,customerId){
   items.forEach(it=>{ const p=products.find(x=>x.id===it.id); if(p){ p.stock-=it.qty; p.sold+=it.qty; }});
   const txn={id:Date.now(), ts:new Date(), items:items.map(i=>({name:i.name,qty:i.qty,price:i.price,photo:i.photo||''})), total, method, customerId};
   transactions.push(txn);
-  if(method==='utang' && customerId){ const c=customers.find(x=>x.id===customerId); c.balance+=total; c.ledger.push({date:T('txn_now')||'Ngayon',type:'charge',amt:total,note:items.length+' '+T('utang_note_items')}); }
+  if(false && customerId){ const c=customers.find(x=>x.id===customerId); c.balance+=total; c.ledger.push({date:T('txn_now')||'Ngayon',type:'charge',amt:total,note:items.length+' '+T('utang_note_items')}); }
   showReceipt(items,total,method,customerId);
   cart={}; payMethod='cash'; renderNav();
 }
@@ -1389,30 +1385,6 @@ function calcChange(total){
   const v=parseFloat($('cashIn').value||0); const box=$('changeBox');
   if(v>=total){ box.style.display='flex'; $('changeAmt').textContent=PESO(v-total); }
   else box.style.display='none';
-}
-function openUtangPick(items,total){
-  openModal(`
-    <div class="modal-head"><h3>${T('utang_pick_title')}</h3><p>${T('utang_pick_sub')}${PESO(total)}</p></div>
-    <div class="modal-body">
-      <div class="field"><label>Suki / Customer</label>
-        <select id="utangSel">
-          ${customers.map(c=>`<option value="${c.id}">${c.name} — ${T('utang_picker_balance')} ${PESO(c.balance)}</option>`).join('')}
-        </select>
-      </div>
-      <p style="font-size:12.5px;color:var(--muted);margin-bottom:4px">${T('utang_pick_note')}</p>
-      <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">${T('utang_pick_cancel')}</button>
-        <button class="btn btn-green" onclick="confirmUtang()">${T('utang_pick_confirm')}</button>
-      </div>
-    </div>`);
-  // stash
-  window._pendingUtang={items,total};
-}
-function confirmUtang(){
-  const cid=parseInt($('utangSel').value);
-  const {items,total}=window._pendingUtang;
-  closeModal();
-  setTimeout(()=>finalizeSale(items,total,'utang',cid),120);
 }
 
 /* ============ INVENTORY ============ */
@@ -1494,99 +1466,6 @@ function doAddProduct(){
   closeModal(); renderNav(); renderInv(); toast(name+T('toast_prod_added'));
 }
 
-/* ============ UTANG / LISTAHAN ============ */
-function renderUtang(){
-  const totalOut=customers.reduce((s,c)=>s+c.balance,0);
-  const withBalance=customers.filter(c=>c.balance>0).length;
-  $('view').innerHTML=`
-  <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="stat accent"><div class="s-lbl">${T('utang_total_lbl')}</div><div class="s-val num">${PESO(totalOut)}</div><div class="s-sub">${T('utang_total_sub')}</div></div>
-    <div class="stat"><div class="s-lbl">${T('utang_with_balance_lbl')}</div><div class="s-val num">${withBalance}</div><div class="s-sub">${T('utang_with_balance_sub')}</div></div>
-    <div class="stat"><div class="s-lbl">${T('utang_all_lbl')}</div><div class="s-val num">${customers.length}</div><div class="s-sub">${T('utang_all_sub')}</div></div>
-  </div>
-  <div class="cardbox">
-    <div class="cardbox-head"><h3>${T('utang_section_title')}</h3>
-      <span style="font-size:13px;color:var(--muted)">${T('utang_section_note')}</span>
-      <button class="mini-btn solid" style="margin-left:auto" onclick="openAddCustomer()">${T('utang_btn_add_customer')}</button>
-    </div>
-    <table>
-      <thead><tr><th>${T('utang_col_customer')}</th><th class="r">${T('utang_col_balance')}</th><th>${T('utang_col_status')}</th><th class="r">${T('utang_col_action')}</th></tr></thead>
-      <tbody>
-        ${customers.map(c=>{
-          const status=c.balance>0?`<span class="tag warn">${T('utang_status_has')}</span>`:`<span class="tag ok">${T('utang_status_clear')}</span>`;
-          return `<tr>
-            <td><b>${c.name}</b><div style="font-size:11.5px;color:var(--muted)">${c.ledger.length} record</div></td>
-            <td class="r num"><b style="color:${c.balance>0?'var(--alert)':'var(--navy)'}">${PESO(c.balance)}</b></td>
-            <td>${status}</td>
-            <td class="r">
-              <button class="mini-btn" onclick="openLedger(${c.id})">${T('utang_btn_view')}</button>
-              ${c.balance>0?`<button class="mini-btn solid" onclick="openPayUtang(${c.id})">${T('utang_btn_pay')}</button>`:''}
-            </td>
-          </tr>`;
-        }).join('')}
-      </tbody>
-    </table>
-  </div>`;
-}
-function openLedger(id){
-  const c=customers.find(x=>x.id===id);
-  openModal(`
-    <div class="modal-head"><h3>${c.name}</h3><p>${T('ledger_current_balance')}<b style="color:${c.balance>0?'var(--alert)':'var(--navy)'}">${PESO(c.balance)}</b></p></div>
-    <div class="ledger-list">
-      ${[...c.ledger].reverse().map(l=>`
-        <div class="ledger-item">
-          <div class="li-ic ${l.type}">${l.type==='charge'?'📥':'✓'}</div>
-          <div><div style="font-weight:600;font-size:13.5px">${l.type==='charge'?T('ledger_type_charge'):T('ledger_type_pay')}</div>
-          <div style="font-size:12px;color:var(--muted)">${l.date} • ${l.note}</div></div>
-          <div class="li-amt ${l.type} num">${l.type==='charge'?'+':'−'}${PESO(l.amt)}</div>
-        </div>`).join('')}
-    </div>
-    <div class="modal-body" style="padding-top:8px">
-      <div class="modal-foot">
-        ${c.balance>0?`<button class="btn btn-green" onclick="closeModal();setTimeout(()=>openPayUtang(${c.id}),120)">${T('ledger_btn_pay')}</button>`:`<button class="btn btn-ghost" onclick="closeModal()">${T('ledger_btn_close')}</button>`}
-      </div>
-    </div>`);
-}
-function openPayUtang(id){
-  const c=customers.find(x=>x.id===id);
-  openModal(`
-    <div class="modal-head"><h3>${T('pay_utang_title')}</h3><p>${c.name} • ${T('ledger_current_balance')}${PESO(c.balance)}</p></div>
-    <div class="modal-body">
-      <div class="field"><label>${T('pay_utang_label')}</label>
-        <input id="payN" type="number" inputmode="numeric" placeholder="${T('pay_utang_ph')}${c.balance}" autofocus/></div>
-      <button class="mini-btn" onclick="$('payN').value=${c.balance};" style="margin-bottom:12px">${T('pay_utang_all_btn')}${PESO(c.balance)})</button>
-      <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">${T('pay_utang_cancel')}</button>
-        <button class="btn btn-green" onclick="doPayUtang(${id})">${T('pay_utang_save')}</button>
-      </div>
-    </div>`);
-}
-function doPayUtang(id){
-  const c=customers.find(x=>x.id===id);
-  let n=parseFloat($('payN').value||0);
-  if(!n||n<=0){toast(T('toast_enter_amount'));return;}
-  if(n>c.balance) n=c.balance;
-  const today=new Date().toLocaleDateString(lang==='tl'?'fil-PH':'en-PH',{month:'short',day:'numeric'});
-  c.balance-=n; c.ledger.push({date:today,type:'pay',amt:n,note:T('utang_note_pay')});
-  closeModal(); renderUtang(); toast(PESO(n)+T('toast_payment_recorded'));
-}
-function openAddCustomer(){
-  openModal(`
-    <div class="modal-head"><h3>${T('add_cust_title')}</h3><p>${T('add_cust_sub')}</p></div>
-    <div class="modal-body">
-      <div class="field"><label>${T('add_cust_label')}</label><input id="ncName" placeholder="${T('add_cust_ph')}" autofocus/></div>
-      <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeModal()">${T('add_cust_cancel')}</button>
-        <button class="btn btn-green" onclick="doAddCustomer()">${T('add_cust_save')}</button>
-      </div>
-    </div>`);
-}
-function doAddCustomer(){
-  const name=$('ncName').value.trim(); if(!name){toast(T('toast_enter_name'));return;}
-  customers.push({id:Date.now(),name,balance:0,ledger:[]});
-  closeModal(); renderUtang(); toast(name+T('toast_cust_added'));
-}
-
 
 /* ============ TRANSACTIONS HISTORY ============ */
 function renderTxn(){
@@ -1650,7 +1529,6 @@ function renderDash(){
   const ave= cnt? salesTotal/cnt:0;
   const byMethod={cash:0,gcash:0,maya:0,utang:0};
   transactions.forEach(t=>byMethod[t.method]=(byMethod[t.method]||0)+t.total);
-  const totalUtang=customers.reduce((s,c)=>s+c.balance,0);
   const low=products.filter(p=>p.stock<=REORDER);
   // best sellers by sold qty
   const top=[...products].sort((a,b)=>b.sold-a.sold).slice(0,6);
@@ -1670,7 +1548,6 @@ function renderDash(){
   <div class="stat-grid">
     <div class="stat accent"><div class="s-lbl">${T('dash_stat1_lbl')}</div><div class="s-val num">${PESO(salesTotal)}</div><div class="s-sub">${cnt} ${T('dash_stat1_sub')}</div></div>
     <div class="stat"><div class="s-lbl">${T('dash_stat2_lbl')}</div><div class="s-val num">${PESO(Math.round(ave))}</div><div class="s-sub">${T('dash_stat2_sub')}</div></div>
-    <div class="stat"><div class="s-lbl">${T('dash_stat3_lbl')}</div><div class="s-val num" style="color:var(--alert)">${PESO(totalUtang)}</div><div class="s-sub">${T('dash_stat3_sub')}</div></div>
     <div class="stat"><div class="s-lbl">${T('dash_stat4_lbl')}</div><div class="s-val num" style="color:${low.length?'var(--alert)':'var(--navy)'}">${low.length}</div><div class="s-sub">${T('dash_stat4_sub')}</div></div>
   </div>
   <div class="dash-cols">
